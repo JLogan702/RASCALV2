@@ -1,0 +1,97 @@
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f2f7fa;
+  margin: 0;
+  padding: 0;
+}
+
+header, footer {
+  background-color: #003366;
+  color: white;
+  padding: 1rem;
+  text-align: center;
+}
+
+main {
+  padding: 1rem 2rem;
+}
+
+h1 {
+  text-align: center;
+  font-size: 2rem;
+  color: #003366;
+  margin-bottom: 1.5rem;
+}
+
+.chart-container {
+  width: 100%;
+  max-width: 700px;
+  margin: 0 auto 2rem auto;
+  background-color: white;
+  padding: 1rem;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.team-section {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.team-box {
+  background-color: #ffffff;
+  padding: 1rem;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.stoplight {
+  width: 48px;
+  height: 48px;
+  margin-bottom: 1rem;
+}
+
+.status-table {
+  width: 100%;
+  margin-top: 1rem;
+  border-collapse: collapse;
+}
+
+.status-table th,
+.status-table td {
+  border: 1px solid #ccc;
+  padding: 0.5rem;
+  text-align: center;
+}
+
+.status-table th {
+  background-color: #003366;
+  color: white;
+}
+
+.status-table td {
+  background-color: #f9f9f9;
+}
+
+.explanation {
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+  text-align: left;
+}
+
+.dropdown-nav {
+  display: block;
+  width: fit-content;
+  margin: 1rem auto;
+  padding: 0.5rem;
+  font-size: 1rem;
+}
+
+footer {
+  font-size: 0.85rem;
+  margin-top: 2rem;
+}
+
