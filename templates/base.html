@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>{{ title }}</title>
+  <link rel="stylesheet" href="../docs/styles.css" />
+</head>
+<body>
+  <header>
+    <img src="Clarvos.png" alt="Clarvos Logo" class="logo" />
+    <h1>{{ title }}</h1>
+    <select onchange="location = this.value;">
+      <option disabled selected>Navigate to...</option>
+      <option value="index.html">Program Summary</option>
+      <option value="sprint_readiness.html">Sprint Readiness</option>
+      <option value="backlog_health.html">Backlog Health</option>
+      <option value="dependencies.html">Dependencies</option>
+    </select>
+  </header>
+
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer>
+    <p>
+      Built with ❤️ for executive clarity — based on Agile/Scrum best practices from
+      <a href="https://www.scrum.org/resources/sprint-planning-guide" target="_blank">Scrum.org</a>,
+      <a href="https://www.agilealliance.org/agile101/" target="_blank">Agile Alliance</a>, and
+      <a href="https://scaledagileframework.com/" target="_blank">SAFe</a>.
+    </p>
+  </footer>
+</body>
+</html>
+

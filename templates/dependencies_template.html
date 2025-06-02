@@ -1,70 +1,45 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Dependencies Dashboard</title>
-  <link rel="stylesheet" href="styles.css" />
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-</head>
-<body>
-  <div class="nav-container">
-    <img src="Clarvos.png" alt="Clarvos Logo" class="logo" />
-    <select class="nav-dropdown" onchange="location = this.value;">
-      <option value="#">Navigate to...</option>
-      <option value="index.html">🏠 Program Summary</option>
-      <option value="sprint_readiness.html">📈 Sprint Readiness</option>
-      <option value="backlog_health.html">📊 Backlog Health</option>
-      <option value="dependencies.html">🔗 Dependencies</option>
-    </select>
-  </div>
+{% extends "base.html" %}
+{% block content %}
 
-  <main>
-    <h1 class="centered">🔗 Dependencies Dashboard</h1>
-    <p class="description">
-      This report highlights cross-team dependencies that could affect delivery planning. Tracking dependencies is critical for Agile teams to prevent blockers and coordinate commitments across sprints.
-    </p>
+<h2>🔗 Cross-Team Dependency Summary</h2>
 
-    <div class="stoplight-box">
-      <img src="{{ stoplight }}" alt="Overall Dependency Status" class="stoplight" />
-      <p class="centered bold">{{ dependency_summary.explanation }}</p>
-    </div>
+<div class="summary-box">
+  <p><strong>Total Inbound Dependencies:</strong> {{ dependency_summary.total_inbound }}</p>
+  <p><strong>Total Outbound Dependencies:</strong> {{ dependency_summary.total_outbound }}</p>
+  <p>{{ dependency_summary.explanation }}</p>
+</div>
 
-    <div class="grid-container landscape">
-      {% for team in teams %}
-      <div class="team-box">
-        <h2>{{ team.name }}</h2>
-        <img src="{{ team.stoplight }}" alt="Stoplight" class="stoplight" />
+{% for team, data in teams.items() %}
+  <div class="team-box">
+    <h3>{{ team }}</h3>
+
+    <div class="dependency-section">
+      <strong>Inbound Dependencies (Blocking this team):</strong>
+      {% if data.inbound %}
         <ul>
-          <li><strong>Outbound:</strong> {{ team.out_count }}</li>
-          <li><strong>Inbound:</strong> {{ team.in_count }}</li>
-          <li><strong>Total:</strong> {{ team.total }}</li>
+          {% for item in data.inbound %}
+            <li><strong>{{ item.key }}</strong>: {{ item.summary }} (← {{ item.link }})</li>
+          {% endfor %}
         </ul>
-        <p class="explanation">{{ team.explanation }}</p>
-      </div>
-      {% endfor %}
+      {% else %}
+        <p class="dimmed">None</p>
+      {% endif %}
     </div>
 
-    <section class="references">
-      <h3>📚 Industry Best Practices</h3>
-      <ul>
-        <li>
-          <a href="https://www.scaledagileframework.com/program-board/" target="_blank">
-            SAFe: Program Board & Dependency Management</a> — Emphasizes visualizing and resolving dependencies across teams.
-        </li>
-        <li>
-          <a href="https://martinfowler.com/articles/agileDependencyManagement.html" target="_blank">
-            Martin Fowler on Agile Dependency Management</a> — Details on how to track and reduce dependencies.
-        </li>
-      </ul>
-    </section>
-  </main>
+    <div class="dependency-section">
+      <strong>Outbound Dependencies (Blocking others):</strong>
+      {% if data.outbound %}
+        <ul>
+          {% for item in data.outbound %}
+            <li><strong>{{ item.key }}</strong>: {{ item.summary }} (→ {{ item.link }})</li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p class="dimmed">None</p>
+      {% endif %}
+    </div>
+  </div>
+{% endfor %}
 
-  <footer>
-    <p class="centered">
-      © Clarvos — All data sourced from Jira. This dashboard supports delivery health, not performance evaluation.
-    </p>
-  </footer>
-</body>
-</html>
+{% endblock %}
 
