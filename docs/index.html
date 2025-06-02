@@ -1,146 +1,128 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Program Summary</title>
-  <link rel="stylesheet" href="styles.css" />
-  <script defer src="dashboard_logic.js"></script>
-  <style>
-    body {
-      background: #f3faff;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      margin: 0;
-      padding: 0;
-      animation: fadeIn 1s ease-in;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-
-    .navbar {
-      background-color: #083c5c;
-      padding: 1rem;
-      text-align: center;
-    }
-
-    .navbar select {
-      padding: 0.5rem;
-      font-size: 1rem;
-    }
-
-    .container {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      padding: 2rem 3rem;
-      gap: 2rem;
-      flex-wrap: wrap;
-    }
-
-    .summary-box {
-      flex: 1;
-      min-width: 300px;
-      background-color: #ffffff;
-      padding: 1.5rem;
-      border-radius: 12px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-      transition: transform 0.3s ease;
-    }
-
-    .summary-box:hover {
-      transform: translateY(-4px);
-    }
-
-    .summary-box h2 {
-      color: #003c5a;
-      margin-top: 0;
-    }
-
-    .summary-box p,
-    .summary-box li {
-      color: #333;
-      line-height: 1.6;
-    }
-
-    .stoplight-box {
-      flex: 0 0 200px;
-      text-align: center;
-    }
-
-    .stoplight-box h3 {
-      color: #003c5a;
-    }
-
-    .stoplight-img {
-      width: 100px;
-      height: auto;
-      animation: pulse 3s infinite;
-    }
-
-    @keyframes pulse {
-      0%, 100% { transform: scale(1); opacity: 1; }
-      50% { transform: scale(1.05); opacity: 0.9; }
-    }
-
-    .footer {
-      margin-top: 2rem;
-      padding: 1rem 3rem;
-      font-size: 0.9rem;
-      color: #666;
-      border-top: 1px solid #ccc;
-    }
-
-    .footer a {
-      color: #004a77;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <title>Program Summary</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body { background: #e6f2ff; font-family: sans-serif; margin: 0; padding: 20px; }
+        header { text-align: center; margin-bottom: 10px; }
+        h1, h2, h3 { color: #003366; }
+        .dropdown select {
+            padding: 6px 12px;
+            font-size: 1rem;
+            border-radius: 5px;
+        }
+        .callout {
+            background: #dceefb;
+            border-left: 6px solid #0077b6;
+            padding: 12px 20px;
+            margin: 20px auto;
+            width: 85%;
+            font-size: 0.95em;
+        }
+        .summary-grid {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            margin: 30px 0;
+        }
+        .metric-box {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 25px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            width: 240px;
+            text-align: center;
+        }
+        .stoplight {
+            width: 60px;
+            display: block;
+            margin: 15px auto;
+        }
+        section, footer {
+            margin: 20px auto;
+            width: 85%;
+        }
+        footer {
+            font-size: 0.85em;
+            background: #f9f9f9;
+            padding: 15px;
+            border-top: 1px solid #ccc;
+        }
+        footer ul {
+            list-style: none;
+            padding-left: 0;
+        }
+    </style>
 </head>
 <body>
-  <div class="navbar">
-    <select onchange="location = this.value">
-      <option value="index.html" selected>Program Summary</option>
-      <option value="sprint_readiness.html">Sprint Readiness</option>
-      <option value="backlog_health.html">Backlog Health</option>
-      <option value="dependencies.html">Dependency Tracker</option>
-    </select>
-  </div>
+    <header>
+        <img src="Clarvos.png" alt="Clarvos Logo" width="140"><br>
+        <h1>Program Summary Dashboard</h1>
+        <div class="dropdown">
+            <select onchange="location = this.value;">
+                <option value="index.html" selected>Program Summary</option>
+                <option value="sprint_readiness.html">Sprint Readiness</option>
+                <option value="backlog_health.html">Backlog Health</option>
+                <option value="dependencies.html">Dependencies</option>
+            </select>
+        </div>
+    </header>
 
-  <div class="container">
-    <div class="summary-box">
-      <h2>These dashboards are designed to inform—not punish.</h2>
-      <p>
-        Our goal is to provide objective visibility into the state of story ticket flow across the program. This summary aggregates the status of upcoming sprints and backlog grooming across all teams. Use this as a conversation starter and improvement guide.
-      </p>
-      <p>
-        <strong>Overall Program Health</strong> is derived from Sprint Readiness and Backlog Health calculations, following guidance from the
-        <a href="https://www.scrum.org/resources/what-sprint-backlog" target="_blank">Scrum Guide</a>,
-        <a href="https://agilemanifesto.org" target="_blank">Agile Manifesto</a>, and
-        <a href="https://stateofagile.com/" target="_blank">State of Agile</a>.
-      </p>
-      <ul>
-        <li><strong>Sprint Readiness:</strong> % of story tickets in future sprints marked as “To Do” or “Ready for Development”</li>
-        <li><strong>Backlog Health:</strong> % of all non-done stories in grooming statuses assigned to future sprints</li>
-        <li>Each team has separate calculations displayed on their dedicated tabs</li>
-      </ul>
+    <section class="callout">
+        <p><strong>📘 These reports follow industry-recognized Agile and Scrum best practices</strong></p>
+        <p>Metrics such as Sprint Readiness and Backlog Health are derived from official Scrum.org and Atlassian guidance. This dashboard supports team alignment and planning visibility — not judgment or performance scoring.</p>
+    </section>
+
+    <h2 style="text-align: center;">Overall Program Health</h2>
+    <img src="" class="stoplight" alt="Stoplight">
+
+    <div class="summary-grid">
+        <div class="metric-box">
+            <strong>Average Sprint Readiness:</strong><br>%
+        </div>
+        <div class="metric-box">
+            <strong>Average Backlog Health:</strong><br>%
+        </div>
+        <div class="metric-box">
+            <strong>Overall Score:</strong><br>%
+        </div>
     </div>
 
-    <div class="stoplight-box">
-      <h3>Overall Program Status</h3>
-      <img id="programLight" class="stoplight-img" src="blinking_yellow.gif" alt="Program Status Light" />
-    </div>
-  </div>
+    <section>
+        <h3>How This Was Calculated</h3>
+        <p><strong>Sprint Readiness</strong> reflects how many story tickets in upcoming sprints are in “To Do” or “Ready for Development.”</p>
+        <p><strong>Backlog Health</strong> measures the percent of story tickets in future sprints or backlog that are groomed (“New”, “Grooming”, or “Backlog”).</p>
+        <p>Each team receives a score, and the program-level score is averaged across all five teams. Done, Blocked, and Cancelled stories are excluded.</p>
+    </section>
 
-  <div class="footer">
-    <p>
-      This light reflects an aggregate score across all teams using weighted logic for Sprint Readiness and Backlog Health. See other dashboard pages for team-level breakdowns, exact metrics, and improvement opportunities.
-    </p>
-    <p>
-      Source: <a href="https://www.scrum.org/resources/what-sprint-backlog" target="_blank">Scrum.org – What is a Sprint Backlog?</a>
-    </p>
-  </div>
+    <section>
+        <h3>Executive Interpretation Guidance</h3>
+        <ul>
+            <li><strong>Green (≥ 80%)</strong>: Program is well-prepared with clear, actionable work.</li>
+            <li><strong>Yellow (50–79%)</strong>: Sprint prep or backlog refinement may need attention.</li>
+            <li><strong>Red (&lt; 50%)</strong>: Refinement action required — upcoming work is unclear or underprepared.</li>
+        </ul>
+    </section>
+
+    <footer>
+        <h3>📚 Industry Source References</h3>
+        <ul>
+            <li><strong>Scrum.org – Sprint Planning Guide</strong><br>
+                “The Sprint Backlog makes visible all the work the Development Team identifies as necessary to meet the Sprint Goal.”  
+                <a href="https://www.scrum.org/resources/sprint-planning-guide">Link</a>
+            </li>
+            <li><strong>Atlassian – Sprint Planning</strong><br>
+                “Sprint planning should answer: what can be delivered in the upcoming sprint and how will that work be achieved?”
+                <a href="https://www.atlassian.com/agile/scrum/sprint-planning">Link</a>
+            </li>
+            <li><strong>Scrum.org – Product Backlog Guide</strong><br>
+                “Refinement is the act of adding detail, estimates, and order to items in the Product Backlog.”  
+                <a href="https://www.scrum.org/resources/what-product-backlog">Link</a>
+            </li>
+        </ul>
+    </footer>
 </body>
 </html>
-
