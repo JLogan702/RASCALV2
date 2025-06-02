@@ -5,17 +5,28 @@
     <title>Backlog Health</title>
     <link rel="stylesheet" href="styles.css">
     <style>
-        body { background: #fff8f0; font-family: sans-serif; padding: 20px; }
-        header { text-align: center; }
+        body { background: #fff8f0; font-family: sans-serif; margin: 0; padding: 20px; }
+        header { text-align: center; margin-bottom: 10px; }
         h1 { color: #5a3e1b; }
-        .dropdown { margin-top: 10px; }
+        .dropdown select {
+            padding: 6px 12px;
+            font-size: 1rem;
+            border-radius: 5px;
+        }
+        .grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
         .team-box {
             background: #ffffff;
             border-left: 6px solid #c6783b;
             border-radius: 10px;
             padding: 12px 20px;
-            margin: 20px auto;
-            width: 75%;
+            width: 30%;
+            min-width: 280px;
             box-shadow: 0 2px 6px rgba(0,0,0,0.1);
         }
         .stoplight {
@@ -29,7 +40,7 @@
 </head>
 <body>
     <header>
-        <img src="Clarvos.png" alt="Clarvos Logo" width="140">
+        <img src="Clarvos.png" alt="Clarvos Logo" width="140"><br>
         <h1>Backlog Health</h1>
         <div class="dropdown">
             <select onchange="location = this.value;">
@@ -41,151 +52,13 @@
         </div>
     </header>
 
-    <section style="background:#fff3e6; border-left: 6px solid #cc5500; padding: 12px; margin-top: 20px;">
-        <p><strong>📘 This dashboard follows published Agile/Scrum industry standards</strong></p>
-        <p>Backlog Health is based on guidelines from Scrum.org and Atlassian. It is not a performance metric — it’s a signal of how much usable, groomed work exists for planning. Use this to guide refinement activities, not judge teams.</p>
-    </section>
-
     <section>
-        <p><strong>Definition:</strong> Backlog Health is the percentage of non-Done story tickets in "New", "Grooming", or "Backlog" statuses that are not in active sprints. The goal is to maintain a steady stream of prepped work for upcoming sprints.</p>
-        <p><strong>Reference:</strong> See <a href="https://www.scrum.org/resources/what-product-backlog">Scrum.org Product Backlog Guide</a> and <a href="https://www.atlassian.com/agile/backlogs">Atlassian Backlog Best Practices</a>.</p>
+        <p><strong>Definition:</strong> Backlog Health is the percentage of story tickets in statuses “New”, “Grooming”, or “Backlog” that are not in active sprints.</p>
+        <p><strong>Reference:</strong> <a href="https://www.scrum.org/resources/what-product-backlog">Scrum.org</a>, <a href="https://www.atlassian.com/agile/backlogs">Atlassian</a></p>
     </section>
 
-    
-        <div class="team-box">
-            <h2>Data Science</h2>
-            <img src="blinking_red.gif" class="stoplight" alt="Stoplight">
-            <ul>
-                <li><strong>Groomed:</strong> 1</li>
-                <li><strong>Total:</strong> 18</li>
-                <li><strong>Backlog Health Score:</strong> 5.6%</li>
-                <li><strong>Status Breakdown:</strong><br>
-                    
-                        - To Do: 11<br>
-                    
-                        - In Progress: 5<br>
-                    
-                        - New: 1<br>
-                    
-                        - UAT Testing: 1<br>
-                    
-                </li>
-            </ul>
-            <p class="explanation">
-                This score shows how much work this team has ready for future planning. A score below 50% means backlog grooming sessions are likely needed. Healthy backlog = sustainable delivery.
-            </p>
-        </div>
-    
-        <div class="team-box">
-            <h2>Design</h2>
-            <img src="blinking_red.gif" class="stoplight" alt="Stoplight">
-            <ul>
-                <li><strong>Groomed:</strong> 10</li>
-                <li><strong>Total:</strong> 29</li>
-                <li><strong>Backlog Health Score:</strong> 34.5%</li>
-                <li><strong>Status Breakdown:</strong><br>
-                    
-                        - To Do: 13<br>
-                    
-                        - New: 8<br>
-                    
-                        - In Progress: 4<br>
-                    
-                        - Grooming: 2<br>
-                    
-                        - Ready for Review: 1<br>
-                    
-                        - Blocked: 1<br>
-                    
-                </li>
-            </ul>
-            <p class="explanation">
-                This score shows how much work this team has ready for future planning. A score below 50% means backlog grooming sessions are likely needed. Healthy backlog = sustainable delivery.
-            </p>
-        </div>
-    
-        <div class="team-box">
-            <h2>Engineering - AI Ops</h2>
-            <img src="blinking_green.gif" class="stoplight" alt="Stoplight">
-            <ul>
-                <li><strong>Groomed:</strong> 15</li>
-                <li><strong>Total:</strong> 17</li>
-                <li><strong>Backlog Health Score:</strong> 88.2%</li>
-                <li><strong>Status Breakdown:</strong><br>
-                    
-                        - New: 9<br>
-                    
-                        - Backlog: 5<br>
-                    
-                        - To Do: 2<br>
-                    
-                        - Grooming: 1<br>
-                    
-                </li>
-            </ul>
-            <p class="explanation">
-                This score shows how much work this team has ready for future planning. A score below 50% means backlog grooming sessions are likely needed. Healthy backlog = sustainable delivery.
-            </p>
-        </div>
-    
-        <div class="team-box">
-            <h2>Engineering - Platform</h2>
-            <img src="blinking_red.gif" class="stoplight" alt="Stoplight">
-            <ul>
-                <li><strong>Groomed:</strong> 9</li>
-                <li><strong>Total:</strong> 24</li>
-                <li><strong>Backlog Health Score:</strong> 37.5%</li>
-                <li><strong>Status Breakdown:</strong><br>
-                    
-                        - To Do: 15<br>
-                    
-                        - New: 8<br>
-                    
-                        - Backlog: 1<br>
-                    
-                </li>
-            </ul>
-            <p class="explanation">
-                This score shows how much work this team has ready for future planning. A score below 50% means backlog grooming sessions are likely needed. Healthy backlog = sustainable delivery.
-            </p>
-        </div>
-    
-        <div class="team-box">
-            <h2>Engineering - Product</h2>
-            <img src="blinking_green.gif" class="stoplight" alt="Stoplight">
-            <ul>
-                <li><strong>Groomed:</strong> 42</li>
-                <li><strong>Total:</strong> 48</li>
-                <li><strong>Backlog Health Score:</strong> 87.5%</li>
-                <li><strong>Status Breakdown:</strong><br>
-                    
-                        - New: 25<br>
-                    
-                        - Grooming: 17<br>
-                    
-                        - Ready for Development: 3<br>
-                    
-                        - To Do: 3<br>
-                    
-                </li>
-            </ul>
-            <p class="explanation">
-                This score shows how much work this team has ready for future planning. A score below 50% means backlog grooming sessions are likely needed. Healthy backlog = sustainable delivery.
-            </p>
-        </div>
-    
-
-    <footer class="footnote">
-        <h3>📚 Industry Source References</h3>
-        <ul>
-            <li><strong>Scrum.org – Product Backlog Guide</strong><br>
-            “Refinement is the act of adding detail, estimates, and order to items in the Product Backlog.”  
-            <a href="https://www.scrum.org/resources/what-product-backlog">Link</a></li>
-
-            <li><strong>Atlassian – Agile Backlog Best Practices</strong><br>
-            “Teams should groom their backlog regularly to avoid last-minute planning chaos.”  
-            <a href="https://www.atlassian.com/agile/backlogs">Link</a></li>
-        </ul>
-    </footer>
+    <div class="grid">
+        
+    </div>
 </body>
 </html>

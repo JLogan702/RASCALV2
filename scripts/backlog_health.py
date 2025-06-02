@@ -1,65 +1,94 @@
 import pandas as pd
 from jinja2 import Environment, FileSystemLoader
+from datetime import datetime
+import re
 
 CSV_PATH = "docs/jira_data.csv"
-TEMPLATE_PATH = "templates"
-OUTPUT_PATH = "docs/backlog_health.html"
-
+TEMPLATE_FILE = "backlog_health_template.html"
+OUTPUT_FILE = "docs/backlog_health.html"
 SPRINT_FIELD = "Sprint"
 TEAM_FIELD = "Components"
 STATUS_FIELD = "Status"
 ISSUE_TYPE_FIELD = "Issue Type"
 
-RELEVANT_STATUSES = ["New", "Grooming", "Backlog"]
-EXCLUDED_STATUSES = ["Done"]
+BACKLOG_STATUSES = ["New", "Grooming", "Backlog"]
+
+TEAM_ORDER = [
+    "Data Science",
+    "Design",
+    "Engineering - AI Ops",
+    "Engineering - Platform",
+    "Engineering - Product"
+]
 
 THRESHOLDS = {
     "green": 80,
     "yellow": 50
 }
 
-TEAM_ORDER = [
-    "Data Science", "Design", "Engineering - AI Ops", "Engineering - Platform", "Engineering - Product"
-]
+def extract_end_date(sprint_str):
+    if pd.isna(sprint_str):
+        return None
+    date_matches = re.findall(r"(\d{1,2})[\/-](\d{1,2})", sprint_str)
+    if date_matches:
+        try:
+            month, day = map(int, date_matches[-1])
+            year = datetime.now().year
+            return datetime(year, month, day)
+        except ValueError:
+            return None
+    return None
 
-def prepare_data(df):
-    teams = {}
-    df = df[(df[ISSUE_TYPE_FIELD] == "Story") & (~df[STATUS_FIELD].isin(EXCLUDED_STATUSES))]
+def calculate_team_data(df):
+    data = []
+    today = datetime.now()
 
     for team in TEAM_ORDER:
         team_df = df[df[TEAM_FIELD] == team]
-        backlog_df = team_df[(team_df[SPRINT_FIELD].isnull()) | (~team_df[SPRINT_FIELD].str.contains("open", na=False))]
-        status_counts = backlog_df[STATUS_FIELD].value_counts().to_dict()
+
+        # Consider only tickets NOT assigned to a future sprint
+        backlog_df = team_df[team_df[SPRINT_FIELD].apply(
+            lambda s: extract_end_date(s) is None or extract_end_date(s) <= today)]
+
         total = len(backlog_df)
-        relevant_count = sum([status_counts.get(s, 0) for s in RELEVANT_STATUSES])
-        score = round((relevant_count / total) * 100, 1) if total > 0 else 0
+        relevant = backlog_df[backlog_df[STATUS_FIELD].isin(BACKLOG_STATUSES)]
+        status_counts = backlog_df[STATUS_FIELD].value_counts().to_dict()
 
-        if score >= THRESHOLDS["green"]:
-            light = "blinking_green.gif"
-        elif score >= THRESHOLDS["yellow"]:
-            light = "blinking_yellow.gif"
+        if total > 0:
+            percent = round((len(relevant) / total) * 100, 1)
         else:
-            light = "blinking_red.gif"
+            percent = 0.0
 
-        teams[team] = {
+        if percent >= THRESHOLDS["green"]:
+            stoplight = "blinking_green.gif"
+        elif percent >= THRESHOLDS["yellow"]:
+            stoplight = "blinking_yellow.gif"
+        else:
+            stoplight = "blinking_red.gif"
+
+        data.append({
+            "team": team,
             "total": total,
-            "relevant": relevant_count,
-            "score": score,
-            "light": light,
+            "relevant": len(relevant),
+            "percent": percent,
+            "stoplight": stoplight,
             "status_counts": status_counts
-        }
-    return teams
+        })
+
+    return data
 
 def render_html(team_data):
-    env = Environment(loader=FileSystemLoader(TEMPLATE_PATH))
-    template = env.get_template("backlog_health_template.html")
-    output = template.render(team_data=team_data, team_order=TEAM_ORDER)
-    with open(OUTPUT_PATH, "w") as f:
+    env = Environment(loader=FileSystemLoader("templates"))
+    template = env.get_template(TEMPLATE_FILE)
+    output = template.render(teams=team_data)
+    with open(OUTPUT_FILE, "w") as f:
         f.write(output)
+    print("✅ backlog_health.html generated")
 
 def main():
     df = pd.read_csv(CSV_PATH)
-    team_data = prepare_data(df)
+    df = df[(df[ISSUE_TYPE_FIELD] == "Story") & (df[STATUS_FIELD] != "Done")]
+    team_data = calculate_team_data(df)
     render_html(team_data)
 
 if __name__ == "__main__":
