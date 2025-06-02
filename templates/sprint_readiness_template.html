@@ -6,43 +6,49 @@
     <link rel="stylesheet" href="styles.css">
     <style>
         body { background: #eef5f9; font-family: sans-serif; padding: 20px; }
-        h1 { text-align: center; color: #0d3b66; }
-        .dropdown { text-align: center; margin-bottom: 20px; }
+        header { text-align: center; }
+        h1 { color: #0d3b66; }
+        .dropdown { margin-top: 10px; }
         .team-box {
-            background: white;
+            background: #ffffff;
             border-radius: 10px;
-            padding: 15px;
+            padding: 12px 20px;
             margin: 20px auto;
-            width: 80%;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            width: 75%;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
         }
         .stoplight {
             width: 40px;
             display: block;
             margin: 0 auto 10px auto;
         }
-        ul { list-style-type: none; padding-left: 0; }
+        ul { list-style-type: none; padding-left: 0; margin-top: 10px; }
+        .footnote, .explanation { font-size: 0.9em; color: #333; }
     </style>
 </head>
 <body>
-    <h1>Sprint Readiness</h1>
-    <div class="dropdown">
-        <select onchange="location = this.value;">
-            <option value="sprint_readiness.html" selected>Sprint Readiness</option>
-            <option value="backlog_health.html">Backlog Health</option>
-            <option value="dependencies.html">Dependencies</option>
-        </select>
-    </div>
+    <header>
+        <img src="Clarvos.png" alt="Clarvos Logo" width="140">
+        <h1>Sprint Readiness</h1>
+        <div class="dropdown">
+            <select onchange="location = this.value;">
+                <option value="sprint_readiness.html" selected>Sprint Readiness</option>
+                <option value="backlog_health.html">Backlog Health</option>
+                <option value="dependencies.html">Dependencies</option>
+            </select>
+        </div>
+    </header>
 
     <section>
-        <p><strong>Definition:</strong> Sprint Readiness is measured by the number of story tickets in a future sprint that are in statuses "To Do" or "Ready for Development".</p>
-        <p><strong>Industry Reference:</strong> See the <a href="https://www.scrum.org/resources/sprint-planning-guide">Scrum.org Sprint Planning Guide</a> and <a href="https://www.atlassian.com/agile/scrum/sprint-planning">Atlassian Sprint Planning Best Practices</a>.</p>
+        <p><strong>Note:</strong> This report is intended to support team planning and predictability — not to judge performance.</p>
+        <p><strong>Definition:</strong> Sprint Readiness is the percentage of story tickets in future sprints that are in "To Do" or "Ready for Development" statuses.</p>
+        <p><strong>Industry Reference:</strong> See <a href="https://www.scrum.org/resources/sprint-planning-guide">Scrum.org Sprint Planning Guide</a>, Section: “Forecasting Sprint Backlog”; and <a href="https://www.atlassian.com/agile/scrum/sprint-planning">Atlassian Sprint Planning Best Practices</a>.</p>
     </section>
 
     {% for team in team_order %}
         <div class="team-box">
             <h2>{{ team }}</h2>
-            <img src="{{ team_data[team].light }}" class="stoplight">
+            <img src="{{ team_data[team].light }}" class="stoplight" alt="Stoplight">
             <ul>
                 <li><strong>Ready:</strong> {{ team_data[team].ready }}</li>
                 <li><strong>Total:</strong> {{ team_data[team].total }}</li>
@@ -53,8 +59,17 @@
                     {% endfor %}
                 </li>
             </ul>
+            <p class="explanation">
+                This score reflects how prepared this team is for the next sprint cycle. Higher scores indicate a higher percentage of stories are groomed and ready to start. Use this as an input to plan grooming and backlog refinement.
+            </p>
         </div>
     {% endfor %}
+
+    <footer class="footnote">
+        <p><strong>Best Practices Source:</strong><br>
+        - Scrum.org Sprint Planning Guide (https://www.scrum.org/resources/sprint-planning-guide)<br>
+        - Atlassian Agile Sprint Planning (https://www.atlassian.com/agile/scrum/sprint-planning)</p>
+    </footer>
 </body>
 </html>
 

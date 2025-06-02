@@ -6,43 +6,49 @@
     <link rel="stylesheet" href="styles.css">
     <style>
         body { background: #f0f8ff; font-family: sans-serif; padding: 20px; }
-        h1 { text-align: center; color: #0b2e59; }
-        .dropdown { text-align: center; margin-bottom: 20px; }
+        header { text-align: center; }
+        h1 { color: #0b2e59; }
+        .dropdown { margin-top: 10px; }
         .team-box {
-            background: white;
+            background: #ffffff;
             border-radius: 10px;
-            padding: 15px;
+            padding: 12px 20px;
             margin: 20px auto;
-            width: 80%;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            width: 75%;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
         }
         .stoplight {
             width: 40px;
             display: block;
             margin: 0 auto 10px auto;
         }
-        ul { list-style-type: none; padding-left: 0; }
+        ul { list-style-type: none; padding-left: 0; margin-top: 10px; }
+        .footnote, .explanation { font-size: 0.9em; color: #333; }
     </style>
 </head>
 <body>
-    <h1>Backlog Health</h1>
-    <div class="dropdown">
-        <select onchange="location = this.value;">
-            <option value="backlog_health.html" selected>Backlog Health</option>
-            <option value="sprint_readiness.html">Sprint Readiness</option>
-            <option value="dependencies.html">Dependencies</option>
-        </select>
-    </div>
+    <header>
+        <img src="Clarvos.png" alt="Clarvos Logo" width="140">
+        <h1>Backlog Health</h1>
+        <div class="dropdown">
+            <select onchange="location = this.value;">
+                <option value="backlog_health.html" selected>Backlog Health</option>
+                <option value="sprint_readiness.html">Sprint Readiness</option>
+                <option value="dependencies.html">Dependencies</option>
+            </select>
+        </div>
+    </header>
 
     <section>
-        <p><strong>Definition:</strong> Backlog Health is the percentage of story tickets in statuses “New”, “Grooming”, or “Backlog” that are not in active sprints. This helps teams maintain enough groomed work.</p>
-        <p><strong>Industry Reference:</strong> See the <a href="https://www.scrum.org/resources/what-product-backlog">Scrum.org Product Backlog Guide</a> and <a href="https://www.atlassian.com/agile/backlogs">Atlassian Backlog Best Practices</a>.</p>
+        <p><strong>Note:</strong> This report is a diagnostic tool to guide team focus and backlog health — not a performance metric.</p>
+        <p><strong>Definition:</strong> Backlog Health measures how many story tickets are in "New", "Grooming", or "Backlog" statuses and are not in active sprints. A high percentage means more groomed work is available for planning.</p>
+        <p><strong>Industry Reference:</strong> See <a href="https://www.scrum.org/resources/what-product-backlog">Scrum.org Product Backlog Guide</a>, Section: “Refinement”; and <a href="https://www.atlassian.com/agile/backlogs">Atlassian Backlog Best Practices</a>.</p>
     </section>
 
     {% for team in team_order %}
         <div class="team-box">
             <h2>{{ team }}</h2>
-            <img src="{{ team_data[team].light }}" class="stoplight">
+            <img src="{{ team_data[team].light }}" class="stoplight" alt="Stoplight">
             <ul>
                 <li><strong>Groomed:</strong> {{ team_data[team].relevant }}</li>
                 <li><strong>Total:</strong> {{ team_data[team].total }}</li>
@@ -53,8 +59,17 @@
                     {% endfor %}
                 </li>
             </ul>
+            <p class="explanation">
+                This score represents how much usable, groomed backlog work is ready for future planning. A lower score suggests the team may need refinement sessions or backlog curation before sprint planning.
+            </p>
         </div>
     {% endfor %}
+
+    <footer class="footnote">
+        <p><strong>Best Practices Source:</strong><br>
+        - Scrum.org Product Backlog Guide (https://www.scrum.org/resources/what-product-backlog)<br>
+        - Atlassian Agile Backlogs (https://www.atlassian.com/agile/backlogs)</p>
+    </footer>
 </body>
 </html>
 
