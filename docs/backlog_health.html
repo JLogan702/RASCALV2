@@ -5,44 +5,56 @@
     <title>Backlog Health</title>
     <link rel="stylesheet" href="styles.css">
     <style>
-        body { background: #f0f8ff; font-family: sans-serif; padding: 20px; }
-        h1 { text-align: center; color: #0b2e59; }
-        .dropdown { text-align: center; margin-bottom: 20px; }
+        body { background: #fff8f0; font-family: sans-serif; padding: 20px; }
+        header { text-align: center; }
+        h1 { color: #5a3e1b; }
+        .dropdown { margin-top: 10px; }
         .team-box {
-            background: white;
+            background: #ffffff;
+            border-left: 6px solid #c6783b;
             border-radius: 10px;
-            padding: 15px;
+            padding: 12px 20px;
             margin: 20px auto;
-            width: 80%;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            width: 75%;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
         }
         .stoplight {
             width: 40px;
             display: block;
             margin: 0 auto 10px auto;
         }
-        ul { list-style-type: none; padding-left: 0; }
+        ul { list-style-type: none; padding-left: 0; margin-top: 10px; }
+        .footnote, .explanation { font-size: 0.9em; color: #333; }
     </style>
 </head>
 <body>
-    <h1>Backlog Health</h1>
-    <div class="dropdown">
-        <select onchange="location = this.value;">
-            <option value="backlog_health.html" selected>Backlog Health</option>
-            <option value="sprint_readiness.html">Sprint Readiness</option>
-            <option value="dependencies.html">Dependencies</option>
-        </select>
-    </div>
+    <header>
+        <img src="Clarvos.png" alt="Clarvos Logo" width="140">
+        <h1>Backlog Health</h1>
+        <div class="dropdown">
+            <select onchange="location = this.value;">
+                <option value="backlog_health.html" selected>Backlog Health</option>
+                <option value="sprint_readiness.html">Sprint Readiness</option>
+                <option value="dependencies.html">Dependencies</option>
+                <option value="index.html">Program Summary</option>
+            </select>
+        </div>
+    </header>
+
+    <section style="background:#fff3e6; border-left: 6px solid #cc5500; padding: 12px; margin-top: 20px;">
+        <p><strong>📘 This dashboard follows published Agile/Scrum industry standards</strong></p>
+        <p>Backlog Health is based on guidelines from Scrum.org and Atlassian. It is not a performance metric — it’s a signal of how much usable, groomed work exists for planning. Use this to guide refinement activities, not judge teams.</p>
+    </section>
 
     <section>
-        <p><strong>Definition:</strong> Backlog Health is the percentage of story tickets in statuses “New”, “Grooming”, or “Backlog” that are not in active sprints. This helps teams maintain enough groomed work.</p>
-        <p><strong>Industry Reference:</strong> See the <a href="https://www.scrum.org/resources/what-product-backlog">Scrum.org Product Backlog Guide</a> and <a href="https://www.atlassian.com/agile/backlogs">Atlassian Backlog Best Practices</a>.</p>
+        <p><strong>Definition:</strong> Backlog Health is the percentage of non-Done story tickets in "New", "Grooming", or "Backlog" statuses that are not in active sprints. The goal is to maintain a steady stream of prepped work for upcoming sprints.</p>
+        <p><strong>Reference:</strong> See <a href="https://www.scrum.org/resources/what-product-backlog">Scrum.org Product Backlog Guide</a> and <a href="https://www.atlassian.com/agile/backlogs">Atlassian Backlog Best Practices</a>.</p>
     </section>
 
     
         <div class="team-box">
             <h2>Data Science</h2>
-            <img src="blinking_red.gif" class="stoplight">
+            <img src="blinking_red.gif" class="stoplight" alt="Stoplight">
             <ul>
                 <li><strong>Groomed:</strong> 1</li>
                 <li><strong>Total:</strong> 18</li>
@@ -59,11 +71,14 @@
                     
                 </li>
             </ul>
+            <p class="explanation">
+                This score shows how much work this team has ready for future planning. A score below 50% means backlog grooming sessions are likely needed. Healthy backlog = sustainable delivery.
+            </p>
         </div>
     
         <div class="team-box">
             <h2>Design</h2>
-            <img src="blinking_red.gif" class="stoplight">
+            <img src="blinking_red.gif" class="stoplight" alt="Stoplight">
             <ul>
                 <li><strong>Groomed:</strong> 10</li>
                 <li><strong>Total:</strong> 29</li>
@@ -84,11 +99,14 @@
                     
                 </li>
             </ul>
+            <p class="explanation">
+                This score shows how much work this team has ready for future planning. A score below 50% means backlog grooming sessions are likely needed. Healthy backlog = sustainable delivery.
+            </p>
         </div>
     
         <div class="team-box">
             <h2>Engineering - AI Ops</h2>
-            <img src="blinking_green.gif" class="stoplight">
+            <img src="blinking_green.gif" class="stoplight" alt="Stoplight">
             <ul>
                 <li><strong>Groomed:</strong> 15</li>
                 <li><strong>Total:</strong> 17</li>
@@ -105,11 +123,14 @@
                     
                 </li>
             </ul>
+            <p class="explanation">
+                This score shows how much work this team has ready for future planning. A score below 50% means backlog grooming sessions are likely needed. Healthy backlog = sustainable delivery.
+            </p>
         </div>
     
         <div class="team-box">
             <h2>Engineering - Platform</h2>
-            <img src="blinking_red.gif" class="stoplight">
+            <img src="blinking_red.gif" class="stoplight" alt="Stoplight">
             <ul>
                 <li><strong>Groomed:</strong> 9</li>
                 <li><strong>Total:</strong> 24</li>
@@ -124,11 +145,14 @@
                     
                 </li>
             </ul>
+            <p class="explanation">
+                This score shows how much work this team has ready for future planning. A score below 50% means backlog grooming sessions are likely needed. Healthy backlog = sustainable delivery.
+            </p>
         </div>
     
         <div class="team-box">
             <h2>Engineering - Product</h2>
-            <img src="blinking_green.gif" class="stoplight">
+            <img src="blinking_green.gif" class="stoplight" alt="Stoplight">
             <ul>
                 <li><strong>Groomed:</strong> 42</li>
                 <li><strong>Total:</strong> 48</li>
@@ -145,7 +169,23 @@
                     
                 </li>
             </ul>
+            <p class="explanation">
+                This score shows how much work this team has ready for future planning. A score below 50% means backlog grooming sessions are likely needed. Healthy backlog = sustainable delivery.
+            </p>
         </div>
     
+
+    <footer class="footnote">
+        <h3>📚 Industry Source References</h3>
+        <ul>
+            <li><strong>Scrum.org – Product Backlog Guide</strong><br>
+            “Refinement is the act of adding detail, estimates, and order to items in the Product Backlog.”  
+            <a href="https://www.scrum.org/resources/what-product-backlog">Link</a></li>
+
+            <li><strong>Atlassian – Agile Backlog Best Practices</strong><br>
+            “Teams should groom their backlog regularly to avoid last-minute planning chaos.”  
+            <a href="https://www.atlassian.com/agile/backlogs">Link</a></li>
+        </ul>
+    </footer>
 </body>
 </html>

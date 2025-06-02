@@ -5,44 +5,56 @@
     <title>Sprint Readiness</title>
     <link rel="stylesheet" href="styles.css">
     <style>
-        body { background: #eef5f9; font-family: sans-serif; padding: 20px; }
-        h1 { text-align: center; color: #0d3b66; }
-        .dropdown { text-align: center; margin-bottom: 20px; }
+        body { background: #f4fff4; font-family: sans-serif; padding: 20px; }
+        header { text-align: center; }
+        h1 { color: #215732; }
+        .dropdown { margin-top: 10px; }
         .team-box {
-            background: white;
+            background: #ffffff;
+            border-left: 6px solid #38a169;
             border-radius: 10px;
-            padding: 15px;
+            padding: 12px 20px;
             margin: 20px auto;
-            width: 80%;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            width: 75%;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
         }
         .stoplight {
             width: 40px;
             display: block;
             margin: 0 auto 10px auto;
         }
-        ul { list-style-type: none; padding-left: 0; }
+        ul { list-style-type: none; padding-left: 0; margin-top: 10px; }
+        .footnote, .explanation { font-size: 0.9em; color: #333; }
     </style>
 </head>
 <body>
-    <h1>Sprint Readiness</h1>
-    <div class="dropdown">
-        <select onchange="location = this.value;">
-            <option value="sprint_readiness.html" selected>Sprint Readiness</option>
-            <option value="backlog_health.html">Backlog Health</option>
-            <option value="dependencies.html">Dependencies</option>
-        </select>
-    </div>
+    <header>
+        <img src="Clarvos.png" alt="Clarvos Logo" width="140">
+        <h1>Sprint Readiness</h1>
+        <div class="dropdown">
+            <select onchange="location = this.value;">
+                <option value="sprint_readiness.html" selected>Sprint Readiness</option>
+                <option value="backlog_health.html">Backlog Health</option>
+                <option value="dependencies.html">Dependencies</option>
+                <option value="index.html">Program Summary</option>
+            </select>
+        </div>
+    </header>
+
+    <section style="background:#e0f7e9; border-left: 6px solid #2f855a; padding: 12px; margin-top: 20px;">
+        <p><strong>📘 These metrics follow industry-standard Agile and Scrum best practices</strong></p>
+        <p>This dashboard is intended to support team planning and capacity — not as a performance scorecard. Metrics are based on guidance from Scrum.org and Atlassian, ensuring teams are aligned with Agile forecasting norms.</p>
+    </section>
 
     <section>
-        <p><strong>Definition:</strong> Sprint Readiness is measured by the number of story tickets in a future sprint that are in statuses "To Do" or "Ready for Development".</p>
+        <p><strong>Definition:</strong> Sprint Readiness measures how many story tickets in future sprints are in "To Do" or "Ready for Development" status. This shows how prepared each team is for upcoming work.</p>
         <p><strong>Industry Reference:</strong> See the <a href="https://www.scrum.org/resources/sprint-planning-guide">Scrum.org Sprint Planning Guide</a> and <a href="https://www.atlassian.com/agile/scrum/sprint-planning">Atlassian Sprint Planning Best Practices</a>.</p>
     </section>
 
     
         <div class="team-box">
             <h2>Data Science</h2>
-            <img src="blinking_green.gif" class="stoplight">
+            <img src="blinking_green.gif" class="stoplight" alt="Stoplight">
             <ul>
                 <li><strong>Ready:</strong> 5</li>
                 <li><strong>Total:</strong> 5</li>
@@ -53,11 +65,14 @@
                     
                 </li>
             </ul>
+            <p class="explanation">
+                This score represents how many story tickets are fully groomed and assigned to upcoming sprints. Scores under 50% suggest the team may need backlog grooming sessions to ensure the next sprint is realistically achievable.
+            </p>
         </div>
     
         <div class="team-box">
             <h2>Design</h2>
-            <img src="blinking_red.gif" class="stoplight">
+            <img src="blinking_red.gif" class="stoplight" alt="Stoplight">
             <ul>
                 <li><strong>Ready:</strong> 6</li>
                 <li><strong>Total:</strong> 16</li>
@@ -76,11 +91,14 @@
                     
                 </li>
             </ul>
+            <p class="explanation">
+                This score represents how many story tickets are fully groomed and assigned to upcoming sprints. Scores under 50% suggest the team may need backlog grooming sessions to ensure the next sprint is realistically achievable.
+            </p>
         </div>
     
         <div class="team-box">
             <h2>Engineering - AI Ops</h2>
-            <img src="blinking_red.gif" class="stoplight">
+            <img src="blinking_red.gif" class="stoplight" alt="Stoplight">
             <ul>
                 <li><strong>Ready:</strong> 2</li>
                 <li><strong>Total:</strong> 7</li>
@@ -93,11 +111,14 @@
                     
                 </li>
             </ul>
+            <p class="explanation">
+                This score represents how many story tickets are fully groomed and assigned to upcoming sprints. Scores under 50% suggest the team may need backlog grooming sessions to ensure the next sprint is realistically achievable.
+            </p>
         </div>
     
         <div class="team-box">
             <h2>Engineering - Platform</h2>
-            <img src="blinking_red.gif" class="stoplight">
+            <img src="blinking_red.gif" class="stoplight" alt="Stoplight">
             <ul>
                 <li><strong>Ready:</strong> 0</li>
                 <li><strong>Total:</strong> 0</li>
@@ -106,11 +127,14 @@
                     
                 </li>
             </ul>
+            <p class="explanation">
+                This score represents how many story tickets are fully groomed and assigned to upcoming sprints. Scores under 50% suggest the team may need backlog grooming sessions to ensure the next sprint is realistically achievable.
+            </p>
         </div>
     
         <div class="team-box">
             <h2>Engineering - Product</h2>
-            <img src="blinking_red.gif" class="stoplight">
+            <img src="blinking_red.gif" class="stoplight" alt="Stoplight">
             <ul>
                 <li><strong>Ready:</strong> 5</li>
                 <li><strong>Total:</strong> 31</li>
@@ -127,7 +151,23 @@
                     
                 </li>
             </ul>
+            <p class="explanation">
+                This score represents how many story tickets are fully groomed and assigned to upcoming sprints. Scores under 50% suggest the team may need backlog grooming sessions to ensure the next sprint is realistically achievable.
+            </p>
         </div>
     
+
+    <footer class="footnote">
+        <h3>📚 Industry Source References</h3>
+        <ul>
+            <li><strong>Scrum.org – Sprint Planning Guide</strong><br>
+            “The Sprint Backlog makes visible all the work the Development Team identifies as necessary to meet the Sprint Goal.”  
+            <a href="https://www.scrum.org/resources/sprint-planning-guide">Link</a></li>
+
+            <li><strong>Atlassian – Sprint Planning Best Practices</strong><br>
+            “Sprint planning should answer: what can be delivered in the upcoming sprint and how will that work be achieved?”  
+            <a href="https://www.atlassian.com/agile/scrum/sprint-planning">Link</a></li>
+        </ul>
+    </footer>
 </body>
 </html>
