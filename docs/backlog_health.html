@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Backlog Health</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body { background: #f0f8ff; font-family: sans-serif; padding: 20px; }
+        h1 { text-align: center; color: #0b2e59; }
+        .dropdown { text-align: center; margin-bottom: 20px; }
+        .team-box {
+            background: white;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 20px auto;
+            width: 80%;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .stoplight {
+            width: 40px;
+            display: block;
+            margin: 0 auto 10px auto;
+        }
+        ul { list-style-type: none; padding-left: 0; }
+    </style>
+</head>
+<body>
+    <h1>Backlog Health</h1>
+    <div class="dropdown">
+        <select onchange="location = this.value;">
+            <option value="backlog_health.html" selected>Backlog Health</option>
+            <option value="sprint_readiness.html">Sprint Readiness</option>
+            <option value="dependencies.html">Dependencies</option>
+        </select>
+    </div>
+
+    <section>
+        <p><strong>Definition:</strong> Backlog Health is the percentage of story tickets in statuses “New”, “Grooming”, or “Backlog” that are not in active sprints. This helps teams maintain enough groomed work.</p>
+        <p><strong>Industry Reference:</strong> See the <a href="https://www.scrum.org/resources/what-product-backlog">Scrum.org Product Backlog Guide</a> and <a href="https://www.atlassian.com/agile/backlogs">Atlassian Backlog Best Practices</a>.</p>
+    </section>
+
+    
+        <div class="team-box">
+            <h2>Data Science</h2>
+            <img src="blinking_red.gif" class="stoplight">
+            <ul>
+                <li><strong>Groomed:</strong> 1</li>
+                <li><strong>Total:</strong> 18</li>
+                <li><strong>Backlog Health Score:</strong> 5.6%</li>
+                <li><strong>Status Breakdown:</strong><br>
+                    
+                        - To Do: 11<br>
+                    
+                        - In Progress: 5<br>
+                    
+                        - New: 1<br>
+                    
+                        - UAT Testing: 1<br>
+                    
+                </li>
+            </ul>
+        </div>
+    
+        <div class="team-box">
+            <h2>Design</h2>
+            <img src="blinking_red.gif" class="stoplight">
+            <ul>
+                <li><strong>Groomed:</strong> 10</li>
+                <li><strong>Total:</strong> 29</li>
+                <li><strong>Backlog Health Score:</strong> 34.5%</li>
+                <li><strong>Status Breakdown:</strong><br>
+                    
+                        - To Do: 13<br>
+                    
+                        - New: 8<br>
+                    
+                        - In Progress: 4<br>
+                    
+                        - Grooming: 2<br>
+                    
+                        - Ready for Review: 1<br>
+                    
+                        - Blocked: 1<br>
+                    
+                </li>
+            </ul>
+        </div>
+    
+        <div class="team-box">
+            <h2>Engineering - AI Ops</h2>
+            <img src="blinking_green.gif" class="stoplight">
+            <ul>
+                <li><strong>Groomed:</strong> 15</li>
+                <li><strong>Total:</strong> 17</li>
+                <li><strong>Backlog Health Score:</strong> 88.2%</li>
+                <li><strong>Status Breakdown:</strong><br>
+                    
+                        - New: 9<br>
+                    
+                        - Backlog: 5<br>
+                    
+                        - To Do: 2<br>
+                    
+                        - Grooming: 1<br>
+                    
+                </li>
+            </ul>
+        </div>
+    
+        <div class="team-box">
+            <h2>Engineering - Platform</h2>
+            <img src="blinking_red.gif" class="stoplight">
+            <ul>
+                <li><strong>Groomed:</strong> 9</li>
+                <li><strong>Total:</strong> 24</li>
+                <li><strong>Backlog Health Score:</strong> 37.5%</li>
+                <li><strong>Status Breakdown:</strong><br>
+                    
+                        - To Do: 15<br>
+                    
+                        - New: 8<br>
+                    
+                        - Backlog: 1<br>
+                    
+                </li>
+            </ul>
+        </div>
+    
+        <div class="team-box">
+            <h2>Engineering - Product</h2>
+            <img src="blinking_green.gif" class="stoplight">
+            <ul>
+                <li><strong>Groomed:</strong> 42</li>
+                <li><strong>Total:</strong> 48</li>
+                <li><strong>Backlog Health Score:</strong> 87.5%</li>
+                <li><strong>Status Breakdown:</strong><br>
+                    
+                        - New: 25<br>
+                    
+                        - Grooming: 17<br>
+                    
+                        - Ready for Development: 3<br>
+                    
+                        - To Do: 3<br>
+                    
+                </li>
+            </ul>
+        </div>
+    
+</body>
+</html>

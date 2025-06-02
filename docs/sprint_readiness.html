@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Sprint Readiness</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body { background: #eef5f9; font-family: sans-serif; padding: 20px; }
+        h1 { text-align: center; color: #0d3b66; }
+        .dropdown { text-align: center; margin-bottom: 20px; }
+        .team-box {
+            background: white;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 20px auto;
+            width: 80%;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .stoplight {
+            width: 40px;
+            display: block;
+            margin: 0 auto 10px auto;
+        }
+        ul { list-style-type: none; padding-left: 0; }
+    </style>
+</head>
+<body>
+    <h1>Sprint Readiness</h1>
+    <div class="dropdown">
+        <select onchange="location = this.value;">
+            <option value="sprint_readiness.html" selected>Sprint Readiness</option>
+            <option value="backlog_health.html">Backlog Health</option>
+            <option value="dependencies.html">Dependencies</option>
+        </select>
+    </div>
+
+    <section>
+        <p><strong>Definition:</strong> Sprint Readiness is measured by the number of story tickets in a future sprint that are in statuses "To Do" or "Ready for Development".</p>
+        <p><strong>Industry Reference:</strong> See the <a href="https://www.scrum.org/resources/sprint-planning-guide">Scrum.org Sprint Planning Guide</a> and <a href="https://www.atlassian.com/agile/scrum/sprint-planning">Atlassian Sprint Planning Best Practices</a>.</p>
+    </section>
+
+    
+        <div class="team-box">
+            <h2>Data Science</h2>
+            <img src="blinking_green.gif" class="stoplight">
+            <ul>
+                <li><strong>Ready:</strong> 5</li>
+                <li><strong>Total:</strong> 5</li>
+                <li><strong>Readiness Score:</strong> 100.0%</li>
+                <li><strong>Status Breakdown:</strong><br>
+                    
+                        - To Do: 5<br>
+                    
+                </li>
+            </ul>
+        </div>
+    
+        <div class="team-box">
+            <h2>Design</h2>
+            <img src="blinking_red.gif" class="stoplight">
+            <ul>
+                <li><strong>Ready:</strong> 6</li>
+                <li><strong>Total:</strong> 16</li>
+                <li><strong>Readiness Score:</strong> 37.5%</li>
+                <li><strong>Status Breakdown:</strong><br>
+                    
+                        - New: 6<br>
+                    
+                        - To Do: 6<br>
+                    
+                        - In Progress: 2<br>
+                    
+                        - Ready for Review: 1<br>
+                    
+                        - Blocked: 1<br>
+                    
+                </li>
+            </ul>
+        </div>
+    
+        <div class="team-box">
+            <h2>Engineering - AI Ops</h2>
+            <img src="blinking_red.gif" class="stoplight">
+            <ul>
+                <li><strong>Ready:</strong> 2</li>
+                <li><strong>Total:</strong> 7</li>
+                <li><strong>Readiness Score:</strong> 28.6%</li>
+                <li><strong>Status Breakdown:</strong><br>
+                    
+                        - New: 5<br>
+                    
+                        - To Do: 2<br>
+                    
+                </li>
+            </ul>
+        </div>
+    
+        <div class="team-box">
+            <h2>Engineering - Platform</h2>
+            <img src="blinking_red.gif" class="stoplight">
+            <ul>
+                <li><strong>Ready:</strong> 0</li>
+                <li><strong>Total:</strong> 0</li>
+                <li><strong>Readiness Score:</strong> 0%</li>
+                <li><strong>Status Breakdown:</strong><br>
+                    
+                </li>
+            </ul>
+        </div>
+    
+        <div class="team-box">
+            <h2>Engineering - Product</h2>
+            <img src="blinking_red.gif" class="stoplight">
+            <ul>
+                <li><strong>Ready:</strong> 5</li>
+                <li><strong>Total:</strong> 31</li>
+                <li><strong>Readiness Score:</strong> 16.1%</li>
+                <li><strong>Status Breakdown:</strong><br>
+                    
+                        - New: 14<br>
+                    
+                        - Grooming: 12<br>
+                    
+                        - Ready for Development: 3<br>
+                    
+                        - To Do: 2<br>
+                    
+                </li>
+            </ul>
+        </div>
+    
+</body>
+</html>

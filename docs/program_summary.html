@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Program Summary</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="print.css" media="print">
+    <style>
+        body {
+            background-color: #f2f7f9;
+            font-family: 'Segoe UI', sans-serif;
+            color: #333;
+        }
+        h1 {
+            text-align: center;
+            padding-top: 20px;
+            color: #0d355f;
+        }
+        .summary-container {
+            text-align: center;
+            padding: 20px;
+        }
+        .stoplight {
+            width: 80px;
+            height: auto;
+            margin-top: 10px;
+        }
+        .score-breakdown {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 30px;
+            font-size: 1.1em;
+        }
+        .score-box {
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+        .explanation, .guidance, .sources {
+            max-width: 800px;
+            margin: 30px auto;
+            padding: 20px;
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+        }
+        .explanation h2, .guidance h2, .sources h2 {
+            color: #0d355f;
+        }
+        .sources a {
+            color: #0066cc;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>Program Summary Dashboard</h1>
+
+    <div class="summary-container">
+        <p>Overall Program Health</p>
+        <img class="stoplight" src="blinking_red.gif" alt="Program Stoplight">
+    </div>
+
+    <div class="score-breakdown">
+        <div class="score-box">
+            <strong>Average Sprint Readiness:</strong><br>0.0%
+        </div>
+        <div class="score-box">
+            <strong>Average Backlog Health:</strong><br>50.7%
+        </div>
+        <div class="score-box">
+            <strong>Overall Score:</strong><br>25.4%
+        </div>
+    </div>
+
+    <div class="explanation">
+        <h2>How This Was Calculated</h2>
+        <p><strong>Sprint Readiness</strong> measures how many story tickets in upcoming sprints are in a "ready" state (specifically "Ready for Development" or "To Do").</p>
+        <p><strong>Backlog Health</strong> reflects the proportion of story tickets in future sprints or backlog that are groomed (statuses like "New", "Grooming", or "Backlog").</p>
+        <p>Each score is calculated per team, and the program-level score is the average across all five core teams. Done, Blocked, and Cancelled items are excluded.</p>
+    </div>
+
+    <div class="guidance">
+        <h2>Executive Interpretation Guidance</h2>
+        <ul>
+            <li><strong>Green (≥ 80%)</strong>: The program is well-prepared for upcoming sprints and has a healthy backlog.</li>
+            <li><strong>Yellow (50–79%)</strong>: The program may need attention to sprint prep or backlog grooming.</li>
+            <li><strong>Red (&lt; 50%)</strong>: Immediate action is recommended to address gaps in sprint readiness or backlog quality.</li>
+        </ul>
+    </div>
+
+    <div class="sources">
+        <h2>Sources & Best Practices</h2>
+        <ul>
+            <li><a href="https://www.scrum.org/resources/sprint-planning-checklist" target="_blank">Scrum.org: Sprint Planning Checklist</a></li>
+            <li><a href="https://www.mountaingoatsoftware.com/blog/grooming-the-product-backlog" target="_blank">Mountain Goat Software: Backlog Grooming</a></li>
+            <li><a href="https://www.agilealliance.org/glossary/backlog/" target="_blank">Agile Alliance: Product Backlog Definition</a></li>
+        </ul>
+    </div>
+</body>
+</html>

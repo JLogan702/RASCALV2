@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dependency Tracker</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #f2f6fc, #e6edf7);
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: white;
+      padding: 1rem;
+      border-bottom: 2px solid #ccc;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+    header img {
+      height: 40px;
+    }
+    h1 {
+      text-align: center;
+      font-size: 2rem;
+      color: #012a4a;
+    }
+    .nav-container {
+      text-align: center;
+      margin: 1rem 0;
+    }
+    select {
+      padding: 0.5rem;
+      font-size: 1rem;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      transition: box-shadow 0.2s;
+    }
+    select:hover {
+      box-shadow: 0 0 8px rgba(0, 0, 0, 0.15);
+    }
+    .intro-box {
+      background: #e6f0ff;
+      padding: 1rem 2rem;
+      border-left: 5px solid #1d4ed8;
+      max-width: 900px;
+      margin: 1rem auto;
+      border-radius: 6px;
+    }
+    .intro-box h2 {
+      margin-top: 0;
+    }
+    .team-section {
+      background: white;
+      border-radius: 8px;
+      padding: 1rem;
+      max-width: 900px;
+      margin: 1rem auto;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+    }
+    th, td {
+      padding: 0.75rem;
+      border: 1px solid #ccc;
+      text-align: left;
+    }
+    th {
+      background: #f4f8fb;
+      color: #1e3a8a;
+    }
+    footer {
+      text-align: center;
+      font-size: 0.9rem;
+      margin: 2rem 0;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <img src="Clarvos.png" alt="Clarvos Logo">
+  </header>
+  <h1>Dependency Tracker</h1>
+  <div class="nav-container">
+    <select onchange="location.href=this.value">
+      <option value="dependencies.html" selected>Dependency Tracker</option>
+      <option value="sprint_readiness.html">Sprint Readiness</option>
+      <option value="backlog_health.html">Backlog Health</option>
+      <option value="program_summary.html">Program Summary</option>
+    </select>
+  </div>
+  <div class="intro-box">
+    <h2>Why this matters</h2>
+    <p>Dependencies can create serious bottlenecks in Agile delivery. Identifying blocked or blocking stories helps proactively mitigate delays across teams.</p>
+    <p>This tracker identifies Jira story tickets with blocking relationships ("Blocks" links) either inward or outward. These relationships reflect tickets that must be completed before others can start or finish.</p>
+    <p><strong>Source:</strong> Scaled Agile Framework (SAFe), Atlassian Dependency Management Practices</p>
+    <p><strong>References:</strong></p>
+    <ul>
+      <li><a href="https://www.scaledagileframework.com/team-kanban/" target="_blank">SAFe: Managing Dependencies Across Teams</a></li>
+      <li><a href="https://www.atlassian.com/agile/project-management/dependency-management" target="_blank">Atlassian: Dependency Mapping</a></li>
+    </ul>
+  </div>
+  
+  <div class="team-section">
+    <h2>Engineering - Product (2 Dependencies)</h2>
+    <table>
+      <tr>
+        <th>Ticket Key</th>
+        <th>Summary</th>
+        <th>Dependency Direction</th>
+        <th>Blocked By / Blocking</th>
+      </tr>
+      
+      <tr>
+        <td>CLP-1124</td>
+        <td>BE: Org DTO cleanup</td>
+        <td></td>
+        <td>CLP-1123</td>
+      </tr>
+      
+      <tr>
+        <td>CLP-1123</td>
+        <td>FE: Org DTO cleanup</td>
+        <td></td>
+        <td>nan</td>
+      </tr>
+      
+    </table>
+  </div>
+  
+  <div class="team-section">
+    <h2>Data Science (1 Dependencies)</h2>
+    <table>
+      <tr>
+        <th>Ticket Key</th>
+        <th>Summary</th>
+        <th>Dependency Direction</th>
+        <th>Blocked By / Blocking</th>
+      </tr>
+      
+      <tr>
+        <td>CLP-52</td>
+        <td>Community Grps refreshed minimally every 30 days</td>
+        <td></td>
+        <td>CLP-14</td>
+      </tr>
+      
+    </table>
+  </div>
+  
+  <footer>
+    Source: Jira (filtered to story tickets with "Blocks" links). Powered by Clarvos.
+  </footer>
+</body>
+</html>

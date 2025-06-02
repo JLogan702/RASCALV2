@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Backlog Health</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body { background: #f0f8ff; font-family: sans-serif; padding: 20px; }
+        h1 { text-align: center; color: #0b2e59; }
+        .dropdown { text-align: center; margin-bottom: 20px; }
+        .team-box {
+            background: white;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 20px auto;
+            width: 80%;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .stoplight {
+            width: 40px;
+            display: block;
+            margin: 0 auto 10px auto;
+        }
+        ul { list-style-type: none; padding-left: 0; }
+    </style>
+</head>
+<body>
+    <h1>Backlog Health</h1>
+    <div class="dropdown">
+        <select onchange="location = this.value;">
+            <option value="backlog_health.html" selected>Backlog Health</option>
+            <option value="sprint_readiness.html">Sprint Readiness</option>
+            <option value="dependencies.html">Dependencies</option>
+        </select>
+    </div>
+
+    <section>
+        <p><strong>Definition:</strong> Backlog Health is the percentage of story tickets in statuses “New”, “Grooming”, or “Backlog” that are not in active sprints. This helps teams maintain enough groomed work.</p>
+        <p><strong>Industry Reference:</strong> See the <a href="https://www.scrum.org/resources/what-product-backlog">Scrum.org Product Backlog Guide</a> and <a href="https://www.atlassian.com/agile/backlogs">Atlassian Backlog Best Practices</a>.</p>
+    </section>
+
+    {% for team in team_order %}
+        <div class="team-box">
+            <h2>{{ team }}</h2>
+            <img src="{{ team_data[team].light }}" class="stoplight">
+            <ul>
+                <li><strong>Groomed:</strong> {{ team_data[team].relevant }}</li>
+                <li><strong>Total:</strong> {{ team_data[team].total }}</li>
+                <li><strong>Backlog Health Score:</strong> {{ team_data[team].score }}%</li>
+                <li><strong>Status Breakdown:</strong><br>
+                    {% for status, count in team_data[team].status_counts.items() %}
+                        - {{ status }}: {{ count }}<br>
+                    {% endfor %}
+                </li>
+            </ul>
+        </div>
+    {% endfor %}
+</body>
+</html>
+

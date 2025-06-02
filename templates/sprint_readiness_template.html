@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Sprint Readiness</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body { background: #eef5f9; font-family: sans-serif; padding: 20px; }
+        h1 { text-align: center; color: #0d3b66; }
+        .dropdown { text-align: center; margin-bottom: 20px; }
+        .team-box {
+            background: white;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 20px auto;
+            width: 80%;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .stoplight {
+            width: 40px;
+            display: block;
+            margin: 0 auto 10px auto;
+        }
+        ul { list-style-type: none; padding-left: 0; }
+    </style>
+</head>
+<body>
+    <h1>Sprint Readiness</h1>
+    <div class="dropdown">
+        <select onchange="location = this.value;">
+            <option value="sprint_readiness.html" selected>Sprint Readiness</option>
+            <option value="backlog_health.html">Backlog Health</option>
+            <option value="dependencies.html">Dependencies</option>
+        </select>
+    </div>
+
+    <section>
+        <p><strong>Definition:</strong> Sprint Readiness is measured by the number of story tickets in a future sprint that are in statuses "To Do" or "Ready for Development".</p>
+        <p><strong>Industry Reference:</strong> See the <a href="https://www.scrum.org/resources/sprint-planning-guide">Scrum.org Sprint Planning Guide</a> and <a href="https://www.atlassian.com/agile/scrum/sprint-planning">Atlassian Sprint Planning Best Practices</a>.</p>
+    </section>
+
+    {% for team in team_order %}
+        <div class="team-box">
+            <h2>{{ team }}</h2>
+            <img src="{{ team_data[team].light }}" class="stoplight">
+            <ul>
+                <li><strong>Ready:</strong> {{ team_data[team].ready }}</li>
+                <li><strong>Total:</strong> {{ team_data[team].total }}</li>
+                <li><strong>Readiness Score:</strong> {{ team_data[team].score }}%</li>
+                <li><strong>Status Breakdown:</strong><br>
+                    {% for status, count in team_data[team].statuses.items() %}
+                        - {{ status }}: {{ count }}<br>
+                    {% endfor %}
+                </li>
+            </ul>
+        </div>
+    {% endfor %}
+</body>
+</html>
+

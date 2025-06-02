@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dependencies Report</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="print.css" media="print">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f8fb;
+            color: #222;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #003366;
+            color: white;
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 1.75rem;
+        }
+        .dropdown {
+            margin-right: 1rem;
+        }
+        main {
+            padding: 2rem;
+        }
+        section {
+            margin-bottom: 2.5rem;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        th, td {
+            padding: 0.75rem 1rem;
+            border: 1px solid #ccc;
+            text-align: left;
+        }
+        th {
+            background-color: #e8f0fe;
+            font-weight: bold;
+        }
+        h2 {
+            color: #003366;
+            margin-top: 2rem;
+        }
+        p.description {
+            font-size: 1rem;
+            color: #444;
+            margin-top: 0.25rem;
+        }
+    </style>
+    <script>
+        function navigateToPage(select) {
+            const page = select.value;
+            if (page) {
+                window.location.href = page;
+            }
+        }
+    </script>
+</head>
+<body>
+    <header>
+        <div class="dropdown">
+            <label for="nav">Navigate:</label>
+            <select id="nav" onchange="navigateToPage(this)">
+                <option value="dependencies.html" selected>Dependencies</option>
+                <option value="index.html">Program Summary</option>
+                <option value="sprint_readiness.html">Sprint Readiness</option>
+                <option value="backlog_health.html">Backlog Health</option>
+            </select>
+        </div>
+        <h1>📎 Dependencies Report</h1>
+    </header>
+    <main>
+        <p class="description">
+            This report lists all story tickets with linked dependencies. Each ticket listed is either blocking another or being blocked.
+            These relationships highlight risks to timely delivery and coordination between teams.
+        </p>
+
+        {% for team, items in dependencies.items() %}
+        <section>
+            <h2>{{ team }}</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Issue Key</th>
+                        <th>Summary</th>
+                        <th>Dependency Link</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in items %}
+                    <tr>
+                        <td><a href="https://{{ jira_domain }}/browse/{{ item.key }}" target="_blank">{{ item.key }}</a></td>
+                        <td>{{ item.summary }}</td>
+                        <td>{{ item.link or "N/A" }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </section>
+        {% endfor %}
+
+    </main>
+</body>
+</html>
+
