@@ -5,17 +5,28 @@
     <title>Sprint Readiness</title>
     <link rel="stylesheet" href="styles.css">
     <style>
-        body { background: #f4fff4; font-family: sans-serif; padding: 20px; }
-        header { text-align: center; }
+        body { background: #f4fff4; font-family: sans-serif; margin: 0; padding: 20px; }
+        header { text-align: center; margin-bottom: 10px; }
         h1 { color: #215732; }
-        .dropdown { margin-top: 10px; }
+        .dropdown select {
+            padding: 6px 12px;
+            font-size: 1rem;
+            border-radius: 5px;
+        }
+        .grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
         .team-box {
             background: #ffffff;
             border-left: 6px solid #38a169;
             border-radius: 10px;
             padding: 12px 20px;
-            margin: 20px auto;
-            width: 75%;
+            width: 30%;
+            min-width: 280px;
             box-shadow: 0 2px 6px rgba(0,0,0,0.1);
         }
         .stoplight {
@@ -29,7 +40,7 @@
 </head>
 <body>
     <header>
-        <img src="Clarvos.png" alt="Clarvos Logo" width="140">
+        <img src="Clarvos.png" alt="Clarvos Logo" width="140"><br>
         <h1>Sprint Readiness</h1>
         <div class="dropdown">
             <select onchange="location = this.value;">
@@ -41,48 +52,30 @@
         </div>
     </header>
 
-    <section style="background:#e0f7e9; border-left: 6px solid #2f855a; padding: 12px; margin-top: 20px;">
-        <p><strong>📘 These metrics follow industry-standard Agile and Scrum best practices</strong></p>
-        <p>This dashboard is intended to support team planning and capacity — not as a performance scorecard. Metrics are based on guidance from Scrum.org and Atlassian, ensuring teams are aligned with Agile forecasting norms.</p>
-    </section>
-
     <section>
-        <p><strong>Definition:</strong> Sprint Readiness measures how many story tickets in future sprints are in "To Do" or "Ready for Development" status. This shows how prepared each team is for upcoming work.</p>
-        <p><strong>Industry Reference:</strong> See the <a href="https://www.scrum.org/resources/sprint-planning-guide">Scrum.org Sprint Planning Guide</a> and <a href="https://www.atlassian.com/agile/scrum/sprint-planning">Atlassian Sprint Planning Best Practices</a>.</p>
+        <p><strong>Definition:</strong> Sprint Readiness is the percentage of story tickets in a future sprint that are in "To Do" or "Ready for Development".</p>
+        <p><strong>Reference:</strong> <a href="https://www.scrum.org/resources/sprint-planning-guide">Scrum.org</a>, <a href="https://www.atlassian.com/agile/scrum/sprint-planning">Atlassian</a></p>
     </section>
 
-    {% for team in team_order %}
-        <div class="team-box">
-            <h2>{{ team }}</h2>
-            <img src="{{ team_data[team].light }}" class="stoplight" alt="Stoplight">
-            <ul>
-                <li><strong>Ready:</strong> {{ team_data[team].ready }}</li>
-                <li><strong>Total:</strong> {{ team_data[team].total }}</li>
-                <li><strong>Readiness Score:</strong> {{ team_data[team].score }}%</li>
-                <li><strong>Status Breakdown:</strong><br>
-                    {% for status, count in team_data[team].statuses.items() %}
-                        - {{ status }}: {{ count }}<br>
-                    {% endfor %}
-                </li>
-            </ul>
-            <p class="explanation">
-                This score represents how many story tickets are fully groomed and assigned to upcoming sprints. Scores under 50% suggest the team may need backlog grooming sessions to ensure the next sprint is realistically achievable.
-            </p>
-        </div>
-    {% endfor %}
-
-    <footer class="footnote">
-        <h3>📚 Industry Source References</h3>
-        <ul>
-            <li><strong>Scrum.org – Sprint Planning Guide</strong><br>
-            “The Sprint Backlog makes visible all the work the Development Team identifies as necessary to meet the Sprint Goal.”  
-            <a href="https://www.scrum.org/resources/sprint-planning-guide">Link</a></li>
-
-            <li><strong>Atlassian – Sprint Planning Best Practices</strong><br>
-            “Sprint planning should answer: what can be delivered in the upcoming sprint and how will that work be achieved?”  
-            <a href="https://www.atlassian.com/agile/scrum/sprint-planning">Link</a></li>
-        </ul>
-    </footer>
+    <div class="grid">
+        {% for team in team_order %}
+            <div class="team-box" title="Sprint readiness for this team based on groomed stories in future sprints.">
+                <h2>{{ team }}</h2>
+                <img src="{{ team_data[team].light }}" class="stoplight" alt="Stoplight" title="Status Indicator: Green ≥ 80%, Yellow = 50–79%, Red < 50%">
+                <ul>
+                    <li><strong>Ready:</strong> {{ team_data[team].ready }}</li>
+                    <li><strong>Total:</strong> {{ team_data[team].total }}</li>
+                    <li><strong>Readiness Score:</strong> {{ team_data[team].score }}%</li>
+                    <li><strong>Status Breakdown:</strong><br>
+                        {% for status, count in team_data[team].statuses.items() %}
+                            - {{ status }}: {{ count }}<br>
+                        {% endfor %}
+                    </li>
+                </ul>
+                <p class="explanation">This score shows how ready this team is for its next sprint. Below 50% means backlog prep may be needed.</p>
+            </div>
+        {% endfor %}
+    </div>
 </body>
 </html>
 
