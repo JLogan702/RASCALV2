@@ -1,78 +1,113 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Dependency Report</title>
-    <link rel="stylesheet" href="styles.css">
-    <style>
-        body { background: #f2f5ff; font-family: sans-serif; padding: 20px; }
-        header { text-align: center; }
-        h1 { color: #1a3d7c; }
-        table {
-            border-collapse: collapse;
-            margin: 20px auto;
-            width: 90%;
-            background: #ffffff;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-        }
-        th, td {
-            border: 1px solid #ccc;
-            padding: 10px;
-            font-size: 0.95em;
-        }
-        th {
-            background-color: #cde1f9;
-            color: #000;
-        }
-        .dropdown {
-            text-align: center;
-            margin-bottom: 15px;
-        }
-        footer {
-            font-size: 0.85em;
-            margin-top: 30px;
-            background: #f9f9f9;
-            padding: 15px;
-            border-top: 1px solid #ccc;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dependencies Dashboard</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-    <header>
-        <img src="Clarvos.png" alt="Clarvos Logo" width="140">
-        <h1>Dependency Tracker</h1>
-        <div class="dropdown">
-            <select onchange="location = this.value;">
-                <option value="dependencies.html" selected>Dependencies</option>
-                <option value="sprint_readiness.html">Sprint Readiness</option>
-                <option value="backlog_health.html">Backlog Health</option>
-                <option value="index.html">Program Summary</option>
-            </select>
-        </div>
-    </header>
+  <div class="nav-container">
+    <img src="Clarvos.png" alt="Clarvos Logo" class="logo" />
+    <select class="nav-dropdown" onchange="location = this.value;">
+      <option value="#">Navigate to...</option>
+      <option value="index.html">🏠 Program Summary</option>
+      <option value="sprint_readiness.html">📈 Sprint Readiness</option>
+      <option value="backlog_health.html">📊 Backlog Health</option>
+      <option value="dependencies.html">🔗 Dependencies</option>
+    </select>
+  </div>
 
-    <section>
-        <p><strong>Definition:</strong> This report displays Jira issue links categorized as "Blocks" relationships, highlighting cross-team dependencies that may affect delivery timelines.</p>
-        <p><strong>Usage:</strong> Teams should review these before sprint planning to address blockers and confirm ownership.</p>
+  <main>
+    <h1 class="centered">🔗 Dependencies Dashboard</h1>
+    <p class="description">
+      This report highlights cross-team dependencies that could affect delivery planning. Tracking dependencies is critical for Agile teams to prevent blockers and coordinate commitments across sprints.
+    </p>
+
+    <div class="stoplight-box">
+      <img src="" alt="Overall Dependency Status" class="stoplight" />
+      <p class="centered bold">Across all teams, 3.2% of story tickets have identified dependencies. This helps drive proactive risk management and cross-team planning, per Agile best practices (see SAFe 6.0 guidance).</p>
+    </div>
+
+    <div class="grid-container landscape">
+      
+      <div class="team-box">
+        <h2></h2>
+        <img src="blinking_red.gif" alt="Stoplight" class="stoplight" />
+        <ul>
+          <li><strong>Outbound:</strong> </li>
+          <li><strong>Inbound:</strong> </li>
+          <li><strong>Total:</strong> 18</li>
+        </ul>
+        <p class="explanation">11.1% of Data Science story tickets have documented dependencies. This metric helps track risk and planning alignment between teams. Low visibility on blockers present.</p>
+      </div>
+      
+      <div class="team-box">
+        <h2></h2>
+        <img src="blinking_red.gif" alt="Stoplight" class="stoplight" />
+        <ul>
+          <li><strong>Outbound:</strong> </li>
+          <li><strong>Inbound:</strong> </li>
+          <li><strong>Total:</strong> 20</li>
+        </ul>
+        <p class="explanation">0.0% of Design story tickets have documented dependencies. This metric helps track risk and planning alignment between teams. Low visibility on blockers present.</p>
+      </div>
+      
+      <div class="team-box">
+        <h2></h2>
+        <img src="blinking_red.gif" alt="Stoplight" class="stoplight" />
+        <ul>
+          <li><strong>Outbound:</strong> </li>
+          <li><strong>Inbound:</strong> </li>
+          <li><strong>Total:</strong> 13</li>
+        </ul>
+        <p class="explanation">0.0% of Engineering - AI Ops story tickets have documented dependencies. This metric helps track risk and planning alignment between teams. Low visibility on blockers present.</p>
+      </div>
+      
+      <div class="team-box">
+        <h2></h2>
+        <img src="blinking_red.gif" alt="Stoplight" class="stoplight" />
+        <ul>
+          <li><strong>Outbound:</strong> </li>
+          <li><strong>Inbound:</strong> </li>
+          <li><strong>Total:</strong> 26</li>
+        </ul>
+        <p class="explanation">0.0% of Engineering - Platform story tickets have documented dependencies. This metric helps track risk and planning alignment between teams. Low visibility on blockers present.</p>
+      </div>
+      
+      <div class="team-box">
+        <h2></h2>
+        <img src="blinking_red.gif" alt="Stoplight" class="stoplight" />
+        <ul>
+          <li><strong>Outbound:</strong> </li>
+          <li><strong>Inbound:</strong> </li>
+          <li><strong>Total:</strong> 49</li>
+        </ul>
+        <p class="explanation">4.1% of Engineering - Product story tickets have documented dependencies. This metric helps track risk and planning alignment between teams. Low visibility on blockers present.</p>
+      </div>
+      
+    </div>
+
+    <section class="references">
+      <h3>📚 Industry Best Practices</h3>
+      <ul>
+        <li>
+          <a href="https://www.scaledagileframework.com/program-board/" target="_blank">
+            SAFe: Program Board & Dependency Management</a> — Emphasizes visualizing and resolving dependencies across teams.
+        </li>
+        <li>
+          <a href="https://martinfowler.com/articles/agileDependencyManagement.html" target="_blank">
+            Martin Fowler on Agile Dependency Management</a> — Details on how to track and reduce dependencies.
+        </li>
+      </ul>
     </section>
+  </main>
 
-    <table>
-        <thead>
-            <tr>
-                <th>Team</th>
-                <th>Issue Key</th>
-                <th>Summary</th>
-                <th>Blocks</th>
-                <th>Blocked By</th>
-            </tr>
-        </thead>
-        <tbody>
-            
-        </tbody>
-    </table>
-
-    <footer>
-        <p><strong>Note:</strong> All dependency links are based on "Blocks" relationships in Jira. Data is filtered by assigned Components and issue links. Review weekly to stay aligned across teams.</p>
-    </footer>
+  <footer>
+    <p class="centered">
+      © Clarvos — All data sourced from Jira. This dashboard supports delivery health, not performance evaluation.
+    </p>
+  </footer>
 </body>
 </html>
