@@ -5,10 +5,14 @@
     <title>Program Summary</title>
     <link rel="stylesheet" href="styles.css">
     <style>
-        body { background: #e6f2ff; font-family: sans-serif; padding: 20px; }
-        h1, h2 { text-align: center; color: #003366; }
-        header { text-align: center; margin-bottom: 20px; }
-        .dropdown { margin-top: 10px; }
+        body { background: #e6f2ff; font-family: sans-serif; margin: 0; padding: 20px; }
+        header { text-align: center; margin-bottom: 10px; }
+        h1, h2, h3 { color: #003366; }
+        .dropdown select {
+            padding: 6px 12px;
+            font-size: 1rem;
+            border-radius: 5px;
+        }
         .callout {
             background: #dceefb;
             border-left: 6px solid #0077b6;
@@ -17,18 +21,20 @@
             width: 85%;
             font-size: 0.95em;
         }
-        .summary-metrics {
+        .summary-grid {
             display: flex;
             justify-content: center;
             gap: 30px;
+            flex-wrap: wrap;
             margin: 30px 0;
-            text-align: center;
         }
         .metric-box {
             background: white;
             border-radius: 10px;
             padding: 15px 25px;
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            width: 240px;
+            text-align: center;
         }
         .stoplight {
             width: 60px;
@@ -53,7 +59,7 @@
 </head>
 <body>
     <header>
-        <img src="Clarvos.png" alt="Clarvos Logo" width="140">
+        <img src="Clarvos.png" alt="Clarvos Logo" width="140"><br>
         <h1>Program Summary Dashboard</h1>
         <div class="dropdown">
             <select onchange="location = this.value;">
@@ -67,13 +73,13 @@
 
     <section class="callout">
         <p><strong>📘 These reports follow industry-recognized Agile and Scrum best practices</strong></p>
-        <p>Metrics such as Sprint Readiness and Backlog Health are derived directly from Scrum.org and Atlassian guidance. This summary is designed to support visibility and strategic planning — not to assign blame or judge performance.</p>
+        <p>Metrics such as Sprint Readiness and Backlog Health are derived from official Scrum.org and Atlassian guidance. This dashboard supports team alignment and planning visibility — not judgment or performance scoring.</p>
     </section>
 
-    <h2>Overall Program Health</h2>
+    <h2 style="text-align: center;">Overall Program Health</h2>
     <img src="{{ overall_stoplight }}" class="stoplight" alt="Stoplight">
 
-    <div class="summary-metrics">
+    <div class="summary-grid">
         <div class="metric-box">
             <strong>Average Sprint Readiness:</strong><br>{{ avg_readiness }}%
         </div>
@@ -87,17 +93,17 @@
 
     <section>
         <h3>How This Was Calculated</h3>
-        <p><strong>Sprint Readiness</strong> measures how many story tickets in upcoming sprints are in a “ready” state (“Ready for Development” or “To Do”).</p>
-        <p><strong>Backlog Health</strong> reflects the proportion of story tickets in future sprints or backlog that are groomed (“New”, “Grooming”, or “Backlog”).</p>
-        <p>Each score is calculated per team, and the program-level score is the average across all five core teams. Done, Blocked, and Cancelled items are excluded.</p>
+        <p><strong>Sprint Readiness</strong> reflects how many story tickets in upcoming sprints are in “To Do” or “Ready for Development.”</p>
+        <p><strong>Backlog Health</strong> measures the percent of story tickets in future sprints or backlog that are groomed (“New”, “Grooming”, or “Backlog”).</p>
+        <p>Each team receives a score, and the program-level score is averaged across all five teams. Done, Blocked, and Cancelled stories are excluded.</p>
     </section>
 
     <section>
         <h3>Executive Interpretation Guidance</h3>
         <ul>
-            <li><strong>Green (≥ 80%)</strong>: The program is well-prepared for upcoming sprints and has a healthy backlog.</li>
-            <li><strong>Yellow (50–79%)</strong>: The program may need attention to sprint prep or backlog grooming.</li>
-            <li><strong>Red (&lt; 50%)</strong>: Immediate action is recommended to address gaps in sprint readiness or backlog quality.</li>
+            <li><strong>Green (≥ 80%)</strong>: Program is well-prepared with clear, actionable work.</li>
+            <li><strong>Yellow (50–79%)</strong>: Sprint prep or backlog refinement may need attention.</li>
+            <li><strong>Red (&lt; 50%)</strong>: Refinement action required — upcoming work is unclear or underprepared.</li>
         </ul>
     </section>
 
