@@ -39,7 +39,6 @@
     </style>
 </head>
 <body>
-<<<<<<< HEAD
     <header>
         <img src="Clarvos.png" alt="Clarvos Logo" width="140"><br>
         <h1>Backlog Health</h1>
@@ -61,58 +60,5 @@
     <div class="grid">
         
     </div>
-=======
-  <div class="container">
-    <h1>Backlog Health Dashboard</h1>
-    <p>This report evaluates backlog health based on the percentage of story tickets in "New," "Grooming," or "Backlog" statuses that are assigned to a future (non-active) sprint or unassigned entirely. This aligns with agile readiness best practices that encourage forward-looking planning and grooming.</p>
-
-    
-
-    <footer>
-      <p>Metrics based on industry standards from <a href="https://www.scrum.org/resources/what-scrum" target="_blank">Scrum.org</a> and <a href="https://agilealliance.org/agile101/" target="_blank">Agile Alliance</a></p>
-    </footer>
-  </div>
-
-  <script>
-    const chartConfigs = [
-      
-    ];
-
-    chartConfigs.forEach(cfg => {
-      const ctx = document.getElementById(cfg.id).getContext("2d");
-      new Chart(ctx, {
-        type: "doughnut",
-        data: {
-          labels: cfg.labels,
-          datasets: [{
-            data: cfg.data,
-            backgroundColor: [
-              "#4caf50",
-              "#2196f3",
-              "#ff9800",
-              "#f44336",
-              "#9c27b0"
-            ]
-          }]
-        },
-        options: {
-          responsive: true,
-          plugins: {
-            legend: {
-              position: "bottom"
-            },
-            tooltip: {
-              callbacks: {
-                label: function(context) {
-                  return `${context.label}: ${context.parsed}`;
-                }
-              }
-            }
-          }
-        }
-      });
-    });
-  </script>
->>>>>>> effd7fa (✅ Final HTML generated from clean scripts)
 </body>
 </html>
