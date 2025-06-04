@@ -1,95 +1,62 @@
 import pandas as pd
 from jinja2 import Environment, FileSystemLoader
-from datetime import datetime
-import re
+import os
 
-# === Constants ===
-CSV_PATH = "docs/jira_data.csv"
-TEMPLATE_FILE = "sprint_readiness_template.html"
-OUTPUT_FILE = "docs/sprint_readiness.html"
-SPRINT_FIELD = "Sprint"
-TEAM_FIELD = "Components"
-STATUS_FIELD = "Status"
-ISSUE_TYPE_FIELD = "Issue Type"
+# Load the CSV data
+csv_path = os.path.join(os.path.dirname(__file__), "../Evolve24 JIRA.csv")
+df = pd.read_csv(csv_path)
 
-READINESS_STATUSES = ["Ready for Development", "To Do"]
-
-TEAM_ORDER = [
-    "Data Science",
-    "Design",
-    "Engineering - AI Ops",
-    "Engineering - Platform",
-    "Engineering - Product"
+# Filter for Story tickets only, excluding Done/Canceled/Won’t Do
+df = df[
+    (df["Issue Type"] == "Story") &
+    (~df["Status"].isin(["Done", "Canceled", "Won't Do"]))
 ]
 
-THRESHOLDS = {
-    "green": 80,
-    "yellow": 50
+# Define relevant statuses and teams
+readiness_statuses = ["Ready for Development", "To Do"]
+teams = {
+    "Engineering - Product": "Product",
+    "Engineering - Platform": "Platform",
+    "Engineering - AI Ops": "AI Ops",
+    "Design": "Design",
+    "Data Science": "Data Science"
 }
 
-def extract_end_date(sprint_str):
-    if pd.isna(sprint_str):
-        return None
-    date_matches = re.findall(r"(\d{1,2})[\/-](\d{1,2})", sprint_str)
-    if date_matches:
-        try:
-            month, day = map(int, date_matches[-1])
-            year = datetime.now().year
-            return datetime(year, month, day)
-        except ValueError:
-            return None
-    return None
+team_data = {}
 
-def calculate_team_data(df):
-    data = []
-    today = datetime.now()
+for comp, team in teams.items():
+    team_df = df[df["Components"] == comp]
 
-    for team in TEAM_ORDER:
-        team_df = df[df[TEAM_FIELD] == team]
-        future_df = team_df[team_df[SPRINT_FIELD].apply(
-            lambda s: extract_end_date(s) is not None and extract_end_date(s) > today)]
+    future_sprint_df = team_df[team_df["Sprint"].notnull()]
+    total = len(future_sprint_df)
+    ready = len(future_sprint_df[future_sprint_df["Status"].isin(readiness_statuses)])
 
-        total = len(future_df)
-        ready = len(future_df[future_df[STATUS_FIELD].isin(READINESS_STATUSES)])
-        status_counts = future_df[STATUS_FIELD].value_counts().to_dict()
+    status_counts = future_sprint_df["Status"].value_counts().to_dict()
+    readiness_pct = round((ready / total) * 100, 1) if total > 0 else 0
 
-        if total > 0:
-            percent = round((ready / total) * 100, 1)
-        else:
-            percent = 0.0
+    if readiness_pct >= 80:
+        stoplight = "images/blinking_green.gif"
+    elif readiness_pct >= 50:
+        stoplight = "images/blinking_yellow.gif"
+    else:
+        stoplight = "images/blinking_red.gif"
 
-        if percent >= THRESHOLDS["green"]:
-            stoplight = "blinking_green.gif"
-        elif percent >= THRESHOLDS["yellow"]:
-            stoplight = "blinking_yellow.gif"
-        else:
-            stoplight = "blinking_red.gif"
+    team_data[team] = {
+        "total": total,
+        "ready": ready,
+        "percent": readiness_pct,
+        "stoplight": stoplight,
+        "statuses": status_counts
+    }
 
-        data.append({
-            "team": team,
-            "total": total,
-            "ready": ready,
-            "percent": percent,
-            "stoplight": stoplight,
-            "status_counts": status_counts
-        })
+# Load and render the template
+env = Environment(loader=FileSystemLoader("templates"))
+template = env.get_template("sprint_readiness_template.html")
+output = template.render(teams=team_data)
 
-    return data
+# Save the rendered HTML
+with open("docs/sprint_readiness.html", "w") as f:
+    f.write(output)
 
-def render_html(team_data):
-    env = Environment(loader=FileSystemLoader("templates"))
-    template = env.get_template(TEMPLATE_FILE)
-    output = template.render(teams=team_data)
-    with open(OUTPUT_FILE, "w") as f:
-        f.write(output)
-    print("✅ sprint_readiness.html generated")
-
-def main():
-    df = pd.read_csv(CSV_PATH)
-    df = df[(df[ISSUE_TYPE_FIELD] == "Story") & (df[STATUS_FIELD] != "Done")]
-    team_data = calculate_team_data(df)
-    render_html(team_data)
-
-if __name__ == "__main__":
-    main()
+print("✅ Sprint Readiness dashboard generated: docs/sprint_readiness.html")
 

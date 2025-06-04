@@ -1,96 +1,66 @@
 import pandas as pd
 from jinja2 import Environment, FileSystemLoader
-from datetime import datetime
-import re
+import os
 
-CSV_PATH = "docs/jira_data.csv"
-TEMPLATE_FILE = "backlog_health_template.html"
-OUTPUT_FILE = "docs/backlog_health.html"
-SPRINT_FIELD = "Sprint"
-TEAM_FIELD = "Components"
-STATUS_FIELD = "Status"
-ISSUE_TYPE_FIELD = "Issue Type"
+# Load data
+csv_path = os.path.join(os.path.dirname(__file__), "../Evolve24 JIRA.csv")
+df = pd.read_csv(csv_path)
 
-BACKLOG_STATUSES = ["New", "Grooming", "Backlog"]
-
-TEAM_ORDER = [
-    "Data Science",
-    "Design",
-    "Engineering - AI Ops",
-    "Engineering - Platform",
-    "Engineering - Product"
+# Filter for Story tickets and exclude Done/Canceled/Won’t Do
+df = df[
+    (df["Issue Type"] == "Story") &
+    (~df["Status"].isin(["Done", "Canceled", "Won't Do"]))
 ]
 
-THRESHOLDS = {
-    "green": 80,
-    "yellow": 50
+# Define backlog statuses and team mapping
+backlog_statuses = ["New", "Grooming", "Backlog"]
+teams = {
+    "Engineering - Product": "Product",
+    "Engineering - Platform": "Platform",
+    "Engineering - AI Ops": "AI Ops",
+    "Design": "Design",
+    "Data Science": "Data Science"
 }
 
-def extract_end_date(sprint_str):
-    if pd.isna(sprint_str):
-        return None
-    date_matches = re.findall(r"(\d{1,2})[\/-](\d{1,2})", sprint_str)
-    if date_matches:
-        try:
-            month, day = map(int, date_matches[-1])
-            year = datetime.now().year
-            return datetime(year, month, day)
-        except ValueError:
-            return None
-    return None
+team_data = {}
 
-def calculate_team_data(df):
-    data = []
-    today = datetime.now()
+for comp, team in teams.items():
+    team_df = df[df["Components"] == comp]
 
-    for team in TEAM_ORDER:
-        team_df = df[df[TEAM_FIELD] == team]
+    backlog_df = team_df[
+        (team_df["Sprint"].isnull()) |
+        (team_df["Sprint"].str.strip() == "")
+    ]
 
-        # Consider only tickets NOT assigned to a future sprint
-        backlog_df = team_df[team_df[SPRINT_FIELD].apply(
-            lambda s: extract_end_date(s) is None or extract_end_date(s) <= today)]
+    total = len(backlog_df)
+    healthy = len(backlog_df[backlog_df["Status"].isin(backlog_statuses)])
+    status_counts = backlog_df["Status"].value_counts().to_dict()
 
-        total = len(backlog_df)
-        relevant = backlog_df[backlog_df[STATUS_FIELD].isin(BACKLOG_STATUSES)]
-        status_counts = backlog_df[STATUS_FIELD].value_counts().to_dict()
+    health_pct = round((healthy / total) * 100, 1) if total > 0 else 0
 
-        if total > 0:
-            percent = round((len(relevant) / total) * 100, 1)
-        else:
-            percent = 0.0
+    if health_pct >= 80:
+        stoplight = "images/blinking_green.gif"
+    elif health_pct >= 50:
+        stoplight = "images/blinking_yellow.gif"
+    else:
+        stoplight = "images/blinking_red.gif"
 
-        if percent >= THRESHOLDS["green"]:
-            stoplight = "blinking_green.gif"
-        elif percent >= THRESHOLDS["yellow"]:
-            stoplight = "blinking_yellow.gif"
-        else:
-            stoplight = "blinking_red.gif"
+    team_data[team] = {
+        "total": total,
+        "healthy": healthy,
+        "percent": health_pct,
+        "stoplight": stoplight,
+        "statuses": status_counts
+    }
 
-        data.append({
-            "team": team,
-            "total": total,
-            "relevant": len(relevant),
-            "percent": percent,
-            "stoplight": stoplight,
-            "status_counts": status_counts
-        })
+# Load and render the template
+env = Environment(loader=FileSystemLoader("templates"))
+template = env.get_template("backlog_health_template.html")
+output = template.render(teams=team_data)
 
-    return data
+# Save the rendered HTML
+with open("docs/backlog_health.html", "w") as f:
+    f.write(output)
 
-def render_html(team_data):
-    env = Environment(loader=FileSystemLoader("templates"))
-    template = env.get_template(TEMPLATE_FILE)
-    output = template.render(teams=team_data)
-    with open(OUTPUT_FILE, "w") as f:
-        f.write(output)
-    print("✅ backlog_health.html generated")
-
-def main():
-    df = pd.read_csv(CSV_PATH)
-    df = df[(df[ISSUE_TYPE_FIELD] == "Story") & (df[STATUS_FIELD] != "Done")]
-    team_data = calculate_team_data(df)
-    render_html(team_data)
-
-if __name__ == "__main__":
-    main()
+print("✅ Backlog Health dashboard generated: docs/backlog_health.html")
 

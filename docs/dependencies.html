@@ -2,13 +2,13 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Dependencies Dashboard</title>
+  <title></title>
   <link rel="stylesheet" href="../docs/styles.css" />
 </head>
 <body>
   <header>
     <img src="Clarvos.png" alt="Clarvos Logo" class="logo" />
-    <h1>Dependencies Dashboard</h1>
+    <h1></h1>
     <select onchange="location = this.value;">
       <option disabled selected>Navigate to...</option>
       <option value="index.html">Program Summary</option>
@@ -24,25 +24,21 @@
 <h2>🔗 Cross-Team Dependency Summary</h2>
 
 <div class="summary-box">
-  <p><strong>Total Inbound Dependencies:</strong> 5</p>
-  <p><strong>Total Outbound Dependencies:</strong> 3</p>
-  <p>This dashboard shows cross-team dependencies based on actual Jira issue links. Inbound dependencies are those blocking a team's work, while outbound dependencies are those blocking others. Keeping dependencies visible helps reduce delivery risk.</p>
+  <p><strong>Total Inbound Dependencies:</strong> 2</p>
+  <p><strong>Total Outbound Dependencies:</strong> </p>
+  <p></p>
 </div>
 
 
   <div class="team-box">
-    <h3>Engineering - Product</h3>
+    <h3>Data Science</h3>
 
     <div class="dependency-section">
       <strong>Inbound Dependencies (Blocking this team):</strong>
       
         <ul>
           
-            <li><strong>CLP-1203</strong>: API: endpoint for triggering context area build (with slack integration) (← CLP-1204)</li>
-          
-            <li><strong>CLP-1202</strong>: UI: Call API to trigger context area build (← CLP-1201)</li>
-          
-            <li><strong>CLP-1200</strong>: Ingest context area data generated after onboarding (← CLP-1199)</li>
+            <li><strong></strong>:  (← )</li>
           
         </ul>
       
@@ -51,15 +47,43 @@
     <div class="dependency-section">
       <strong>Outbound Dependencies (Blocking others):</strong>
       
-        <ul>
-          
-            <li><strong>CLP-1203</strong>: API: endpoint for triggering context area build (with slack integration) (→ CLP-1202)</li>
-          
-            <li><strong>CLP-1201</strong>: UI: Enable context area build when preqrequisites are met (→ CLP-1202)</li>
-          
-            <li><strong>CLP-1187</strong>: UI: Use appropriate placeholders and field types for Add Organization modal (→ CLP-1112)</li>
-          
-        </ul>
+        <p class="dimmed">None</p>
+      
+    </div>
+  </div>
+
+  <div class="team-box">
+    <h3>Design</h3>
+
+    <div class="dependency-section">
+      <strong>Inbound Dependencies (Blocking this team):</strong>
+      
+        <p class="dimmed">None</p>
+      
+    </div>
+
+    <div class="dependency-section">
+      <strong>Outbound Dependencies (Blocking others):</strong>
+      
+        <p class="dimmed">None</p>
+      
+    </div>
+  </div>
+
+  <div class="team-box">
+    <h3>Engineering - AI Ops</h3>
+
+    <div class="dependency-section">
+      <strong>Inbound Dependencies (Blocking this team):</strong>
+      
+        <p class="dimmed">None</p>
+      
+    </div>
+
+    <div class="dependency-section">
+      <strong>Outbound Dependencies (Blocking others):</strong>
+      
+        <p class="dimmed">None</p>
       
     </div>
   </div>
@@ -70,11 +94,27 @@
     <div class="dependency-section">
       <strong>Inbound Dependencies (Blocking this team):</strong>
       
+        <p class="dimmed">None</p>
+      
+    </div>
+
+    <div class="dependency-section">
+      <strong>Outbound Dependencies (Blocking others):</strong>
+      
+        <p class="dimmed">None</p>
+      
+    </div>
+  </div>
+
+  <div class="team-box">
+    <h3>Engineering - Product</h3>
+
+    <div class="dependency-section">
+      <strong>Inbound Dependencies (Blocking this team):</strong>
+      
         <ul>
           
-            <li><strong>CLP-1018</strong>: Implement Reddit Deletes stream processing (← CLP-1002)</li>
-          
-            <li><strong>CLP-1013</strong>: Implement X compliance processing in Databricks (← CLP-1002)</li>
+            <li><strong></strong>:  (← )</li>
           
         </ul>
       
@@ -83,7 +123,11 @@
     <div class="dependency-section">
       <strong>Outbound Dependencies (Blocking others):</strong>
       
-        <p class="dimmed">None</p>
+        <ul>
+          
+            <li><strong></strong>:  (→ )</li>
+          
+        </ul>
       
     </div>
   </div>

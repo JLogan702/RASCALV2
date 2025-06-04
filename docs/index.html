@@ -2,38 +2,14 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title></title>
-  <link rel="stylesheet" href="../docs/styles.css" />
+  <title>Program Summary</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="print.css" media="print" />
 </head>
 <body>
-  <header>
+  <div class="navbar">
     <img src="Clarvos.png" alt="Clarvos Logo" class="logo" />
-    <h1></h1>
-    <select onchange="location = this.value;">
-      <option disabled selected>Navigate to...</option>
-      <option value="index.html">Program Summary</option>
-      <option value="sprint_readiness.html">Sprint Readiness</option>
-      <option value="backlog_health.html">Backlog Health</option>
-      <option value="dependencies.html">Dependencies</option>
-    </select>
-  </header>
-
-  <main>
-    
-<div class="page-container" style="background-color: #f3f6fa; padding: 30px; font-family: Arial, sans-serif;">
-
-  <!-- Logo -->
-  <div style="text-align: center; margin-bottom: 20px;">
-    <img src="Clarvos.png" alt="Clarvos Logo" style="height: 70px;">
-  </div>
-
-  <!-- Page Title -->
-  <h1 style="text-align: center; font-size: 2em; margin-bottom: 10px;">Program Summary Dashboard</h1>
-
-  <!-- Navigation Dropdown -->
-  <div style="text-align: center; margin-bottom: 20px;">
-    <label for="navDropdown" style="font-weight: bold;">Navigate:</label>
-    <select id="navDropdown" onchange="location = this.value;" style="margin-left: 10px; padding: 5px; font-size: 1em;">
+    <select onchange="location = this.value;" class="nav-dropdown">
       <option value="index.html" selected>Program Summary</option>
       <option value="sprint_readiness.html">Sprint Readiness</option>
       <option value="backlog_health.html">Backlog Health</option>
@@ -41,50 +17,51 @@
     </select>
   </div>
 
-  <!-- Stoplight and Scores -->
-  <div style="text-align: center; margin-top: 20px;">
-    <h2>Overall Program Health</h2>
-    <img src="blinking_red.gif" alt="Program Stoplight" style="height: 60px;"><br>
-    <p><strong>Average Sprint Readiness:</strong> 15.6%</p>
-    <p><strong>Average Backlog Health:</strong> 53.1%</p>
-    <p><strong>Overall Score:</strong> 34.4%</p>
+  <h1 class="centered">Program Summary Dashboard</h1>
+  <h2 class="centered">Overall Program Health</h2>
+
+  <div class="stoplight-container">
+    <img src="" alt="Stoplight" class="stoplight" />
   </div>
 
-  <!-- Explanation -->
-  <div style="margin-top: 40px; padding: 20px; background-color: #ffffff; border-radius: 10px; box-shadow: 0 0 8px rgba(0,0,0,0.1);">
+  <div class="summary-metrics">
+    <p><strong>Average Sprint Readiness:</strong><br>%</p>
+    <p><strong>Average Backlog Health:</strong><br>%</p>
+    <p><strong>Overall Score:</strong><br>%</p>
+  </div>
+
+  <div class="explanation">
     <h3>How This Was Calculated</h3>
     <p>
-      Sprint Readiness measures how many story tickets in upcoming sprints are in a "ready" state (specifically "Ready for Development" or "To Do").<br><br>
-      Backlog Health reflects the proportion of story tickets in future sprints or backlog that are groomed (statuses like "New", "Grooming", or "Backlog").<br><br>
-      Each score is calculated per team, and the program-level score is the average across all five core teams. Done, Blocked, and Cancelled items are excluded.
+      Sprint Readiness measures how many story tickets in upcoming sprints are in a "ready" state
+      (specifically <strong>"Ready for Development"</strong> or <strong>"To Do"</strong>).
     </p>
+    <p>
+      Backlog Health reflects the proportion of story tickets in future sprints or backlog that are groomed
+      (statuses like <strong>"New"</strong>, <strong>"Grooming"</strong>, or <strong>"Backlog"</strong>).
+    </p>
+    <p>
+      Each score is calculated per team, and the program-level score is the average across all five core teams.
+      <strong>Done, Blocked, and Cancelled</strong> items are excluded.
+    </p>
+  </div>
 
+  <div class="guidance">
     <h3>Executive Interpretation Guidance</h3>
     <ul>
       <li><strong>Green (≥ 80%)</strong>: The program is well-prepared for upcoming sprints and has a healthy backlog.</li>
       <li><strong>Yellow (50–79%)</strong>: The program may need attention to sprint prep or backlog grooming.</li>
       <li><strong>Red (&lt; 50%)</strong>: Immediate action is recommended to address gaps in sprint readiness or backlog quality.</li>
     </ul>
-
-    <h3>Sources & Best Practices</h3>
-    <ul>
-      <li><a href="https://www.scrum.org/resources/blog/sprint-planning-checklist" target="_blank">Scrum.org: Sprint Planning Checklist</a></li>
-      <li><a href="https://www.mountaingoatsoftware.com/blog/the-key-to-effective-backlog-grooming" target="_blank">Mountain Goat Software: Backlog Grooming</a></li>
-      <li><a href="https://www.agilealliance.org/agile101/product-backlog/" target="_blank">Agile Alliance: Product Backlog Definition</a></li>
-    </ul>
   </div>
 
-</div>
-
-  </main>
-
-  <footer>
-    <p>
-      Built with ❤️ for executive clarity — based on Agile/Scrum best practices from
-      <a href="https://www.scrum.org/resources/sprint-planning-guide" target="_blank">Scrum.org</a>,
-      <a href="https://www.agilealliance.org/agile101/" target="_blank">Agile Alliance</a>, and
-      <a href="https://scaledagileframework.com/" target="_blank">SAFe</a>.
-    </p>
-  </footer>
+  <div class="sources">
+    <h3>Sources & Best Practices</h3>
+    <ul>
+      <li><a href="https://www.scrum.org/resources/sprint-planning-checklist" target="_blank">Scrum.org: Sprint Planning Checklist</a></li>
+      <li><a href="https://www.mountaingoatsoftware.com/blog/product-backlog-grooming" target="_blank">Mountain Goat Software: Backlog Grooming</a></li>
+      <li><a href="https://www.agilealliance.org/glossary/backlog/" target="_blank">Agile Alliance: Product Backlog Definition</a></li>
+    </ul>
+  </div>
 </body>
 </html>

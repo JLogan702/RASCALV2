@@ -1,109 +1,82 @@
 import pandas as pd
 from jinja2 import Environment, FileSystemLoader
-from datetime import datetime
-import re
+import os
 
-# === Constants ===
-CSV_PATH = "docs/jira_data.csv"
-TEMPLATE_FILE = "program_summary_template.html"
-OUTPUT_FILE = "docs/index.html"
-SPRINT_FIELD = "Sprint"
-TEAM_FIELD = "Components"
-STATUS_FIELD = "Status"
-ISSUE_TYPE_FIELD = "Issue Type"
+# Load CSV
+csv_path = os.path.join(os.path.dirname(__file__), "../Evolve24 JIRA.csv")
+df = pd.read_csv(csv_path)
 
-READINESS_STATUSES = ["Ready for Development", "To Do"]
-BACKLOG_STATUSES = ["New", "Grooming", "Backlog"]
-
-THRESHOLDS = {
-    "green": 80,
-    "yellow": 50
-}
-
-TEAM_ORDER = [
-    "Data Science",
-    "Design",
-    "Engineering - AI Ops",
-    "Engineering - Platform",
-    "Engineering - Product"
+# Filter: only stories, exclude Done/Canceled/Won't Do
+df = df[
+    (df["Issue Type"] == "Story") &
+    (~df["Status"].isin(["Done", "Canceled", "Won't Do"]))
 ]
 
-def extract_end_date(sprint_str):
-    if pd.isna(sprint_str):
-        return None
-    date_matches = re.findall(r"(\d{1,2})[\/-](\d{1,2})", sprint_str)
-    if date_matches:
-        try:
-            month, day = map(int, date_matches[-1])  # Use last date (assumed end date)
-            year = datetime.now().year
-            return datetime(year, month, day)
-        except ValueError:
-            return None
-    return None
+# Define component-to-team mapping
+teams = {
+    "Engineering - Product": "Product",
+    "Engineering - Platform": "Platform",
+    "Engineering - AI Ops": "AI Ops",
+    "Design": "Design",
+    "Data Science": "Data Science"
+}
 
-def calculate_scores(df):
-    readiness_scores = []
-    backlog_scores = []
+# Prep counters
+readiness_statuses = ["Ready for Development", "To Do"]
+backlog_statuses = ["New", "Grooming", "Backlog"]
+summary = {}
 
-    today = datetime.now()
+for comp, team in teams.items():
+    team_df = df[df["Components"] == comp]
 
-    for team in TEAM_ORDER:
-        team_df = df[df[TEAM_FIELD] == team]
+    # Sprint Readiness: only count stories in future sprints
+    future_sprint_df = team_df[team_df["Sprint"].notna()]
+    readiness_total = len(future_sprint_df)
+    readiness_ready = len(future_sprint_df[future_sprint_df["Status"].isin(readiness_statuses)])
+    readiness_pct = round((readiness_ready / readiness_total) * 100, 1) if readiness_total else 0
 
-        # Sprint Readiness: stories in sprints with end dates in the future
-        future_sprint_df = team_df[team_df[SPRINT_FIELD].apply(
-            lambda s: (extract_end_date(s) is not None) and (extract_end_date(s) > today))]
+    # Backlog Health: only backlog stories NOT in active sprints
+    backlog_df = team_df[team_df["Sprint"].isna()]
+    backlog_total = len(backlog_df)
+    backlog_groomed = len(backlog_df[backlog_df["Status"].isin(backlog_statuses)])
+    backlog_pct = round((backlog_groomed / backlog_total) * 100, 1) if backlog_total else 0
 
-        if not future_sprint_df.empty:
-            readiness_total = len(future_sprint_df)
-            readiness_ready = future_sprint_df[future_sprint_df[STATUS_FIELD].isin(READINESS_STATUSES)]
-            readiness_score = round((len(readiness_ready) / readiness_total) * 100, 1)
-        else:
-            readiness_score = 0.0
-        readiness_scores.append(readiness_score)
+    # Average of the two for program health
+    score = round((readiness_pct + backlog_pct) / 2, 1)
 
-        # Backlog Health: unassigned or not-in-open-sprint stories
-        backlog_df = team_df[team_df[SPRINT_FIELD].isnull()]
-        backlog_total = len(backlog_df)
-        backlog_relevant = backlog_df[backlog_df[STATUS_FIELD].isin(BACKLOG_STATUSES)]
-        if backlog_total > 0:
-            backlog_score = round((len(backlog_relevant) / backlog_total) * 100, 1)
-        else:
-            backlog_score = 0.0
-        backlog_scores.append(backlog_score)
+    # Stoplight
+    stoplight = "images/blinking_green.gif" if score >= 80 else \
+                "images/blinking_yellow.gif" if score >= 50 else \
+                "images/blinking_red.gif"
 
-    avg_readiness = round(sum(readiness_scores) / len(readiness_scores), 1)
-    avg_backlog = round(sum(backlog_scores) / len(backlog_scores), 1)
-    overall_score = round((avg_readiness + avg_backlog) / 2, 1)
-
-    if overall_score >= THRESHOLDS["green"]:
-        stoplight = "blinking_green.gif"
-    elif overall_score >= THRESHOLDS["yellow"]:
-        stoplight = "blinking_yellow.gif"
-    else:
-        stoplight = "blinking_red.gif"
-
-    return {
-        "readiness": avg_readiness,
-        "backlog": avg_backlog,
-        "overall": overall_score,
+    summary[team] = {
+        "readiness_pct": readiness_pct,
+        "backlog_pct": backlog_pct,
+        "combined_score": score,
         "stoplight": stoplight
     }
 
-def render_html(data):
-    env = Environment(loader=FileSystemLoader("templates"))
-    template = env.get_template(TEMPLATE_FILE)
-    output = template.render(data=data)
-    with open(OUTPUT_FILE, "w") as f:
-        f.write(output)
-    print("✅ index.html (Program Summary) generated")
+# Program-level roll-up
+overall_score = round(sum(t["combined_score"] for t in summary.values()) / len(summary), 1)
+overall_stoplight = "images/blinking_green.gif" if overall_score >= 80 else \
+                    "images/blinking_yellow.gif" if overall_score >= 50 else \
+                    "images/blinking_red.gif"
 
-def main():
-    df = pd.read_csv(CSV_PATH)
-    df = df[(df[ISSUE_TYPE_FIELD] == "Story") & (df[STATUS_FIELD] != "Done")]
-    summary_data = calculate_scores(df)
-    render_html(summary_data)
+# Final output dict
+render_data = {
+    "summary": summary,
+    "overall_score": overall_score,
+    "overall_stoplight": overall_stoplight
+}
 
-if __name__ == "__main__":
-    main()
+# Jinja2 render
+env = Environment(loader=FileSystemLoader("templates"))
+template = env.get_template("program_summary_template.html")
+output = template.render(data=render_data)
+
+# Save to file
+with open("docs/index.html", "w") as f:
+    f.write(output)
+
+print("✅ Program Summary dashboard generated: docs/index.html")
 
