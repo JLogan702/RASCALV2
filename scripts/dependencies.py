@@ -1,61 +1,60 @@
 import pandas as pd
 from jinja2 import Environment, FileSystemLoader
-import os
 
-# Load the data
-csv_path = os.path.join(os.path.dirname(__file__), "../Evolve24 JIRA.csv")
-df = pd.read_csv(csv_path)
+# Load Jira CSV
+df = pd.read_csv("Evolve24 JIRA.csv")
 
-# Filter for Story tickets and exclude Done/Canceled/Won’t Do
-df = df[
-    (df["Issue Type"] == "Story") &
-    (~df["Status"].isin(["Done", "Canceled", "Won't Do"]))
-]
+# Filter to Stories only
+df = df[df["Issue Type"] == "Story"]
 
-# Clean up and define the mapping
-teams = {
-    "Engineering - Product": "Product",
-    "Engineering - Platform": "Platform",
-    "Engineering - AI Ops": "AI Ops",
-    "Design": "Design",
-    "Data Science": "Data Science"
-}
+# Clean nulls
+df["Inward issue link (Blocks)"] = df["Inward issue link (Blocks)"].fillna("")
+df["Outward issue link (Blocks)"] = df["Outward issue link (Blocks)"].fillna("")
 
-# Prep the data
+# Teams
+teams = df["Components"].dropna().unique()
 summary = {}
+total_inbound = 0
+total_outbound = 0
 
-for comp, team in teams.items():
-    team_df = df[df["Components"] == comp]
+for team in teams:
+    team_df = df[df["Components"] == team]
+    
+    inbound = team_df[team_df["Inward issue link (Blocks)"] != ""].copy()
+    outbound = team_df[team_df["Outward issue link (Blocks)"] != ""].copy()
 
-    inbound = team_df["Inward issue link (Blocks)"].dropna().tolist()
-    outbound = team_df["Outward issue link (Blocks)"].dropna().tolist()
+    total_inbound += len(inbound)
+    total_outbound += len(outbound)
 
     summary[team] = {
-        "inbound": inbound,
-        "outbound": outbound,
-        "in_count": len(inbound),
-        "out_count": len(outbound),
-        "stoplight": "images/blinking_green.gif" if len(inbound) + len(outbound) < 5
-                     else "images/blinking_yellow.gif" if len(inbound) + len(outbound) < 10
-                     else "images/blinking_red.gif"
+        "inbound": [
+            {
+                "key": row["Issue key"],
+                "summary": row["Summary"],
+                "link": row["Inward issue link (Blocks)"]
+            }
+            for _, row in inbound.iterrows()
+        ],
+        "outbound": [
+            {
+                "key": row["Issue key"],
+                "summary": row["Summary"],
+                "link": row["Outward issue link (Blocks)"]
+            }
+            for _, row in outbound.iterrows()
+        ]
     }
 
-# Total summary
-total_in = sum(team["in_count"] for team in summary.values())
-total_out = sum(team["out_count"] for team in summary.values())
-summary["__totals__"] = {
-    "total_inbound": total_in,
-    "total_outbound": total_out
-}
-
-# Render with Jinja2
+# Load and render HTML
 env = Environment(loader=FileSystemLoader("templates"))
 template = env.get_template("dependencies_template.html")
-output = template.render(dependency_summary=summary["__totals__"], teams=summary)
+output = template.render(
+    dependency_summary={"total_inbound": total_inbound, "total_outbound": total_outbound},
+    teams=summary
+)
 
-# Save the file
 with open("docs/dependencies.html", "w") as f:
     f.write(output)
 
-print("✅ Dependencies dashboard generated: docs/dependencies.html")
+print("✅ dependencies.html generated")
 

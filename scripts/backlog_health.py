@@ -1,66 +1,39 @@
 import pandas as pd
 from jinja2 import Environment, FileSystemLoader
-import os
 
 # Load data
-csv_path = os.path.join(os.path.dirname(__file__), "../Evolve24 JIRA.csv")
-df = pd.read_csv(csv_path)
+df = pd.read_csv("Evolve24 JIRA.csv")
 
-# Filter for Story tickets and exclude Done/Canceled/Won’t Do
-df = df[
-    (df["Issue Type"] == "Story") &
-    (~df["Status"].isin(["Done", "Canceled", "Won't Do"]))
-]
+# Filter to story tickets in the backlog
+df = df[df["Issue Type"] == "Story"]
+df = df[df["Sprint"].isna()]
 
-# Define backlog statuses and team mapping
-backlog_statuses = ["New", "Grooming", "Backlog"]
-teams = {
-    "Engineering - Product": "Product",
-    "Engineering - Platform": "Platform",
-    "Engineering - AI Ops": "AI Ops",
-    "Design": "Design",
-    "Data Science": "Data Science"
-}
+# Backlog statuses considered groomed
+groomed_statuses = ["New", "Grooming", "Backlog"]
 
+components = df["Components"].fillna("Unassigned").unique()
 team_data = {}
 
-for comp, team in teams.items():
+for comp in components:
     team_df = df[df["Components"] == comp]
+    total = len(team_df)
+    groomed = len(team_df[team_df["Status"].isin(groomed_statuses)])
+    percent = round((groomed / total * 100), 1) if total > 0 else 0
 
-    backlog_df = team_df[
-        (team_df["Sprint"].isnull()) |
-        (team_df["Sprint"].str.strip() == "")
-    ]
-
-    total = len(backlog_df)
-    healthy = len(backlog_df[backlog_df["Status"].isin(backlog_statuses)])
-    status_counts = backlog_df["Status"].value_counts().to_dict()
-
-    health_pct = round((healthy / total) * 100, 1) if total > 0 else 0
-
-    if health_pct >= 80:
-        stoplight = "images/blinking_green.gif"
-    elif health_pct >= 50:
-        stoplight = "images/blinking_yellow.gif"
-    else:
-        stoplight = "images/blinking_red.gif"
-
-    team_data[team] = {
+    team_data[comp] = {
         "total": total,
-        "healthy": healthy,
-        "percent": health_pct,
-        "stoplight": stoplight,
-        "statuses": status_counts
+        "groomed": groomed,
+        "percent": percent,
+        "stoplight": "blinking_green.gif" if percent >= 80 else "blinking_yellow.gif" if percent >= 50 else "blinking_red.gif"
     }
 
-# Load and render the template
+# Load and render HTML
 env = Environment(loader=FileSystemLoader("templates"))
 template = env.get_template("backlog_health_template.html")
 output = template.render(teams=team_data)
 
-# Save the rendered HTML
 with open("docs/backlog_health.html", "w") as f:
     f.write(output)
 
-print("✅ Backlog Health dashboard generated: docs/backlog_health.html")
+print("✅ backlog_health.html generated")
 

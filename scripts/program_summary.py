@@ -1,82 +1,79 @@
 import pandas as pd
 from jinja2 import Environment, FileSystemLoader
-import os
 
 # Load CSV
-csv_path = os.path.join(os.path.dirname(__file__), "../Evolve24 JIRA.csv")
-df = pd.read_csv(csv_path)
+df = pd.read_csv("Evolve24 JIRA.csv")
 
-# Filter: only stories, exclude Done/Canceled/Won't Do
-df = df[
-    (df["Issue Type"] == "Story") &
-    (~df["Status"].isin(["Done", "Canceled", "Won't Do"]))
+# Filter only stories
+df = df[df["Issue Type"] == "Story"]
+
+# Define core teams
+core_teams = [
+    "Engineering - Product",
+    "Engineering - Platform",
+    "Engineering - AI Ops",
+    "Design",
+    "Data Science"
 ]
 
-# Define component-to-team mapping
-teams = {
-    "Engineering - Product": "Product",
-    "Engineering - Platform": "Platform",
-    "Engineering - AI Ops": "AI Ops",
-    "Design": "Design",
-    "Data Science": "Data Science"
-}
+# Backlog Health statuses
+groomed_statuses = {"New", "Grooming", "Backlog"}
+# Sprint Readiness statuses
+ready_statuses = {"To Do", "Ready for Development"}
 
-# Prep counters
-readiness_statuses = ["Ready for Development", "To Do"]
-backlog_statuses = ["New", "Grooming", "Backlog"]
-summary = {}
+# Define scoring function
+def calculate_scores(team_name):
+    team_df = df[df["Components"] == team_name]
+    future_sprints = team_df[team_df["Sprint"].notna()]
 
-for comp, team in teams.items():
-    team_df = df[df["Components"] == comp]
+    # Sprint Readiness
+    readiness_df = future_sprints[future_sprints["Status"].isin(ready_statuses)]
+    readiness_score = (len(readiness_df) / len(future_sprints)) * 100 if len(future_sprints) > 0 else 0
 
-    # Sprint Readiness: only count stories in future sprints
-    future_sprint_df = team_df[team_df["Sprint"].notna()]
-    readiness_total = len(future_sprint_df)
-    readiness_ready = len(future_sprint_df[future_sprint_df["Status"].isin(readiness_statuses)])
-    readiness_pct = round((readiness_ready / readiness_total) * 100, 1) if readiness_total else 0
+    # Backlog Health
+    backlog_df = team_df[team_df["Status"].isin(groomed_statuses)]
+    backlog_score = (len(backlog_df) / len(team_df)) * 100 if len(team_df) > 0 else 0
 
-    # Backlog Health: only backlog stories NOT in active sprints
-    backlog_df = team_df[team_df["Sprint"].isna()]
-    backlog_total = len(backlog_df)
-    backlog_groomed = len(backlog_df[backlog_df["Status"].isin(backlog_statuses)])
-    backlog_pct = round((backlog_groomed / backlog_total) * 100, 1) if backlog_total else 0
+    return readiness_score, backlog_score
 
-    # Average of the two for program health
-    score = round((readiness_pct + backlog_pct) / 2, 1)
+# Collect scores
+scores = []
+for team in core_teams:
+    readiness, backlog = calculate_scores(team)
+    scores.append({
+        "team": team,
+        "readiness": readiness,
+        "backlog": backlog
+    })
 
-    # Stoplight
-    stoplight = "images/blinking_green.gif" if score >= 80 else \
-                "images/blinking_yellow.gif" if score >= 50 else \
-                "images/blinking_red.gif"
+# Average program scores
+avg_readiness = round(sum(s["readiness"] for s in scores) / len(scores), 1)
+avg_backlog = round(sum(s["backlog"] for s in scores) / len(scores), 1)
+overall_score = round((avg_readiness + avg_backlog) / 2, 1)
 
-    summary[team] = {
-        "readiness_pct": readiness_pct,
-        "backlog_pct": backlog_pct,
-        "combined_score": score,
-        "stoplight": stoplight
-    }
+# Determine stoplight
+if overall_score >= 80:
+    stoplight = "blinking_green.gif"
+elif overall_score >= 50:
+    stoplight = "blinking_yellow.gif"
+else:
+    stoplight = "blinking_red.gif"
 
-# Program-level roll-up
-overall_score = round(sum(t["combined_score"] for t in summary.values()) / len(summary), 1)
-overall_stoplight = "images/blinking_green.gif" if overall_score >= 80 else \
-                    "images/blinking_yellow.gif" if overall_score >= 50 else \
-                    "images/blinking_red.gif"
-
-# Final output dict
-render_data = {
-    "summary": summary,
-    "overall_score": overall_score,
-    "overall_stoplight": overall_stoplight
-}
-
-# Jinja2 render
+# Render template
 env = Environment(loader=FileSystemLoader("templates"))
 template = env.get_template("program_summary_template.html")
-output = template.render(data=render_data)
 
-# Save to file
+output = template.render(
+    data={
+        "readiness": avg_readiness,
+        "backlog": avg_backlog,
+        "overall": overall_score,
+        "stoplight": stoplight
+    }
+)
+
 with open("docs/index.html", "w") as f:
     f.write(output)
 
-print("✅ Program Summary dashboard generated: docs/index.html")
+print("✅ index.html (Program Summary) generated")
 
