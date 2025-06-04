@@ -1,39 +1,64 @@
+
 import pandas as pd
 from jinja2 import Environment, FileSystemLoader
+import os
 
-# Load data
-df = pd.read_csv("Evolve24 JIRA.csv")
+# Load the CSV data
+df = pd.read_csv("RASCAL_DB_Filter_Evolve24_JIRA.csv")
 
-# Filter to story tickets in a future sprint that are "To Do" or "Ready for Development"
-valid_statuses = ["To Do", "Ready for Development"]
-df = df[df["Issue Type"] == "Story"]
-df = df[df["Sprint"].notna()]
+# Normalize and clean sprint data
+df['Sprint'] = df['Sprint'].fillna("Unassigned")
+df['Status'] = df['Status'].fillna("Unknown")
+df['Components'] = df['Components'].fillna("No Component")
+
+# Filter for story tickets only and future sprints (exclude active sprints logic if needed)
+story_df = df[df['Issue Type'] == 'Story']
+
+# Define readiness statuses
+readiness_statuses = ['To Do', 'Ready for Development']
 
 # Group by team/component
-components = df["Components"].fillna("Unassigned").unique()
-team_data = {}
+teams = story_df['Components'].unique()
+results = {team: {'total': 0, 'ready': 0, 'statuses': {}} for team in teams}
 
-for comp in components:
-    team_df = df[df["Components"] == comp]
-    total = len(team_df)
-    ready = len(team_df[team_df["Status"].isin(valid_statuses)])
-    percent = round((ready / total * 100), 1) if total > 0 else 0
+for _, row in story_df.iterrows():
+    team = row['Components']
+    status = row['Status']
+    sprint = row['Sprint']
 
-    team_data[comp] = {
-        "total": total,
-        "ready": ready,
-        "percent": percent,
-        "stoplight": "blinking_green.gif" if percent >= 80 else "blinking_yellow.gif" if percent >= 50 else "blinking_red.gif"
-    }
+    if sprint == "Unassigned":
+        continue
 
-# Load and render HTML template
-env = Environment(loader=FileSystemLoader("templates"))
-template = env.get_template("sprint_readiness_template.html")
-output = template.render(teams=team_data)
+    results[team]['total'] += 1
+    if status in readiness_statuses:
+        results[team]['ready'] += 1
 
-# Save HTML
+    if status not in results[team]['statuses']:
+        results[team]['statuses'][status] = 0
+    results[team]['statuses'][status] += 1
+
+# Compute readiness % and stoplight
+def get_stoplight(percent):
+    if percent >= 80:
+        return "images/blinking_green.gif"
+    elif percent >= 50:
+        return "images/blinking_yellow.gif"
+    return "images/blinking_red.gif"
+
+for team in results:
+    total = results[team]['total']
+    ready = results[team]['ready']
+    percent = (ready / total * 100) if total else 0
+    results[team]['percent'] = round(percent)
+    results[team]['stoplight'] = get_stoplight(percent)
+
+# Render HTML
+env = Environment(loader=FileSystemLoader('templates'))
+template = env.get_template('sprint_readiness_template.html')
+output = template.render(data=results)
+
+# Save output
 with open("docs/sprint_readiness.html", "w") as f:
     f.write(output)
 
-print("✅ sprint_readiness.html generated")
-
+print("✅ Sprint Readiness dashboard generated.")

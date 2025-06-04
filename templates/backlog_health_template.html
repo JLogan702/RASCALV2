@@ -1,81 +1,36 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>Backlog Health</title>
-    <link rel="stylesheet" href="styles.css">
-    <style>
-        body { background: #fff8f0; font-family: sans-serif; margin: 0; padding: 20px; }
-        header { text-align: center; margin-bottom: 10px; }
-        h1 { color: #5a3e1b; }
-        .dropdown select {
-            padding: 6px 12px;
-            font-size: 1rem;
-            border-radius: 5px;
-        }
-        .grid {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 20px;
-            margin-top: 20px;
-        }
-        .team-box {
-            background: #ffffff;
-            border-left: 6px solid #c6783b;
-            border-radius: 10px;
-            padding: 12px 20px;
-            width: 30%;
-            min-width: 280px;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-        }
-        .stoplight {
-            width: 40px;
-            display: block;
-            margin: 0 auto 10px auto;
-        }
-        ul { list-style-type: none; padding-left: 0; margin-top: 10px; }
-        .footnote, .explanation { font-size: 0.9em; color: #333; }
-    </style>
-</head>
-<body>
-    <header>
-        <img src="Clarvos.png" alt="Clarvos Logo" width="140"><br>
-        <h1>Backlog Health</h1>
-        <div class="dropdown">
-            <select onchange="location = this.value;">
-                <option value="backlog_health.html" selected>Backlog Health</option>
-                <option value="sprint_readiness.html">Sprint Readiness</option>
-                <option value="dependencies.html">Dependencies</option>
-                <option value="index.html">Program Summary</option>
-            </select>
-        </div>
-    </header>
+{% extends "base.html" %}
+{% block title %}Backlog Health{% endblock %}
 
-    <section>
-        <p><strong>Definition:</strong> Backlog Health is the percentage of story tickets in statuses “New”, “Grooming”, or “Backlog” that are not in active sprints.</p>
-        <p><strong>Reference:</strong> <a href="https://www.scrum.org/resources/what-product-backlog">Scrum.org</a>, <a href="https://www.atlassian.com/agile/backlogs">Atlassian</a></p>
-    </section>
+{% block content %}
+<h1>Backlog Health Dashboard</h1>
 
-    <div class="grid">
-        {% for team in team_order %}
-            <div class="team-box" title="Backlog Health based on groomed stories not assigned to active sprints.">
-                <h2>{{ team }}</h2>
-                <img src="{{ team_data[team].light }}" class="stoplight" alt="Stoplight">
-                <ul>
-                    <li><strong>Groomed:</strong> {{ team_data[team].relevant }}</li>
-                    <li><strong>Total:</strong> {{ team_data[team].total }}</li>
-                    <li><strong>Health Score:</strong> {{ team_data[team].score }}%</li>
-                    <li><strong>Status Breakdown:</strong><br>
-                        {% for status, count in team_data[team].status_counts.items() %}
-                            - {{ status }}: {{ count }}<br>
-                        {% endfor %}
-                    </li>
-                </ul>
-                <p class="explanation">This score reflects how prepared this team’s backlog is. < 50% means more grooming is needed.</p>
-            </div>
-        {% endfor %}
+<p class="summary-explanation">
+    <strong>What this means:</strong> {{ explanation }}
+</p>
+
+<div class="team-grid">
+    {% for team, data in summary.items() %}
+    <div class="team-box">
+        <h2>{{ team }}</h2>
+        <img src="{{ data.stoplight }}" alt="Stoplight" class="stoplight" />
+        <p><strong>Backlog Health:</strong> {{ data.percent }}%</p>
+        <p><strong>Valid Backlog (New, Grooming, Backlog):</strong> {{ data.valid_backlog }}</p>
+        <p><strong>Total Backlog Stories (not in any sprint):</strong> {{ data.total_backlog }}</p>
+        <h4>Status Breakdown:</h4>
+        <ul>
+            {% for status, count in data.status_counts.items() %}
+                <li>{{ status }}: {{ count }}</li>
+            {% endfor %}
+        </ul>
+        <p class="team-note">
+            Tickets in 'New', 'Grooming', or 'Backlog' statuses that are <strong>not assigned to a sprint</strong> count as healthy backlog.
+        </p>
     </div>
-</body>
-</html>
+    {% endfor %}
+</div>
+
+<footer class="footer">
+    <p>📘 Based on <a href="{{ best_practices_url }}" target="_blank">Scrum.org: Managing the Product Backlog</a></p>
+</footer>
+{% endblock %}
 

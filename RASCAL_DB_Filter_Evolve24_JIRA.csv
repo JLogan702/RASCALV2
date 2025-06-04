@@ -1,0 +1,131 @@
+Issue Type,Issue key,Issue id,Status Category,Status,Components,Components,Custom field (Start date),Sprint,Sprint,Sprint,Inward issue link (Blocks),Outward issue link (Blocks),Inward issue link (Cloners),Inward issue link (Cloners),Outward issue link (Cloners),Inward issue link (Dependency),Inward issue link (Dependency),Outward issue link (Dependency),Inward issue link (Gantt End to Start),Outward issue link (Issue split),Inward issue link (Relates),Outward issue link (Relates),Due date,Fix versions,Summary
+Story,CLP-1235,31359,To Do,New,Engineering - Platform,,,,,,,,,,,,,,,,,,,,Minor updates to dbx_optimization
+Story,CLP-1234,31337,To Do,Grooming,Engineering - Product,,,Eng-Prod Sprint 7: 6/4 / 6/18,,,,,,,,,,,,,,,,,Auth0 Setup for Staging
+Story,CLP-1233,31333,To Do,New,Design,,,Design Sprint 7:  6/4-6/18,,,,,,,,,,,,,,,,MarTech 1.0,Copy Finalization: Cancellation Email Template
+Story,CLP-1231,31327,To Do,New,Design,,,Design Sprint 7:  6/4-6/18,,,,,,,,,,,,,,,,MarTech 1.0,Copy Finalization: Platform Readiness Email Template
+Story,CLP-1230,31324,To Do,New,Design,,,Design Sprint 7:  6/4-6/18,,,,,,,,,,,,,,,,MarTech 1.0,Copy Finalization: Welcome Email Template
+Story,CLP-1229,31321,To Do,To Do,Design,,,Design Sprint 7:  6/4-6/18,,,,,,,,,,,,,,,,MarTech 1.0,"Copy Finalization: ""How to"" Guide language"
+Story,CLP-1228,31318,To Do,To Do,Design,,,Design Sprint 7:  6/4-6/18,,,,,,,,,,,,,,,,MarTech 1.0,Copy Finalization: Explore Page Naming Convention
+Story,CLP-1227,31315,To Do,To Do,Design,,,Design Sprint 7:  6/4-6/18,,,,,,,,,,,,,,,,MarTech 1.0,Copy Finalization: Strategies Page Naming Conventions
+Story,CLP-1226,31312,To Do,To Do,Design,,,Design Sprint 7:  6/4-6/18,,,,,,,,,,,,,,,,MarTech 1.0,Copy Finalization: Explore Page
+Story,CLP-1219,31281,To Do,New,Engineering - Platform,,,,,,,,,,,,,,,,,,,Post MVP,MVP KPI: Measure Ingestors availability
+Story,CLP-1218,31278,To Do,New,Engineering - Platform,,,,,,,,,,,,,,,,,,,Post MVP,MVP KPI: Measure pipeline latency
+Story,CLP-1217,31275,To Do,New,Engineering - Platform,,,,,,,,,,,,,,,,,,,Post MVP,MVP KPI: Measure daily counts
+Story,CLP-1216,31272,To Do,New,Engineering - Platform,,,,,,,,,,,,,,,,,,,Post MVP,MVP KPI: Measure data loss
+Story,CLP-1205,31234,To Do,Grooming,Engineering - Product,,,Eng-Prod Sprint 7: 6/4 / 6/18,,,,,,,,,,,,,,,,,UI: Home/Strategy/Explore pages should display appropriate content for brand in 'new' or 'building' status
+Story,CLP-1203,31232,To Do,Grooming,Engineering - Product,,,Eng-Prod Sprint 7: 6/4 / 6/18,,,,,,,,CLP-1204,CLP-1215,CLP-1202,,CLP-1215,,,,,API: endpoint for triggering context area build (with slack integration)
+Story,CLP-1202,31231,To Do,Ready for Development,Engineering - Product,,,Eng-Prod Sprint 7: 6/4 / 6/18,,,,,,,,CLP-1201,CLP-1203,,,,,,,,UI: Call API to trigger context area build
+Story,CLP-1201,31230,To Do,To Do,Engineering - Product,,,Eng-Prod Sprint 7: 6/4 / 6/18,,,,,,,,,,CLP-1202,,,,,,,UI: Enable context area build when preqrequisites are met
+Story,CLP-1200,31229,To Do,Grooming,Engineering - Product,,,Eng-Prod Sprint 7: 6/4 / 6/18,,,,,,,,CLP-1199,,,,,,,,,Ingest context area data generated after onboarding
+Story,CLP-1194,31199,To Do,New,Engineering - Product,,,Eng-Prod Sprint 7: 6/4 / 6/18,,,,,,,,,,,,,,,,,Adjust Strategy Builder calculation to be based on unique audience estimated reach (not authors)
+Story,CLP-1187,31129,To Do,Grooming,Engineering - Product,,,Eng-Prod Sprint 7: 6/4 / 6/18,,,,,,,,,,CLP-1112,,,,,,,UI: Use appropriate placeholders and field types for Add Organization modal
+Story,CLP-1180,31097,To Do,New,Engineering - Platform,,,,,,,,,,,,,,,,,,,,Add bronze layer tables to dbx_silver_optimizer
+Story,CLP-1179,31094,To Do,New,Engineering - Platform,,,,,,,,,,,,,,,,,,,,Add ANALYZE TABLE to dbx_silver optimizer
+Story,CLP-1168,31063,To Do,To Do,Design,,,Design Sprint 8:  6/18-7/2,,,,,,,,,,,,,,,,,"Clarvos Logo exports (all colors in .png, .svg, .ai) uploaded to OneDrive"
+Story,CLP-1167,31060,To Do,New,Design,,,Design Sprint 8:  6/18-7/2,,,,,,,,,,,,,,,,,Clarvos Letterhead Template
+Story,CLP-1166,31057,To Do,New,Design,,,Design Sprint 8:  6/18-7/2,,,,,,,,,,,,,,,,,Clarvos Powerpoint Template
+Story,CLP-1165,31054,To Do,New,Design,,,Design Sprint 8:  6/18-7/2,,,,,,,,,,,,,,,,,Clarvos LinkedIn Header + Profile Picture
+Story,CLP-1164,31051,To Do,To Do,Design,,,Design Sprint 8:  6/18-7/2,,,,,,,,,,,,,,,,,Clarvos Brand Guidelines
+Story,CLP-1160,31039,To Do,New,Design,,,,,,,,,,,,,,,,,,,Post MVP,Design: Pendo App Setup / Report Configuration
+Story,CLP-1156,30999,To Do,New,Engineering - AI Ops,,,Eng-AIOps Sprint 7: 6/4 - 6/18,,,,,,,,,,,,,,,,MarTech 1.0,Assemble All of the Steps Together for the Final Pipeline
+Story,CLP-1155,30996,To Do,New,Engineering - AI Ops,,,Eng-AIOps Sprint 7: 6/4 - 6/18,,,,,,,,,,,,,,,,MarTech 1.0,Implement Data Relevancy Logic Evaluation
+Story,CLP-1152,30989,To Do,Grooming,Engineering - AI Ops,,,,,,,,,,,,,,,,,,,MarTech 1.0,Explore trade-off between using cleansed_text vs. base_fields integration
+Story,CLP-1142,30966,To Do,Grooming,Engineering - Product,,,Eng-Prod Sprint 7: 6/4 / 6/18,,,,,,,,,,,,,,,,,UI: Integrate with DELETE /brand/{id}
+Story,CLP-1138,30931,To Do,Grooming,Engineering - Product,,,,,,,,,,,,,,,,,,,MarTech 1.0,API: Implement initial JOOQ configuration
+Story,CLP-1136,30899,To Do,New,Engineering - AI Ops,,,Eng-AIOps Sprint 7: 6/4 - 6/18,,,,,,,,,,,,,,,,MarTech 1.0,Integrate NLP Metrics
+Story,CLP-1133,30885,To Do,New,Engineering - Platform,,,,,,,,,,,,,,,,,,,,Remove long string columns from the stats that Delta Lake collects
+Story,CLP-1130,30877,To Do,New,Data Science,,,,,,,,,,,,,,,,,,,,test story for Data Science
+Story,CLP-1129,30874,To Do,New,Design,,,,,,,,,,,,,,,,,,,,test story for Design
+Story,CLP-1127,30868,To Do,New,Engineering - Product,,,,,,,,,,,,,,,,,,,,Test Story for Eng-Prod
+Story,CLP-1124,30842,To Do,New,Engineering - Product,,,,,,CLP-1123,,,,,,,,,,,,,,BE: Org DTO cleanup
+Story,CLP-1123,30841,To Do,New,Engineering - Product,,,,,,,CLP-1124,,,,,,,,,,,,,FE: Org DTO cleanup
+Story,CLP-1105,30776,To Do,New,Engineering - Product,,,Eng-Prod Sprint 7: 6/4 / 6/18,,,,,,,,,,,,,,,,,API: PUT strategy details (generation)
+Story,CLP-1104,30775,To Do,New,Engineering - Product,,,Eng-Prod Sprint 7: 6/4 / 6/18,,,,,,,,,,,,,,,,,API: PUT audiences for brand (daily refresh)
+Story,CLP-1103,30774,To Do,New,Engineering - Product,,,Eng-Prod Sprint 7: 6/4 / 6/18,,,,,,,,,,,,,,,,,API: PUT topics for brand (daily refresh)
+Story,CLP-1102,30773,To Do,New,Engineering - Product,,,,,,,,,,,,,,,,,,,,API: Get emotions by id
+Story,CLP-1078,30685,To Do,New,Engineering - Platform,,,,,,,,,,,,,,,,,,,,Delete stg_data_warehouse_leg Catalog
+Story,CLP-1075,30673,To Do,Grooming,Design,Product,,,,,,,,,CLP-895,,,,,,,,,MarTech 1.0,Business Logic: Explore page section 2: Competitor Audience Insights
+Story,CLP-1050,28464,To Do,To Do,Engineering - Platform,,,,,,,,,,,,,,,,,,,,Formalize X recovery strategy
+Story,CLP-1048,29044,To Do,To Do,Engineering - Platform,,,,,,,,,,,,,,,,,,,,Rewrite Reddit Ingestor
+Story,CLP-1047,29043,To Do,To Do,Engineering - Platform,,,,,,,,,,,,,,,,,,,,X Compliance Stream Ingestion
+Story,CLP-1046,29042,To Do,To Do,Engineering - Platform,,,,,,,,,,,,,,,,,,,,Rewrite X ingestor
+Story,CLP-1039,29052,To Do,To Do,Engineering - Platform,,,,,,,,,,,,,,,,,,,,Rewrite Metabase Social Ingestor
+Story,CLP-1038,30409,To Do,To Do,Engineering - Platform,,,,,,,,,,,,,,,,,,,,Generate embeddings as part of the DBX pipeline
+Story,CLP-1037,29055,To Do,To Do,Engineering - Platform,,,,,,,,,,,,,,,,,,,,Rewrite Socialgist review ingestor
+Story,CLP-1036,29054,To Do,To Do,Engineering - Platform,,,,,,,,,,,,,,,,,,,,Rewrite Socialgist Tiktok Ingestor
+Story,CLP-1035,29691,To Do,To Do,Engineering - Platform,,,,,,,,,,,,,,,,,,,,Spike: Bronze Layer retention policies
+Story,CLP-1034,29053,To Do,To Do,Engineering - Platform,,,,,,,,,,,,,,,,,,,,Rewrite Metabase News Ingestor
+Story,CLP-1018,29045,To Do,To Do,Engineering - Platform,,,,,,,,,,,CLP-1002,,,,,,,,,Implement Reddit Deletes stream processing
+Story,CLP-1014,29047,To Do,To Do,Engineering - Platform,,,,,,,,,,,,,,,,,,,,Dashboard Alerts - monitor individual engineering and data science components
+Story,CLP-1013,29046,To Do,To Do,Engineering - Platform,,,,,,,,,,,CLP-1002,,,,,,,,,Implement X compliance processing in Databricks
+Story,CLP-1012,29448,To Do,To Do,Engineering - Platform,,,,,,,,,,,,,,,,CLP-1015,,,,Reddit compliance - playback existing compliance events into Databricks
+Story,CLP-1004,27722,To Do,Backlog,Engineering - Platform,,,Eng 2/12 - 2/26,,,,,,,,,,,,,,,,,x_base_fields_filtered - we need to capture x_tweet_matching_rules_tags in the schema
+Story,CLP-970,26861,To Do,Backlog,Engineering - Platform,,04/Feb/25 12:00 AM,ENG 2025 1/15-1/29,ENG 1/29 - 2/12,Eng 2/12 - 2/26,,,,,,,,,,,,,,,Create Runbook: Secrets Management
+Story,CLP-952,28798,To Do,To Do,Engineering - Platform,,02/Apr/25 12:00 AM,,,,,,,,,,,,CLP-1094,,,,,,Gnip Historical Data Backfill
+Story,CLP-949,26574,To Do,Backlog,Engineering - Platform,,,Engineer 10/10 - 10/24,Engineer 10/23 - 11/06,ENG Dashboard 12/18-1/1,,,,,,,,,,,,,,,Implement validity check in x_base_fields table
+Story,CLP-943,30613,To Do,To Do,Engineering - Product,,,Eng-Prod Sprint 7: 6/4 / 6/18,,,,,,,,,,,,,,,,MarTech 1.0,Handle Org email treatment
+Story,CLP-926,30527,To Do,New,Engineering - Product,,,,,,,,,,,,,,,,,,,MarTech 1.0,"Update Get Audiences endpoint to be based on product brand, update mock data"
+Story,CLP-925,30522,To Do,New,Engineering - Product,,,,,,,,,,,,,,,,,,,MarTech 1.0,"Update Get Topics endpoint to be based on product brand, update mock data"
+Story,CLP-917,30485,To Do,Ready for Development,Engineering - Product,,,Eng-Prod Sprint 7: 6/4 / 6/18,,,,,,,,,,,,,CLP-916,,,,Internal user id as keys in DB
+Story,CLP-901,30463,To Do,Grooming,Engineering - Product,,,Eng-Prod Sprint 7: 6/4 / 6/18,,,,,,,CLP-883,,,,,,,,,MarTech 1.0,"Business Logic: Strategies page section 2: ""Resonance Score"""
+Story,CLP-900,30462,To Do,Grooming,Engineering - Product,,,,,,,,,,CLP-882,,,,,,,,,MarTech 1.0,"Business Logic: Strategies page section 1: ""what you selected"""
+Story,CLP-896,30447,To Do,New,Engineering - Product,,,Eng-Prod Sprint 7: 6/4 / 6/18,,,,,,,,,,,,,,,,MarTech 1.0,Business Logic: Placeholder - Topics subpage
+Story,CLP-895,30442,To Do,Grooming,Design,Product,,,,,,,CLP-1075,,,,,,,,,,,MarTech 1.0,Business Logic: Explore page section 2: Competitor Audience Hexbin 
+Story,CLP-894,30437,To Do,New,Engineering - Product,,,Eng-Prod Sprint 7: 6/4 / 6/18,,,,,,,,,,,,,,,,MarTech 1.0,Business Logic: Placeholder - Resonance subpage
+Story,CLP-893,30435,To Do,Grooming,Engineering - Product,,,Eng-Prod Sprint 7: 6/4 / 6/18,,,,,,,CLP-892,,,,,,,,,MarTech 1.0,UI: Explore page -Topics section
+Story,CLP-892,30434,To Do,Grooming,Engineering - Product,,,Eng-Prod Sprint 7: 6/4 / 6/18,,,,,CLP-893,,CLP-891,,,,,,,,,MarTech 1.0,UI: Explore Page - Audience section
+Story,CLP-891,30433,To Do,Grooming,Engineering - Product,,,Eng-Prod Sprint 7: 6/4 / 6/18,,,,,CLP-892,,CLP-890,,,,,,,,,MarTech 1.0,UI: Explore Page- Resonance section
+Story,CLP-883,30374,To Do,Grooming,Engineering - Product,,,Eng-Prod Sprint 7: 6/4 / 6/18,,,,,CLP-884,CLP-901,CLP-882,,,,,,,,,MarTech 1.0,"UI: Strategies page section 2: ""Resonance Score"""
+Story,CLP-881,30368,To Do,Grooming,Engineering - Product,,,,,,,,,,CLP-880,,,,,,,,,MarTech 1.0,UI Business Logic: Audience Details Modal
+Story,CLP-880,30364,To Do,Grooming,Engineering - Product,,,,,,,,CLP-881,,,,,,,,,,,MarTech 1.0,UI Business Logic: Topic Details Modal 
+Story,CLP-872,30309,To Do,To Do,Engineering - AI Ops,,,Eng-AIOps Sprint 7: 6/4 - 6/18,,,,,,,,,,,,,,,,MarTech 1.0,Create Deployment DAB
+Story,CLP-871,30304,To Do,Backlog,Engineering - AI Ops,,,,,,,,,,,,,,,,,,,MarTech 1.0,Refactor UI Code
+Story,CLP-863,30264,To Do,New,Engineering - Product,,,Eng-Prod Sprint 8: 6/18 - 7/2,,,,,,,,,,,,,,,,MarTech 1.0,Refresh carousel of topics at 6am EST
+Story,CLP-861,30260,To Do,New,Engineering - Product,,,Eng-Prod Sprint 8: 6/18 - 7/2,,,,,,,CLP-857,,,,,,,,,MarTech 1.0,Placeholder:   Home Page Title and Context (TBD)
+Story,CLP-860,30256,To Do,New,Engineering - Product,,,Eng-Prod Sprint 8: 6/18 - 7/2,,,,,,,,,,,,,,,,MarTech 1.0,Placeholder:   Home Page Carousel Title and Context (TBD)
+Story,CLP-858,30246,To Do,New,Engineering - Product,,,Eng-Prod Sprint 8: 6/18 - 7/2,,,,,,,,,,,,,,,,MarTech 1.0,"Placeholder:   Home Page ""Context Area Topics"" Title and Context (TBD)"
+Story,CLP-857,30241,To Do,New,Engineering - Product,,,Eng-Prod Sprint 8: 6/18 - 7/2,,,,,CLP-861,,,,,,,,,,,MarTech 1.0,"Placeholder:   Home Page ""Audience"" Group Title and Context (TBD)"
+Story,CLP-853,30221,To Do,Grooming,Engineering - Product,,,Eng-Prod Sprint 7: 6/4 / 6/18,,,,,,,,,,,,,,,,MarTech 1.0,Update TopNav with updated tabs for subpages
+Story,CLP-852,30216,To Do,New,Engineering - Product,,,,,,,,,,,,,,,,,,,MarTech 1.0,API: Reach Calculation and Audience Deduplication
+Story,CLP-851,30206,To Do,New,Engineering - Product,,,,,,,,,,,,,,,,,CLP-735,,MarTech 1.0, API: Topics Data Integration for Homepage Carousel
+Story,CLP-808,29757,To Do,To Do,Data Science,,,Data Sprint 7 - 6/4-6/18,,,,,,,,,,,,,,,,,DATA SCIENCE STORY TEMPLATE
+Story,CLP-807,29756,To Do,To Do,Data Science,,,Data Sprint 7 - 6/4-6/18,,,,,,,,,,,,,,,,,DATA SCIENCE STORY TEMPLATE
+Story,CLP-806,29755,To Do,To Do,Data Science,,,Data Sprint 7 - 6/4-6/18,,,,,,,,,,,,,,,,,DATA SCIENCE STORY TEMPLATE
+Story,CLP-805,29754,To Do,To Do,Data Science,,,Data Sprint 7 - 6/4-6/18,,,,,,,,,,,,,,,,,DATA SCIENCE STORY TEMPLATE
+Story,CLP-804,29753,To Do,To Do,Data Science,,,Data Sprint 7 - 6/4-6/18,,,,,,,,,,,,,,,,,DATA SCIENCE STORY TEMPLATE
+Story,CLP-799,29745,To Do,New,Engineering - AI Ops,,,Eng-AIOps Sprint 7: 6/4 - 6/18,,,,,,,,,,,,,,,,MarTech 1.0,Identify New Authors
+Story,CLP-798,29742,To Do,New,Engineering - AI Ops,,,,,,,,,,,,,,,,,,,MarTech 1.0,Assemble the Group Results
+Story,CLP-797,29739,To Do,New,Engineering - AI Ops,,,,,,,,,,,,,,,,,,,MarTech 1.0,Formulate LLM Model
+Story,CLP-796,29736,To Do,New,Engineering - AI Ops,,,,,,,,,,,,,,,,,,,MarTech 1.0,LLM Psychographic Group Naming
+Story,CLP-795,29733,To Do,New,Engineering - AI Ops,,,,,,,,,,,,,,,,,,,MarTech 1.0,Centroid identification and assignment Process
+Story,CLP-794,29730,To Do,To Do,Engineering - AI Ops,,,Eng-AIOps Sprint 5: 5/7-5/21,,,,,,,,,,,,,,,,MarTech 1.0,Integrate Cluster Models
+Story,CLP-753,29602,To Do,New,Engineering - Product,,,,,,,,,,,,,,,,,,,MarTech 1.0,API: Communities: Implement business logic for endpoint loading communities data for company
+Story,CLP-751,29596,To Do,New,Engineering - Product,,,,,,,,,,,,,,,,,,,MarTech 1.0,API: Topics: Implement business logic for loading Topics for company
+Story,CLP-750,29593,To Do,New,Engineering - AI Ops,,,Eng-AIOps Sprint 7: 6/4 - 6/18,,,,,,,,,,,,,,,,MarTech 1.0,Resonance Data available to MarTech app
+Story,CLP-741,29566,To Do,New,Engineering - Product,,,Eng-Prod Sprint 7: 6/4 / 6/18,,,,,,,,,,,,,,,,MarTech 1.0,UI: Integrate with Resonance API for loading company/product resonance
+Story,CLP-723,29441,To Do,New,Engineering - Product,,,,,,,,,,,,,,,,,,,,Align application terminology with product terminology where confusing
+Story,CLP-664,29324,To Do,Grooming,Engineering - Product,,,,,,,,,,,,,,,,CLP-641,,,,"Update ""Request a Demo"" link on Splash screen to point to marketing site"
+Story,CLP-660,29317,To Do,To Do,Design,,,,,,,,,,,,,,,,,,,,Strategy Collection Page
+Story,CLP-527,26683,To Do,To Do,Engineering - Product,,,,,,,,,,,,,,,,,,,,Enable Role and Permissions settings (P1?)
+Story,CLP-514,28690,To Do,Grooming,Engineering - Product,,27/Mar/25 12:00 AM,MarTech Eng Sprint2: 3/26-4/9,MarTech Eng Sprint3 4/9 - 4/23,,,,,,,,,,,,,,09/Apr/25 12:00 AM,MarTech 1.0,"Terraform for Auth0 Tenant, SPA, API, Roles & Permissions"
+Story,CLP-512,26638,To Do,Backlog,Engineering - Platform,,,,,,,,,,,,,,,,,,,MarTech 1.0,Not P0: Enable MFA for customers
+Story,CLP-510,26635,To Do,New,Engineering - Product,,,Eng-Prod Sprint 8: 6/18 - 7/2,,,,,,,,,,,,,,,,MarTech 1.0,TOS+Disclosures Data Storage & Management
+Story,CLP-507,26681,To Do,New,Engineering - Product,,,Eng-Prod Sprint 8: 6/18 - 7/2,,,,,,,,,,,,,,,,,Add TOS and Disclosures to Registration Flow
+Story,CLP-480,28361,To Do,To Do,Data Science,,15/Apr/25 12:00 AM,,,,,,,,,,,,,,,,,Post MVP,Assist with April update as needed
+Story,CLP-479,28360,To Do,To Do,Data Science,,,,,,,,,,,,,,,,,,,Post MVP,Model Building Univariate
+Story,CLP-478,28359,To Do,To Do,Data Science,,,,,,,,,,,,,,,,,,,Post MVP,Correlated model building
+Story,CLP-477,28358,To Do,To Do,Data Science,,,,,,,,,,,,,,,,,,,Post MVP,Model Building Multivariate
+Story,CLP-476,28357,To Do,To Do,Data Science,,,,,,,,,,,,,,,,,,,Post MVP,Gather the historical X data for time-range expansion. 
+Story,CLP-337,27500,To Do,To Do,Design,,,,,,,,,,,,,,,,,,23/Apr/25 12:00 AM,,User Guides / Help / Pendo Research
+Story,CLP-336,27566,To Do,To Do,Design,,,Design Sprint 1: 3/12 - 3/26,,,,,,,,,,,,,,,09/Apr/25 12:00 AM,,Apply Clarvos branding to third-party payment (Stripe) integration
+Story,CLP-331,27795,To Do,To Do,Design,,,,,,,,,,,,,,,,,,,,Clarvos Website
+Story,CLP-231,24334,To Do,To Do,Data Science,,23/Apr/25 12:00 AM,,,,,,,,,,,,,,,,,MarTech 1.0,Topic intrusion
+Story,CLP-140,27868,To Do,Backlog,Engineering - AI Ops,,,,,,,,,,,,,,,,,,,,Create Log Table for Context Area Runs
+Story,CLP-139,27867,To Do,Backlog,Engineering - AI Ops,,,,,,,,,,,,,,,,,,,,Create LLM Regex Helper PoC
+Story,CLP-138,27866,To Do,To Do,Engineering - AI Ops,,,Eng-AIOps Sprint 8: 6/18-7/2,,,,,,,,,,,,,,,,,Analyze Compute Comparisons
+Story,CLP-134,27862,To Do,Backlog,Engineering - AI Ops,,,,,,,,,,,,,,,,,,,,Design Testing Framework
+Story,CLP-131,27859,To Do,Backlog,Engineering - AI Ops,,,,,,,,,,,,,,,,,,,,Modularize & Package PoC Notebook Code
+Story,CLP-83,27707,To Do,To Do,Design,,,,,,,,,,,,,,,,,,,MarTech 1.0,Design: Filter By Community Groups
+Story,CLP-78,27701,To Do,To Do,Design,,,,,,,,,,,,,,,,,,,MarTech 1.0,Design: Key Results Summary
+Story,CLP-70,27506,To Do,To Do,Design,,,,,,,,,,,,,,,,,,,MarTech 1.0,Design: Topics Summary and Detailed Views
+Story,CLP-69,27505,To Do,To Do,Design,,,,,,,,,,,,,,,,,,,MarTech 1.0,Design: Filter for Date Range

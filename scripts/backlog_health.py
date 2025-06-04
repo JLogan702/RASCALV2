@@ -1,39 +1,89 @@
 import pandas as pd
-from jinja2 import Environment, FileSystemLoader
+import jinja2
+import os
 
-# Load data
-df = pd.read_csv("Evolve24 JIRA.csv")
+# Load the data
+csv_path = "../RASCAL_DB_Filter (Evolve24 JIRA).csv"
+df = pd.read_csv(csv_path)
 
-# Filter to story tickets in the backlog
-df = df[df["Issue Type"] == "Story"]
-df = df[df["Sprint"].isna()]
+# Clean whitespace and ensure required columns exist
+df.columns = df.columns.str.strip()
+df['Status'] = df['Status'].fillna("").str.strip()
+df['Sprint'] = df['Sprint'].fillna("").astype(str).str.strip()
+df['Components'] = df['Components'].fillna("").str.strip()
 
-# Backlog statuses considered groomed
-groomed_statuses = ["New", "Grooming", "Backlog"]
+# Define teams and statuses
+teams = {
+    "Engineering - Product": "Product",
+    "Engineering - Platform": "Platform",
+    "Engineering - AI Ops": "AI Ops",
+    "Design": "Design",
+    "Data Science": "Data Science"
+}
 
-components = df["Components"].fillna("Unassigned").unique()
-team_data = {}
+backlog_statuses = {"New", "Grooming", "Backlog"}
+all_statuses_to_track = backlog_statuses.union({
+    "To Do", "Ready for Development", "Blocked", "In Progress",
+    "Ready for Review", "Ready for Acceptance", "Ready to Deploy",
+    "UAT Testing", "IN CODE REVIEW", "Canceled", "Won't Do"
+})
 
-for comp in components:
-    team_df = df[df["Components"] == comp]
-    total = len(team_df)
-    groomed = len(team_df[team_df["Status"].isin(groomed_statuses)])
-    percent = round((groomed / total * 100), 1) if total > 0 else 0
+# Prepare data
+summary = {}
+for component, team_name in teams.items():
+    team_df = df[df["Components"] == component]
+    status_counts = team_df["Status"].value_counts().to_dict()
 
-    team_data[comp] = {
-        "total": total,
-        "groomed": groomed,
-        "percent": percent,
-        "stoplight": "blinking_green.gif" if percent >= 80 else "blinking_yellow.gif" if percent >= 50 else "blinking_red.gif"
+    total_backlog = sum(
+        count for status, count in status_counts.items()
+        if status in all_statuses_to_track and team_df[team_df["Status"] == status]["Sprint"].str.strip().eq("").sum() > 0
+    )
+
+    valid_backlog = sum(
+        count for status, count in status_counts.items()
+        if status in backlog_statuses and team_df[team_df["Status"] == status]["Sprint"].str.strip().eq("").sum() > 0
+    )
+
+    percent = (valid_backlog / total_backlog) * 100 if total_backlog > 0 else 0
+
+    if percent >= 80:
+        stoplight = "blinking_green.gif"
+    elif percent >= 50:
+        stoplight = "blinking_yellow.gif"
+    else:
+        stoplight = "blinking_red.gif"
+
+    summary[team_name] = {
+        "total_backlog": total_backlog,
+        "valid_backlog": valid_backlog,
+        "percent": round(percent, 1),
+        "stoplight": stoplight,
+        "status_counts": status_counts
     }
 
-# Load and render HTML
-env = Environment(loader=FileSystemLoader("templates"))
-template = env.get_template("backlog_health_template.html")
-output = template.render(teams=team_data)
+# Set up Jinja2 environment
+env = jinja2.Environment(
+    loader=jinja2.FileSystemLoader("templates"),
+    autoescape=jinja2.select_autoescape()
+)
 
+template = env.get_template("backlog_health_template.html")
+
+output = template.render(
+    summary=summary,
+    best_practices_url="https://www.scrum.org/resources/blog/how-manage-product-backlog",
+    report_title="Backlog Health Dashboard",
+    explanation=(
+        "Backlog Health reflects the percentage of story tickets in acceptable pre-sprint statuses (New, Grooming, Backlog) "
+        "that are not assigned to any active or future sprint. This aligns with Agile readiness principles that encourage clear "
+        "prioritization before sprint planning."
+    )
+)
+
+# Write to file
+os.makedirs("docs", exist_ok=True)
 with open("docs/backlog_health.html", "w") as f:
     f.write(output)
 
-print("✅ backlog_health.html generated")
+print("✅ backlog_health.html generated.")
 
