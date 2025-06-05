@@ -1,148 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title></title>
-  <link rel="stylesheet" href="../docs/styles.css" />
+    <meta charset="UTF-8">
+    <title>RASCAL Dependencies Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <header>
-    <img src="Clarvos.png" alt="Clarvos Logo" class="logo" />
-    <h1></h1>
-    <select onchange="location = this.value;">
-      <option disabled selected>Navigate to...</option>
-      <option value="index.html">Program Summary</option>
-      <option value="sprint_readiness.html">Sprint Readiness</option>
-      <option value="backlog_health.html">Backlog Health</option>
-      <option value="dependencies.html">Dependencies</option>
-    </select>
-  </header>
-
-  <main>
-    
-
-<h2>🔗 Cross-Team Dependency Summary</h2>
-
-<div class="summary-box">
-  <p><strong>Total Inbound Dependencies:</strong> 2</p>
-  <p><strong>Total Outbound Dependencies:</strong> 1</p>
-  <p></p>
-</div>
-
-
-  <div class="team-box">
-    <h3>Engineering - AI Ops</h3>
-
-    <div class="dependency-section">
-      <strong>Inbound Dependencies (Blocking this team):</strong>
-      
-        <p class="dimmed">None</p>
-      
+    <div class="navbar">
+        <select onchange="location = this.value;">
+            <option disabled selected>Navigate to...</option>
+            <option value="index.html">🏠 Program Summary</option>
+            <option value="sprint_readiness.html">📈 Sprint Readiness</option>
+            <option value="backlog_health.html">📊 Backlog Health</option>
+            <option value="dependencies.html">🔗 Dependencies</option>
+        </select>
     </div>
 
-    <div class="dependency-section">
-      <strong>Outbound Dependencies (Blocking others):</strong>
-      
-        <p class="dimmed">None</p>
-      
+    <div class="container">
+        <h1>🔗 Dependency Tracker</h1>
+        <p>This page provides a clear view of dependency relationships across teams. This is based on active Jira link data using “Blocks” and “Is Blocked By” relationships. A ticket appearing here means its timely delivery may depend on or impact other tickets.</p>
+
+        
+
+        <footer>
+            <p><strong>Source:</strong> Clarvos Jira Cloud – based on issue link fields "Blocks" and "Is Blocked By".<br>
+            <strong>Best Practices Reference:</strong> "Managing Cross-Team Dependencies in Agile Programs", SAFe 6.0, Chapter 9.</p>
+        </footer>
     </div>
-  </div>
-
-  <div class="team-box">
-    <h3>Engineering - Platform</h3>
-
-    <div class="dependency-section">
-      <strong>Inbound Dependencies (Blocking this team):</strong>
-      
-        <p class="dimmed">None</p>
-      
-    </div>
-
-    <div class="dependency-section">
-      <strong>Outbound Dependencies (Blocking others):</strong>
-      
-        <p class="dimmed">None</p>
-      
-    </div>
-  </div>
-
-  <div class="team-box">
-    <h3>Data Science</h3>
-
-    <div class="dependency-section">
-      <strong>Inbound Dependencies (Blocking this team):</strong>
-      
-        <ul>
-          
-            <li><strong>CLP-1246</strong>: [Placeholder] Level 2 Cluster Model in MLflow (← CLP-1191)</li>
-          
-        </ul>
-      
-    </div>
-
-    <div class="dependency-section">
-      <strong>Outbound Dependencies (Blocking others):</strong>
-      
-        <p class="dimmed">None</p>
-      
-    </div>
-  </div>
-
-  <div class="team-box">
-    <h3>Engineering - Product</h3>
-
-    <div class="dependency-section">
-      <strong>Inbound Dependencies (Blocking this team):</strong>
-      
-        <ul>
-          
-            <li><strong>CLP-1124</strong>: BE: Org DTO cleanup (← CLP-1123)</li>
-          
-        </ul>
-      
-    </div>
-
-    <div class="dependency-section">
-      <strong>Outbound Dependencies (Blocking others):</strong>
-      
-        <ul>
-          
-            <li><strong>CLP-1123</strong>: FE: Org DTO cleanup (→ CLP-1124)</li>
-          
-        </ul>
-      
-    </div>
-  </div>
-
-  <div class="team-box">
-    <h3>Design</h3>
-
-    <div class="dependency-section">
-      <strong>Inbound Dependencies (Blocking this team):</strong>
-      
-        <p class="dimmed">None</p>
-      
-    </div>
-
-    <div class="dependency-section">
-      <strong>Outbound Dependencies (Blocking others):</strong>
-      
-        <p class="dimmed">None</p>
-      
-    </div>
-  </div>
-
-
-
-  </main>
-
-  <footer>
-    <p>
-      Built with ❤️ for executive clarity — based on Agile/Scrum best practices from
-      <a href="https://www.scrum.org/resources/sprint-planning-guide" target="_blank">Scrum.org</a>,
-      <a href="https://www.agilealliance.org/agile101/" target="_blank">Agile Alliance</a>, and
-      <a href="https://scaledagileframework.com/" target="_blank">SAFe</a>.
-    </p>
-  </footer>
 </body>
 </html>
