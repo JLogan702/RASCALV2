@@ -1,26 +1,30 @@
-import pandas as pd
-import json
+import os
+from jinja2 import Environment, FileSystemLoader
 
-# Load CSV
-df = pd.read_csv("../jira_data.csv")
+# Manually define working paths
+cwd = os.getcwd()
+template_dir = os.path.join(cwd, 'templates')
+output_dir = os.path.join(cwd, 'docs')
 
-# Rename columns for consistency
-df = df.rename(columns={
-    "Issue key": "Key",
-    "Summary": "Summary",
-    "Components": "Component",
-    "Status": "Status",
-    "Sprint": "Sprint",
-    "Inward issue link (Blocks)": "Blocks",
-    "Outward issue link (Blocks)": "BlockedBy"
-})
+# Show paths for debugging
+print(f"🔍 Template path: {template_dir}")
+print(f"📁 Output path: {output_dir}")
 
-# Drop rows without a valid Component or Status
-df = df.dropna(subset=["Component", "Status"])
+# Initialize Jinja2 environment
+env = Environment(loader=FileSystemLoader(template_dir))
 
-# Save clean JSON for dashboard use
-output_path = "../docs/render_data.json"
-df.to_json(output_path, orient="records", indent=2)
+def render_template(template_file, output_file, context):
+    try:
+        template = env.get_template(template_file)
+    except Exception as e:
+        print(f"❌ Template error: {e}")
+        return
 
-print(f"✅ Rendered {len(df)} tickets to: {output_path}")
+    output_path = os.path.join(output_dir, output_file)
+    try:
+        with open(output_path, 'w') as f:
+            f.write(template.render(context))
+        print(f"✅ Rendered: {output_file}")
+    except Exception as e:
+        print(f"❌ Render error: {e}")
 

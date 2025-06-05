@@ -2,62 +2,61 @@ import pandas as pd
 from jinja2 import Environment, FileSystemLoader
 import os
 
-# Define correct template path
-template_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'templates'))
-env = Environment(loader=FileSystemLoader(template_dir))
-
-print(f"Template search path: {template_dir}")
-print(f"Available templates: {os.listdir(template_dir)}")
-
-# Load data
+# Load the Jira CSV
 df = pd.read_csv("RASCAL_DB_Filter_Evolve24_JIRA.csv")
 
-# Normalize and clean
+# Normalize key fields
 df['Sprint'] = df['Sprint'].fillna("Unassigned")
 df['Status'] = df['Status'].fillna("Unknown")
 df['Components'] = df['Components'].fillna("No Component")
 
-# Filter stories in backlog statuses and future sprints only
-story_df = df[
-    (df['Issue Type'] == 'Story') &
-    (~df['Status'].isin(['Done', 'Cancelled', 'Won\'t Do'])) &
-    (df['Sprint'] == 'Unassigned')
-]
+# Filter to Story tickets only
+df = df[df['Issue Type'] == 'Story']
 
-# Define backlog health statuses
-backlog_statuses = ['New', 'Grooming', 'Backlog']
+# Backlog statuses considered healthy
+healthy_statuses = ["New", "Grooming", "Backlog"]
 
-# Aggregate by team
-teams = story_df['Components'].unique()
 summary = {}
 
-for team in teams:
-    team_df = story_df[story_df['Components'] == team]
-    total = len(team_df)
-    relevant = team_df[team_df['Status'].isin(backlog_statuses)]
-    relevant_count = len(relevant)
+# Iterate over teams/components
+for team in sorted(df['Components'].unique()):
+    team_df = df[df['Components'] == team]
+
+    # Filter to future/backlog (non-active sprints or unassigned)
+    backlog_df = team_df[(team_df['Sprint'] == "Unassigned") | (~team_df['Sprint'].str.contains("active", case=False))]
+
+    total = len(backlog_df)
+    healthy = len(backlog_df[backlog_df['Status'].isin(healthy_statuses)])
+    percent = int((healthy / total) * 100) if total > 0 else 0
+    status_counts = backlog_df['Status'].value_counts().to_dict()
+
+    # Determine stoplight
+    def stoplight(percent):
+        if percent >= 80:
+            return "images/blinking_green.gif"
+        elif percent >= 50:
+            return "images/blinking_yellow.gif"
+        return "images/blinking_red.gif"
 
     summary[team] = {
         "total": total,
-        "healthy": relevant_count,
-        "statuses": team_df['Status'].value_counts().to_dict(),
-        "percent": int((relevant_count / total) * 100) if total > 0 else 0,
-        "stoplight": "images/blinking_red.gif"  # default
+        "healthy": healthy,
+        "percent": percent,
+        "stoplight": stoplight(percent),
+        "status_counts": status_counts,  # 🔥 Must match template!
     }
 
-    percent = summary[team]["percent"]
-    if percent >= 80:
-        summary[team]["stoplight"] = "images/blinking_green.gif"
-    elif percent >= 50:
-        summary[team]["stoplight"] = "images/blinking_yellow.gif"
-
-# Render HTML
+# Jinja2 setup
+template_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'templates'))
+env = Environment(loader=FileSystemLoader(template_dir))
 template = env.get_template("backlog_health_template.html")
+
+# Render and write to HTML
 html = template.render(summary=summary)
 
-# Output path
-with open("docs/backlog_health.html", "w") as f:
+output_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'docs', 'backlog_health.html'))
+with open(output_path, "w") as f:
     f.write(html)
 
-print("✅ backlog_health.html rendered successfully.")
+print(f"✅ Backlog Health dashboard generated at: {output_path}")
 

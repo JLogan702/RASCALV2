@@ -1,45 +1,40 @@
-{% extends "base.html" %}
-{% block content %}
-
-<h2>🔗 Cross-Team Dependency Summary</h2>
-
-<div class="summary-box">
-  <p><strong>Total Inbound Dependencies:</strong> {{ dependency_summary.total_inbound }}</p>
-  <p><strong>Total Outbound Dependencies:</strong> {{ dependency_summary.total_outbound }}</p>
-  <p>{{ dependency_summary.explanation }}</p>
-</div>
-
-{% for team, data in teams.items() %}
-  <div class="team-box">
-    <h3>{{ team }}</h3>
-
-    <div class="dependency-section">
-      <strong>Inbound Dependencies (Blocking this team):</strong>
-      {% if data.inbound %}
-        <ul>
-          {% for item in data.inbound %}
-            <li><strong>{{ item.key }}</strong>: {{ item.summary }} (← {{ item.link }})</li>
-          {% endfor %}
-        </ul>
-      {% else %}
-        <p class="dimmed">None</p>
-      {% endif %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>RASCAL Dependencies Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="navbar">
+        <select onchange="location = this.value;">
+            <option disabled selected>Navigate to...</option>
+            <option value="index.html">🏠 Program Summary</option>
+            <option value="sprint_readiness.html">📈 Sprint Readiness</option>
+            <option value="backlog_health.html">📊 Backlog Health</option>
+            <option value="dependencies.html">🔗 Dependencies</option>
+        </select>
     </div>
 
-    <div class="dependency-section">
-      <strong>Outbound Dependencies (Blocking others):</strong>
-      {% if data.outbound %}
-        <ul>
-          {% for item in data.outbound %}
-            <li><strong>{{ item.key }}</strong>: {{ item.summary }} (→ {{ item.link }})</li>
-          {% endfor %}
-        </ul>
-      {% else %}
-        <p class="dimmed">None</p>
-      {% endif %}
+    <div class="container">
+        <h1>🔗 Dependency Tracker</h1>
+        <p>This page provides a clear view of dependency relationships across teams. This is based on active Jira link data using “Blocks” and “Is Blocked By” relationships. A ticket appearing here means its timely delivery may depend on or impact other tickets.</p>
+
+        {% for team in data %}
+        <div class="team-box">
+            <h2>{{ team }}</h2>
+            <ul>
+                {% for entry in data[team] %}
+                    <li><strong>{{ entry["key"] }}</strong> ({{ entry["summary"] }}) → Depends on: {{ entry["inward"]|length }} / Blocking: {{ entry["outward"]|length }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endfor %}
+
+        <footer>
+            <p><strong>Source:</strong> Clarvos Jira Cloud – based on issue link fields "Blocks" and "Is Blocked By".<br>
+            <strong>Best Practices Reference:</strong> "Managing Cross-Team Dependencies in Agile Programs", SAFe 6.0, Chapter 9.</p>
+        </footer>
     </div>
-  </div>
-{% endfor %}
-
-{% endblock %}
-
+</body>
+</html>

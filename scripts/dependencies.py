@@ -1,60 +1,47 @@
 import pandas as pd
 from jinja2 import Environment, FileSystemLoader
+import os
 
 # Load Jira CSV
-df = pd.read_csv("Evolve24 JIRA.csv")
+df = pd.read_csv("RASCAL_DB_Filter_Evolve24_JIRA.csv")
 
-# Filter to Stories only
-df = df[df["Issue Type"] == "Story"]
+# Normalize columns
+df['Components'] = df['Components'].fillna("No Component")
+df['Inward issue link (Blocks)'] = df['Inward issue link (Blocks)'].fillna("")
+df['Outward issue link (Blocks)'] = df['Outward issue link (Blocks)'].fillna("")
 
-# Clean nulls
-df["Inward issue link (Blocks)"] = df["Inward issue link (Blocks)"].fillna("")
-df["Outward issue link (Blocks)"] = df["Outward issue link (Blocks)"].fillna("")
-
-# Teams
-teams = df["Components"].dropna().unique()
+# Prepare data per team
+teams = sorted(df['Components'].unique())
 summary = {}
-total_inbound = 0
-total_outbound = 0
 
 for team in teams:
-    team_df = df[df["Components"] == team]
-    
-    inbound = team_df[team_df["Inward issue link (Blocks)"] != ""].copy()
-    outbound = team_df[team_df["Outward issue link (Blocks)"] != ""].copy()
+    team_df = df[df['Components'] == team]
 
-    total_inbound += len(inbound)
-    total_outbound += len(outbound)
+    inbound = team_df['Inward issue link (Blocks)']
+    outbound = team_df['Outward issue link (Blocks)']
+
+    inbound_count = sum(bool(link.strip()) for link in inbound)
+    outbound_count = sum(bool(link.strip()) for link in outbound)
+
+    total = len(team_df)
 
     summary[team] = {
-        "inbound": [
-            {
-                "key": row["Issue key"],
-                "summary": row["Summary"],
-                "link": row["Inward issue link (Blocks)"]
-            }
-            for _, row in inbound.iterrows()
-        ],
-        "outbound": [
-            {
-                "key": row["Issue key"],
-                "summary": row["Summary"],
-                "link": row["Outward issue link (Blocks)"]
-            }
-            for _, row in outbound.iterrows()
-        ]
+        "total": total,
+        "inbound": inbound_count,
+        "outbound": outbound_count,
     }
 
-# Load and render HTML
-env = Environment(loader=FileSystemLoader("templates"))
+# Setup Jinja2
+template_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'templates'))
+env = Environment(loader=FileSystemLoader(template_dir))
 template = env.get_template("dependencies_template.html")
-output = template.render(
-    dependency_summary={"total_inbound": total_inbound, "total_outbound": total_outbound},
-    teams=summary
-)
 
-with open("docs/dependencies.html", "w") as f:
-    f.write(output)
+# Render HTML
+html = template.render(summary=summary)
 
-print("✅ dependencies.html generated")
+output_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'docs', 'dependencies.html'))
+with open(output_path, "w") as f:
+    f.write(html)
+
+print(f"✅ Dependencies dashboard generated at: {output_path}")
 

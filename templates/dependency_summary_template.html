@@ -1,74 +1,24 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Dependencies Dashboard</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="print.css" media="print">
-</head>
-<body>
-    <div class="container">
-        <img src="Clarvos.png" alt="Clarvos Logo" class="logo">
-        <h1 class="centered">Dependencies Dashboard</h1>
-        <div class="nav-dropdown">
-            <label for="nav">Jump to:</label>
-            <select id="nav" onchange="location = this.value;">
-                <option value="#">Select a page</option>
-                <option value="index.html">Program Summary</option>
-                <option value="sprint_readiness.html">Sprint Readiness</option>
-                <option value="backlog_health.html">Backlog Health</option>
-                <option value="dependencies.html">Dependencies</option>
-            </select>
-        </div>
 
-        <p class="centered bold">
-            This report summarizes the current state of cross-team story ticket dependencies. It helps identify blockers and delivery risks based on Jira “blocks” links. Teams should review their inbound and outbound dependencies regularly to avoid surprises.
-        </p>
+<div class="summary-section">
+  <h2>🔗 Dependency Summary</h2>
+  <p>This table shows a quick overview of how many story tickets are blocking other teams and how many are currently blocked. High numbers of unresolved dependencies may signal coordination challenges across teams.</p>
 
-        {% if dependency_summary %}
-            <div class="summary-box">
-                <h2>Overall Dependency Summary</h2>
-                <p>{{ dependency_summary.explanation }}</p>
-            </div>
-        {% endif %}
-
-        <div class="grid-layout">
-            {% for team, data in teams.items() %}
-                <div class="box">
-                    <h2>{{ team }}</h2>
-
-                    <h3>Inbound Dependencies</h3>
-                    {% if data.inbound %}
-                        <ul>
-                            {% for item in data.inbound %}
-                                <li><strong>{{ item.key }}</strong>: {{ item.summary }}</li>
-                            {% endfor %}
-                        </ul>
-                    {% else %}
-                        <p>No inbound dependencies</p>
-                    {% endif %}
-
-                    <h3>Outbound Dependencies</h3>
-                    {% if data.outbound %}
-                        <ul>
-                            {% for item in data.outbound %}
-                                <li><strong>{{ item.key }}</strong>: {{ item.summary }}</li>
-                            {% endfor %}
-                        </ul>
-                    {% else %}
-                        <p>No outbound dependencies</p>
-                    {% endif %}
-                </div>
-            {% endfor %}
-        </div>
-
-        <footer>
-            <p class="centered small">
-                Based on Jira best practices for dependency management. For more, see:
-                <a href="https://www.atlassian.com/agile/project-management/epics#managing-dependencies-in-jira">Managing Dependencies in Jira</a>
-            </p>
-        </footer>
-    </div>
-</body>
-</html>
-
+  <table class="summary-table">
+    <thead>
+      <tr>
+        <th>Team</th>
+        <th>Blocked By</th>
+        <th>Blocking</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for team, summary in summary_data.items() %}
+      <tr>
+        <td>{{ team }}</td>
+        <td>{{ summary.blocked_by }}</td>
+        <td>{{ summary.blocking }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
