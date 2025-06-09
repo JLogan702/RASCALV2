@@ -1,57 +1,53 @@
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
     <title>Program Summary</title>
-    <style>
-        body { background: #f1f6fb; font-family: Arial; }
-        .nav { background: #004080; padding: 12px; color: white; text-align: center; }
-        .nav select { font-size: 16px; padding: 6px; }
-        .logo { display: block; margin: 20px auto 10px auto; height: 60px; }
-        .container { padding: 20px; text-align: center; }
-        .summary-box { background: white; padding: 24px; border-radius: 10px; box-shadow: 0 0 10px #ccc; max-width: 600px; margin: 20px auto; }
-        .summary-box img { width: 60px; }
-        .score { font-size: 22px; margin-top: 10px; }
-        .explanation { max-width: 800px; margin: 0 auto; font-size: 16px; }
-        .references { font-size: 14px; margin-top: 20px; }
-    </style>
-    <script>
-        function navigate(select) {
-            const page = select.value;
-            if (page) window.location.href = page;
-        }
-    </script>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="nav">
-        <select onchange="navigate(this)">
-            <option value="">Navigate to...</option>
-            <option value="index.html">Program Summary</option>
+    <div class="navbar">
+        <img src="images/Clarvos.png" alt="Clarvos Logo" class="logo">
+        <select onchange="location = this.value;">
+            <option value="index.html" selected>Program Summary</option>
             <option value="sprint_readiness.html">Sprint Readiness</option>
             <option value="backlog_health.html">Backlog Health</option>
             <option value="dependencies.html">Dependencies</option>
         </select>
     </div>
 
-    <img src="../images/Clarvos.png" alt="Clarvos Logo" class="logo">
+    <h1>Overall Program Health</h1>
 
-    <div class="container">
-        <h1>Overall Program Health Summary</h1>
-        <div class="summary-box">
-            <img src="../images/blinking_red.gif" alt="Program Stoplight">
-            <div class="score"><strong>Program Health Score:</strong> 46%</div>
-            <p>Sprint Readiness: 36% of story tickets in future sprints are ready.</p>
-            <p>Backlog Health: 56% of backlog story tickets are in New or Grooming status.</p>
-        </div>
-        <div class="explanation">
-            <p>This dashboard is aligned with best practices from Scrum.org and SAFe 5.1. It helps leadership understand team delivery readiness and backlog grooming maturity.</p>
-        </div>
-        <div class="references">
-            <p><strong>Sources of Truth:</strong></p>
-            <p><a href="https://www.scrum.org/resources/what-is-a-product-backlog" target="_blank">Scrum.org – What is a Product Backlog</a></p>
-            <p><a href="https://scaledagileframework.com/program-board/" target="_blank">SAFe® 5.1 – Program Board and Planning</a></p>
-            <p><em>"The Product Backlog is an emergent, ordered list of what is needed to improve the product." – Scrum Guide 2020</em></p>
-        </div>
+    <div class="team-box" style="width: 60%; margin: auto;">
+        <img src="images/{{ stoplight }}" alt="Status Light" class="stoplight">
+        <h2>{{ average_score }}%</h2>
+        <p>This score represents the average of Sprint Readiness and Backlog Health across all five teams.</p>
     </div>
+
+    <div class="explanation">
+        <p><strong>What This Represents:</strong><br>
+        This score reflects overall program readiness in terms of sprint planning discipline and backlog grooming health.</p>
+
+        <p><strong>How is this calculated?</strong><br>
+        We average each team’s Sprint Readiness (% of stories in To Do or Ready for Development in future sprints) and Backlog Health (% of stories in Ready or To Do status across future sprint and backlog). Then we take the mean across all teams.</p>
+
+        <p><strong>Why it matters:</strong><br>
+        This gives leadership a real-time pulse check on delivery readiness, grooming habits, and overall Agile health of the program.</p>
+
+        <p><strong>Dependency Impact:</strong><br>
+        Cross-team Epic dependencies can block delivery. {{ blocked_count }} epics are currently waiting on other Epics. This should be reviewed before sprint commitment.</p>
+
+        <p><i>“The Product Backlog is an emergent, ordered list of what is needed to improve the product.”</i> – Scrum Guide 2020</p>
+
+        <p><strong>Sources of Truth:</strong><br>
+        <a href="https://www.scrum.org/resources/what-is-sprint-planning">Scrum.org – Sprint Planning</a><br>
+        <a href="https://www.atlassian.com/agile/product-management/product-backlog">Atlassian – Managing the Product Backlog</a><br>
+        <a href="https://scaledagileframework.com/team-backlog/">SAFe – Team Backlog Best Practices</a></p>
+    </div>
+
+    <footer>
+        Report generated on {{ today }}
+    </footer>
 </body>
 </html>
