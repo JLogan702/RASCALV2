@@ -3,143 +3,81 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Backlog Health Dashboard</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Backlog Health</title>
+    <style>
+        body { background-color: #f9f9f9; font-family: Arial, sans-serif; padding: 20px; }
+        h1 { text-align: center; color: #333; }
+        .container { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; }
+        .card {
+            background: white;
+            padding: 20px;
+            width: 250px;
+            border-radius: 15px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease-in-out;
+            text-align: center;
+            position: relative;
+        }
+        .card:hover {
+            transform: scale(2.5) translateY(-10%);
+            z-index: 1000;
+        }
+        img.stoplight { width: 60px; height: 60px; }
+        .statuses { margin-top: 10px; font-size: 14px; }
+    </style>
 </head>
 <body>
-    <div class="navbar">
-        <img src="images/Clarvos.png" alt="Clarvos Logo" class="logo">
-        <select onchange="location = this.value;">
-            <option value="index.html">Program Summary</option>
-            <option value="sprint_readiness.html">Sprint Readiness</option>
-            <option value="backlog_health.html" selected>Backlog Health</option>
-            <option value="dependencies.html">Dependencies</option>
-        </select>
-    </div>
-
-    <h1>Backlog Health Overview</h1>
-
-    <div class="explanation">
-        <p><strong>What We Look At</strong><br>
-        - <strong>Included:</strong> Story tickets in future sprints<br>
-        - <strong>Counted as “Healthy”:</strong> <b>To Do</b>, <b>Ready for Development</b><br>
-        - <strong>Not Counted as Healthy:</strong> <u><i>New</i></u>, <u><i>Grooming</i></u>, <u><i>Backlog</i></u><br>
-        - <strong>Excluded:</strong> Done, Cancelled, In Progress, etc.</p>
-
-        <p><strong>Backlog Health Calculation</strong><br>
-        Backlog Health % = (Number of story tickets in <b>“Ready”</b> or <b>“To Do”</b>) ÷ (Total number of story tickets in future sprints)</p>
-
-        <p><strong>What the Percentages Mean</strong><br>
-        🟢 Green: 80%+ ready<br>
-        🟡 Yellow: 50–79% ready<br>
-        🔴 Red: Less than 50% ready</p>
-
-        <p><strong>Industry References</strong><br>
-        - Scrum.org: 2–3 sprint buffer readiness, not velocity<br>
-        - SAFe: Program Backlog Readiness<br>
-        - Atlassian: Status transitions Grooming → Ready for Dev</p>
-    </div>
-
-    <div class="dashboard">
-        
-        <div class="team-box">
-            <h2>Product</h2>
-            <img src="images/blinking_red.gif" alt="Status Light" class="stoplight">
-            <p><strong>0</strong> of <strong>11</strong> story tickets ready<br>
-            <strong>0.0%</strong> Backlog Health</p>
-            <ul>
-                
-                <li>
-                    
-                        <u><i>New: 8</i></u>
-                    
-                </li>
-                
-                <li>
-                    
-                        <u><i>Grooming: 3</i></u>
-                    
-                </li>
-                
-            </ul>
+    <h1>Backlog Health</h1>
+    <div class="container">
+        <div class="card">
+            <h3>Engineering - Platform</h3>
+            <img src="images/blinking_green.gif" alt="stoplight" class="stoplight">
+            <div class="statuses">
+                Ready: 4<br>
+                To Do: 3<br>
+                <u><i>Grooming: 2</i></u><br>
+                <u><i>Backlog: 1</i></u>
+            </div>
         </div>
-        
-        <div class="team-box">
-            <h2>Platform</h2>
-            <img src="images/blinking_red.gif" alt="Status Light" class="stoplight">
-            <p><strong>1</strong> of <strong>4</strong> story tickets ready<br>
-            <strong>25.0%</strong> Backlog Health</p>
-            <ul>
-                
-                <li>
-                    
-                        <u><i>Backlog: 3</i></u>
-                    
-                </li>
-                
-                <li>
-                    
-                        <b>To Do: 1</b>
-                    
-                </li>
-                
-            </ul>
+        <div class="card">
+            <h3>Engineering - Product</h3>
+            <img src="images/blinking_yellow.gif" alt="stoplight" class="stoplight">
+            <div class="statuses">
+                Ready: 2<br>
+                To Do: 2<br>
+                <u><i>Grooming: 4</i></u><br>
+                <u><i>Backlog: 2</i></u>
+            </div>
         </div>
-        
-        <div class="team-box">
-            <h2>AI Ops</h2>
-            <img src="images/blinking_red.gif" alt="Status Light" class="stoplight">
-            <p><strong>1</strong> of <strong>3</strong> story tickets ready<br>
-            <strong>33.3%</strong> Backlog Health</p>
-            <ul>
-                
-                <li>
-                    
-                        <u><i>New: 2</i></u>
-                    
-                </li>
-                
-                <li>
-                    
-                        <b>To Do: 1</b>
-                    
-                </li>
-                
-            </ul>
+        <div class="card">
+            <h3>Engineering - AI Ops</h3>
+            <img src="images/blinking_red.gif" alt="stoplight" class="stoplight">
+            <div class="statuses">
+                Ready: 0<br>
+                To Do: 1<br>
+                <u><i>Grooming: 3</i></u><br>
+                <u><i>Backlog: 2</i></u>
+            </div>
         </div>
-        
-        <div class="team-box">
-            <h2>Design</h2>
-            <img src="images/blinking_yellow.gif" alt="Status Light" class="stoplight">
-            <p><strong>3</strong> of <strong>6</strong> story tickets ready<br>
-            <strong>50.0%</strong> Backlog Health</p>
-            <ul>
-                
-                <li>
-                    
-                        <b>To Do: 3</b>
-                    
-                </li>
-                
-                <li>
-                    
-                        <u><i>New: 3</i></u>
-                    
-                </li>
-                
-            </ul>
+        <div class="card">
+            <h3>Data Science</h3>
+            <img src="images/blinking_yellow.gif" alt="stoplight" class="stoplight">
+            <div class="statuses">
+                Ready: 2<br>
+                To Do: 3<br>
+                <u><i>New: 1</i></u><br>
+                <u><i>Grooming: 3</i></u>
+            </div>
         </div>
-        
-        <div class="team-box">
-            <h2>Data Science</h2>
-            <img src="images/blinking_red.gif" alt="Status Light" class="stoplight">
-            <p><strong>0</strong> of <strong>0</strong> story tickets ready<br>
-            <strong>0%</strong> Backlog Health</p>
-            <ul>
-                
-            </ul>
+        <div class="card">
+            <h3>Design</h3>
+            <img src="images/blinking_green.gif" alt="stoplight" class="stoplight">
+            <div class="statuses">
+                Ready: 5<br>
+                To Do: 4<br>
+                <u><i>Grooming: 1</i></u>
+            </div>
         </div>
-        
     </div>
 </body>
 </html>
