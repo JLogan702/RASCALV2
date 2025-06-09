@@ -1,36 +1,67 @@
-{% extends "base.html" %}
-{% block title %}Backlog Health{% endblock %}
 
-{% block content %}
-<h1>Backlog Health Dashboard</h1>
-
-<p class="summary-explanation">
-    <strong>What this means:</strong> {{ explanation }}
-</p>
-
-<div class="team-grid">
-    {% for team, data in summary.items() %}
-    <div class="team-box">
-        <h2>{{ team }}</h2>
-        <img src="{{ data.stoplight }}" alt="Stoplight" class="stoplight" />
-        <p><strong>Backlog Health:</strong> {{ data.percent }}%</p>
-        <p><strong>Valid Backlog (New, Grooming, Backlog):</strong> {{ data.valid_backlog }}</p>
-        <p><strong>Total Backlog Stories (not in any sprint):</strong> {{ data.total_backlog }}</p>
-        <h4>Status Breakdown:</h4>
-        <ul>
-            {% for status, count in data.status_counts.items() %}
-                <li>{{ status }}: {{ count }}</li>
-            {% endfor %}
-        </ul>
-        <p class="team-note">
-            Tickets in 'New', 'Grooming', or 'Backlog' statuses that are <strong>not assigned to a sprint</strong> count as healthy backlog.
-        </p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Backlog Health Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="navbar">
+        <img src="images/Clarvos.png" alt="Clarvos Logo" class="logo">
+        <select onchange="location = this.value;">
+            <option value="index.html">Program Summary</option>
+            <option value="sprint_readiness.html">Sprint Readiness</option>
+            <option value="backlog_health.html" selected>Backlog Health</option>
+            <option value="dependencies.html">Dependencies</option>
+        </select>
     </div>
-    {% endfor %}
-</div>
 
-<footer class="footer">
-    <p>📘 Based on <a href="{{ best_practices_url }}" target="_blank">Scrum.org: Managing the Product Backlog</a></p>
-</footer>
-{% endblock %}
+    <h1>Backlog Health Overview</h1>
 
+    <div class="explanation">
+        <p><strong>What We Look At</strong><br>
+        - <strong>Included:</strong> Story tickets in future sprints<br>
+        - <strong>Counted as “Healthy”:</strong> <b>To Do</b>, <b>Ready for Development</b><br>
+        - <strong>Not Counted as Healthy:</strong> <u><i>New</i></u>, <u><i>Grooming</i></u>, <u><i>Backlog</i></u><br>
+        - <strong>Excluded:</strong> Done, Cancelled, In Progress, etc.</p>
+
+        <p><strong>Backlog Health Calculation</strong><br>
+        Backlog Health % = (Number of story tickets in <b>“Ready”</b> or <b>“To Do”</b>) ÷ (Total number of story tickets in future sprints)</p>
+
+        <p><strong>What the Percentages Mean</strong><br>
+        🟢 Green: 80%+ ready<br>
+        🟡 Yellow: 50–79% ready<br>
+        🔴 Red: Less than 50% ready</p>
+
+        <p><strong>Industry References</strong><br>
+        - Scrum.org: 2–3 sprint buffer readiness, not velocity<br>
+        - SAFe: Program Backlog Readiness<br>
+        - Atlassian: Status transitions Grooming → Ready for Dev</p>
+    </div>
+
+    <div class="dashboard">
+        {% for team, data in teams.items() %}
+        <div class="team-box">
+            <h2>{{ team }}</h2>
+            <img src="images/{{ data.stoplight }}" alt="Status Light" class="stoplight">
+            <p><strong>{{ data.healthy }}</strong> of <strong>{{ data.total }}</strong> story tickets ready<br>
+            <strong>{{ data.percent }}%</strong> Backlog Health</p>
+            <ul>
+                {% for status, count in data.status_counts.items() %}
+                <li>
+                    {% if status in ["To Do", "Ready for Development"] %}
+                        <b>{{ status }}: {{ count }}</b>
+                    {% elif status in ["New", "Grooming", "Backlog"] %}
+                        <u><i>{{ status }}: {{ count }}</i></u>
+                    {% else %}
+                        {{ status }}: {{ count }}
+                    {% endif %}
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endfor %}
+    </div>
+</body>
+</html>

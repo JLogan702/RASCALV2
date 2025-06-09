@@ -1,69 +1,74 @@
+
 import pandas as pd
 from jinja2 import Environment, FileSystemLoader
 import os
 
-# Set up Jinja2 environment
-template_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'templates'))
-env = Environment(loader=FileSystemLoader(template_dir))
+def calculate_sprint_readiness(df):
+    ready_statuses = ["To Do", "Ready for Development"]
+    excluded_statuses = ["Done", "Cancelled", "In Progress", "Blocked", "Won't Do"]
 
-# Load CSV data
-csv_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'RASCAL_DB_Filter_Evolve24_JIRA.csv'))
-df = pd.read_csv(csv_path)
+    df = df[df["Issue Type"] == "Story"]
+    df = df[~df["Status"].isin(excluded_statuses)]
+    df = df[df["Sprint"].notna()]
+    df = df[df["Status"].isin(ready_statuses)]
 
-# Prepare data
-df['Sprint'] = df['Sprint'].fillna("Unassigned")
-df['Status'] = df['Status'].fillna("Unknown")
-df['Components'] = df['Components'].fillna("No Component")
-
-# Filter for story tickets only
-story_df = df[df['Issue Type'] == 'Story']
-future_sprints = story_df[story_df['Sprint'].str.contains("Sprint", case=False, na=False)]
-
-# Define readiness statuses
-ready_statuses = ['To Do', 'Ready for Development']
-
-# Group by team
-teams = future_sprints['Components'].unique()
-results = {}
-
-for team in teams:
-    team_df = future_sprints[future_sprints['Components'] == team]
-    total = len(team_df)
-    ready = team_df['Status'].isin(ready_statuses).sum()
-
-    if total == 0:
-        percent = 0
-    else:
-        percent = round((ready / total) * 100, 1)
-
-    # Stoplight
-    if percent >= 80:
-        stoplight = "images/blinking_green.gif"
-    elif percent >= 50:
-        stoplight = "images/blinking_yellow.gif"
-    else:
-        stoplight = "images/blinking_red.gif"
-
-    # Count per status
-    status_counts = team_df['Status'].value_counts().to_dict()
-
-    results[team] = {
-        "total": total,
-        "ready": ready,
-        "percent": percent,
-        "stoplight": stoplight,
-        "status_counts": status_counts
+    team_map = {
+        "Engineering - Product": "Product",
+        "Engineering - Platform": "Platform",
+        "Engineering - AI Ops": "AI Ops",
+        "Design": "Design",
+        "Data Science": "Data Science"
     }
 
-# DEBUG: You can print this if needed
-# print(json.dumps(results, indent=2))
+    df["Team"] = df["Components"].map(team_map)
+    teams = ["Product", "Platform", "AI Ops", "Design", "Data Science"]
 
-# Render template
-template = env.get_template("sprint_readiness_template.html")
-output = template.render(teams=results)
+    result = {}
+    for team in teams:
+        team_df = df[df["Team"] == team]
+        total = len(team_df)
+        ready = total  # All tickets in this filtered df are "ready"
+        percent = round((ready / total) * 100, 1) if total > 0 else 0
 
-with open("docs/sprint_readiness.html", "w") as f:
-    f.write(output)
+        # Apply threshold logic
+        if total < 3:
+            stoplight = "blinking_red.gif"
+            warning = "⚠️ Fewer than 3 stories in future sprint — sprint not sufficiently planned"
+        elif percent >= 80:
+            stoplight = "blinking_green.gif"
+            warning = ""
+        elif percent >= 50:
+            stoplight = "blinking_yellow.gif"
+            warning = ""
+        else:
+            stoplight = "blinking_red.gif"
+            warning = ""
 
-print("✅ Sprint Readiness page generated.")
+        status_counts = team_df["Status"].value_counts().to_dict()
+        result[team] = {
+            "total": total,
+            "ready": ready,
+            "percent": percent,
+            "stoplight": stoplight,
+            "status_counts": status_counts,
+            "warning": warning
+        }
 
+    return result
+
+def render_html(data):
+    env = Environment(loader=FileSystemLoader('templates'))
+    template = env.get_template('sprint_readiness_template.html')
+    output = template.render(teams=data)
+
+    output_path = os.path.join("docs", "sprint_readiness.html")
+    with open(output_path, "w") as f:
+        f.write(output)
+
+def main():
+    df = pd.read_csv("docs/data/rascal_data.csv")
+    team_data = calculate_sprint_readiness(df)
+    render_html(team_data)
+
+if __name__ == "__main__":
+    main()

@@ -1,40 +1,41 @@
+
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>RASCAL Dependencies Dashboard</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Dependency Tracker</title>
+    <style>
+        body { background: #f7fafd; font-family: Arial; padding: 20px; }
+        h1 { text-align: center; }
+        .logo { display: block; margin: 0 auto 20px auto; height: 60px; }
+        .explanation { text-align: center; max-width: 800px; margin: 0 auto 30px auto; }
+        .container { display: flex; flex-wrap: wrap; justify-content: space-around; }
+        .team-box { background: white; padding: 16px; border-radius: 8px; box-shadow: 0 0 8px #aaa; margin: 10px; width: 30%; min-width: 260px; }
+        .team-name { font-size: 20px; font-weight: bold; margin-bottom: 10px; }
+        .list { font-size: 14px; margin-top: 10px; max-height: 100px; overflow-y: auto; background: #f9f9f9; padding: 6px; border: 1px solid #ccc; }
+    </style>
 </head>
 <body>
-    <div class="navbar">
-        <select onchange="location = this.value;">
-            <option disabled selected>Navigate to...</option>
-            <option value="index.html">🏠 Program Summary</option>
-            <option value="sprint_readiness.html">📈 Sprint Readiness</option>
-            <option value="backlog_health.html">📊 Backlog Health</option>
-            <option value="dependencies.html">🔗 Dependencies</option>
-        </select>
+    <img src="../images/Clarvos.png" alt="Clarvos Logo" class="logo">
+    <h1>Dependency Tracker</h1>
+    <div class="explanation">
+        <p>This dashboard summarizes story ticket dependencies by team. Counts include inward (blocked by) and outward (blocking) links.</p>
+        <p>Source: Jira issue link fields "Blocks" and "is Blocked by".</p>
     </div>
-
     <div class="container">
-        <h1>🔗 Dependency Tracker</h1>
-        <p>This page provides a clear view of dependency relationships across teams. This is based on active Jira link data using “Blocks” and “Is Blocked By” relationships. A ticket appearing here means its timely delivery may depend on or impact other tickets.</p>
-
-        {% for team in data %}
+        {% for team, data in dependency_data.items() %}
         <div class="team-box">
-            <h2>{{ team }}</h2>
-            <ul>
-                {% for entry in data[team] %}
-                    <li><strong>{{ entry["key"] }}</strong> ({{ entry["summary"] }}) → Depends on: {{ entry["inward"]|length }} / Blocking: {{ entry["outward"]|length }}</li>
-                {% endfor %}
-            </ul>
+            <div class="team-name">{{ team }}</div>
+            <p><strong>Total Dependencies:</strong> {{ data.total }}</p>
+            <p><strong>Inward (Blocked By):</strong> {{ data.inward_count }}</p>
+            <p><strong>Outward (Blocking):</strong> {{ data.outward_count }}</p>
+            {% if data.inward_links %}
+            <div class="list"><strong>Inward:</strong><br>{{ data.inward_links|join(", ") }}</div>
+            {% endif %}
+            {% if data.outward_links %}
+            <div class="list"><strong>Outward:</strong><br>{{ data.outward_links|join(", ") }}</div>
+            {% endif %}
         </div>
         {% endfor %}
-
-        <footer>
-            <p><strong>Source:</strong> Clarvos Jira Cloud – based on issue link fields "Blocks" and "Is Blocked By".<br>
-            <strong>Best Practices Reference:</strong> "Managing Cross-Team Dependencies in Agile Programs", SAFe 6.0, Chapter 9.</p>
-        </footer>
     </div>
 </body>
 </html>

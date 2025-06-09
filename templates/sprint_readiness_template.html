@@ -1,81 +1,70 @@
+
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Sprint Readiness</title>
+    <title>Sprint Readiness Dashboard</title>
     <link rel="stylesheet" href="styles.css">
-    <style>
-        body { background: #f4fff4; font-family: sans-serif; margin: 0; padding: 20px; }
-        header { text-align: center; margin-bottom: 10px; }
-        h1 { color: #215732; }
-        .dropdown select {
-            padding: 6px 12px;
-            font-size: 1rem;
-            border-radius: 5px;
-        }
-        .grid {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 20px;
-            margin-top: 20px;
-        }
-        .team-box {
-            background: #ffffff;
-            border-left: 6px solid #38a169;
-            border-radius: 10px;
-            padding: 12px 20px;
-            width: 30%;
-            min-width: 280px;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-        }
-        .stoplight {
-            width: 40px;
-            display: block;
-            margin: 0 auto 10px auto;
-        }
-        ul { list-style-type: none; padding-left: 0; margin-top: 10px; }
-        .footnote, .explanation { font-size: 0.9em; color: #333; }
-    </style>
 </head>
 <body>
-    <header>
-        <img src="Clarvos.png" alt="Clarvos Logo" width="140"><br>
-        <h1>Sprint Readiness</h1>
-        <div class="dropdown">
-            <select onchange="location = this.value;">
-                <option value="sprint_readiness.html" selected>Sprint Readiness</option>
-                <option value="backlog_health.html">Backlog Health</option>
-                <option value="dependencies.html">Dependencies</option>
-                <option value="index.html">Program Summary</option>
-            </select>
+    <div class="navbar">
+        <img src="images/Clarvos.png" alt="Clarvos Logo" class="logo">
+        <select onchange="location = this.value;">
+            <option value="index.html">Program Summary</option>
+            <option value="sprint_readiness.html" selected>Sprint Readiness</option>
+            <option value="backlog_health.html">Backlog Health</option>
+            <option value="dependencies.html">Dependencies</option>
+        </select>
+    </div>
+
+    <h1>Sprint Readiness Overview</h1>
+
+    <div class="explanation">
+        <p><strong>What We Look At</strong><br>
+        - <strong>Included:</strong> Only story tickets in future sprints<br>
+        - <strong>Counted as “Ready”:</strong> <b>To Do</b>, <b>Ready for Development</b><br>
+        - <strong>Not Counted:</strong> <u><i>New</i></u>, <u><i>Grooming</i></u>, <u><i>Backlog</i></u><br>
+        - <strong>Excluded:</strong> Done, Cancelled, or not in future sprints</p>
+
+        <p><strong>Sprint Readiness Calculation</strong><br>
+        % Ready = (Stories in <b>“To Do”</b> or <b>“Ready for Development”</b>) ÷ (All story tickets in future sprints that are in these statuses)</p>
+
+        <p><strong>What the Percentages Mean</strong><br>
+        🟢 Green: 80% or more are ready<br>
+        🟡 Yellow: 50–79% are ready<br>
+        🔴 Red: Less than 50% are ready OR fewer than 3 stories in future sprint</p>
+
+        <p><strong>Industry References</strong><br>
+        - Scrum.org: 2–3 sprints planned ahead, not velocity<br>
+        - Atlassian: Status flow Grooming → Ready<br>
+        - SAFe: Sprint Planning Readiness</p>
+    </div>
+
+    <div class="dashboard">
+        {% for team, data in teams.items() %}
+        <div class="team-box">
+            <h2>{{ team }}</h2>
+            <img src="images/{{ data.stoplight }}" alt="Status Light" class="stoplight">
+            <p><strong>{{ data.ready }}</strong> of <strong>{{ data.total }}</strong> story tickets ready<br>
+            <strong>{{ data.percent }}%</strong> Sprint Readiness</p>
+            {% if data.warning %}
+            <p class="warning">{{ data.warning }}</p>
+            {% endif %}
+            <ul>
+                {% for status, count in data.status_counts.items() %}
+                <li>
+                    {% if status in ["To Do", "Ready for Development"] %}
+                        <b>{{ status }}: {{ count }}</b>
+                    {% elif status in ["New", "Grooming", "Backlog"] %}
+                        <u><i>{{ status }}: {{ count }}</i></u>
+                    {% else %}
+                        {{ status }}: {{ count }}
+                    {% endif %}
+                </li>
+                {% endfor %}
+            </ul>
         </div>
-    </header>
-
-    <section>
-        <p><strong>Definition:</strong> Sprint Readiness is the percentage of story tickets in a future sprint that are in "To Do" or "Ready for Development".</p>
-        <p><strong>Reference:</strong> <a href="https://www.scrum.org/resources/sprint-planning-guide">Scrum.org</a>, <a href="https://www.atlassian.com/agile/scrum/sprint-planning">Atlassian</a></p>
-    </section>
-
-    <div class="grid">
-        {% for team in team_order %}
-            <div class="team-box" title="Sprint readiness for this team based on groomed stories in future sprints.">
-                <h2>{{ team }}</h2>
-                <img src="{{ team_data[team].light }}" class="stoplight" alt="Stoplight" title="Status Indicator: Green ≥ 80%, Yellow = 50–79%, Red < 50%">
-                <ul>
-                    <li><strong>Ready:</strong> {{ team_data[team].ready }}</li>
-                    <li><strong>Total:</strong> {{ team_data[team].total }}</li>
-                    <li><strong>Readiness Score:</strong> {{ team_data[team].score }}%</li>
-                    <li><strong>Status Breakdown:</strong><br>
-                        {% for status, count in team_data[team].statuses.items() %}
-                            - {{ status }}: {{ count }}<br>
-                        {% endfor %}
-                    </li>
-                </ul>
-                <p class="explanation">This score shows how ready this team is for its next sprint. Below 50% means backlog prep may be needed.</p>
-            </div>
         {% endfor %}
     </div>
 </body>
 </html>
-

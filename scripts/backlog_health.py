@@ -1,62 +1,61 @@
+
 import pandas as pd
 from jinja2 import Environment, FileSystemLoader
 import os
 
-# Load the Jira CSV
-df = pd.read_csv("RASCAL_DB_Filter_Evolve24_JIRA.csv")
+def calculate_backlog_health(df):
+    healthy_statuses = ["To Do", "Ready for Development"]
+    excluded_statuses = ["Done", "Cancelled", "In Progress", "Blocked", "Won't Do"]
 
-# Normalize key fields
-df['Sprint'] = df['Sprint'].fillna("Unassigned")
-df['Status'] = df['Status'].fillna("Unknown")
-df['Components'] = df['Components'].fillna("No Component")
+    df = df[df["Issue Type"] == "Story"]
+    df = df[~df["Status"].isin(excluded_statuses)]
 
-# Filter to Story tickets only
-df = df[df['Issue Type'] == 'Story']
+    # Include stories that are in a sprint OR not assigned to any sprint (backlog)
+    df = df[df["Sprint"].notna() | df["Sprint"].isna()]
 
-# Backlog statuses considered healthy
-healthy_statuses = ["New", "Grooming", "Backlog"]
-
-summary = {}
-
-# Iterate over teams/components
-for team in sorted(df['Components'].unique()):
-    team_df = df[df['Components'] == team]
-
-    # Filter to future/backlog (non-active sprints or unassigned)
-    backlog_df = team_df[(team_df['Sprint'] == "Unassigned") | (~team_df['Sprint'].str.contains("active", case=False))]
-
-    total = len(backlog_df)
-    healthy = len(backlog_df[backlog_df['Status'].isin(healthy_statuses)])
-    percent = int((healthy / total) * 100) if total > 0 else 0
-    status_counts = backlog_df['Status'].value_counts().to_dict()
-
-    # Determine stoplight
-    def stoplight(percent):
-        if percent >= 80:
-            return "images/blinking_green.gif"
-        elif percent >= 50:
-            return "images/blinking_yellow.gif"
-        return "images/blinking_red.gif"
-
-    summary[team] = {
-        "total": total,
-        "healthy": healthy,
-        "percent": percent,
-        "stoplight": stoplight(percent),
-        "status_counts": status_counts,  # 🔥 Must match template!
+    team_map = {
+        "Engineering - Product": "Product",
+        "Engineering - Platform": "Platform",
+        "Engineering - AI Ops": "AI Ops",
+        "Design": "Design",
+        "Data Science": "Data Science"
     }
 
-# Jinja2 setup
-template_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'templates'))
-env = Environment(loader=FileSystemLoader(template_dir))
-template = env.get_template("backlog_health_template.html")
+    df["Team"] = df["Components"].map(team_map)
+    teams = ["Product", "Platform", "AI Ops", "Design", "Data Science"]
 
-# Render and write to HTML
-html = template.render(summary=summary)
+    result = {}
+    for team in teams:
+        team_df = df[df["Team"] == team]
+        total = len(team_df)
+        healthy = len(team_df[team_df["Status"].isin(healthy_statuses)])
+        percent = round((healthy / total) * 100, 1) if total > 0 else 0
+        stoplight = "blinking_green.gif" if percent >= 80 else "blinking_yellow.gif" if percent >= 50 else "blinking_red.gif"
 
-output_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'docs', 'backlog_health.html'))
-with open(output_path, "w") as f:
-    f.write(html)
+        status_counts = team_df["Status"].value_counts().to_dict()
+        result[team] = {
+            "total": total,
+            "healthy": healthy,
+            "percent": percent,
+            "stoplight": stoplight,
+            "status_counts": status_counts
+        }
 
-print(f"✅ Backlog Health dashboard generated at: {output_path}")
+    return result
 
+def render_html(data):
+    env = Environment(loader=FileSystemLoader('templates'))
+    template = env.get_template('backlog_health_template.html')
+    output = template.render(teams=data)
+
+    output_path = os.path.join("docs", "backlog_health.html")
+    with open(output_path, "w") as f:
+        f.write(output)
+
+def main():
+    df = pd.read_csv("docs/data/rascal_data.csv")
+    team_data = calculate_backlog_health(df)
+    render_html(team_data)
+
+if __name__ == "__main__":
+    main()
