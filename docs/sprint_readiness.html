@@ -1,1 +1,47 @@
-<html><body><h1>Sprint Readiness</h1></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sprint Readiness Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <img src="images/Clarvos.png" alt="Clarvos Logo" class="logo" />
+    <div class="dropdown">
+        <select onchange="location = this.value;">
+            <option value="#">Navigate to...</option>
+            <option value="index.html">Program Summary</option>
+            <option value="sprint_readiness.html">Sprint Readiness</option>
+            <option value="backlog_health.html">Backlog Health</option>
+            <option value="dependencies.html">Dependencies</option>
+        </select>
+    </div>
+
+    <h2 style="text-align:center;">Sprint Readiness Dashboard</h2>
+    <p style="margin: 0 10%; font-size: 16px;">
+        <strong>What We Look At</strong><br>
+        - <strong>Included:</strong> Only story tickets in future sprints<br>
+        - <strong>Counted as “Ready”:</strong> Tickets in <strong>Ready for Development</strong> or <strong>To Do</strong> status<br>
+        - <span class="italic-underline">Not Counted:</span> Tickets still in <span class="italic-underline">New</span>, <span class="italic-underline">Grooming</span>, or <span class="italic-underline">Backlog</span><br>
+        - <strong>Excluded:</strong> Tickets not in a future sprint or not story type<br><br>
+
+        <strong>Sprint Readiness Calculation</strong><br>
+        % Ready = (Stories in “To Do” or “Ready for Development”) ÷ (All story tickets in future sprints)<br><br>
+
+        <strong>What the Percentages Mean</strong><br>
+        ✅ Green: 80% or more are ready<br>
+        🟡 Yellow: 50–79% are ready<br>
+        🔴 Red: Less than 50% are ready<br><br>
+
+        <strong>Industry References</strong><br>
+        - Scrum.org: 2–3 sprints planned ahead, not velocity<br>
+        - Atlassian: Status flow Grooming → Ready<br>
+        - SAFe: Sprint Planning Readiness<br>
+    </p>
+
+    <div class="dashboard-section" id="teamBoxes"></div>
+
+    <script src="sprint_readiness.js"></script>
+</body>
+</html>

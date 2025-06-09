@@ -1,155 +1,96 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title></title>
-  <link rel="stylesheet" href="../docs/styles.css" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Backlog Health Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f4f8;
+            color: #333;
+        }
+        .logo {
+            width: 200px;
+            margin: 20px auto;
+            display: block;
+        }
+        .dropdown {
+            margin: 10px auto;
+            text-align: center;
+        }
+        .dashboard-section {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            margin-top: 20px;
+        }
+        .team-box {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            width: 30%;
+            margin: 15px;
+            padding: 20px;
+            text-align: center;
+        }
+        .team-box:hover {
+            transform: scale(1.05);
+            transition: transform 0.2s ease-in-out;
+            cursor: pointer;
+        }
+        .stoplight {
+            height: 50px;
+        }
+        canvas {
+            margin-top: 20px;
+        }
+        .italic-underline {
+            font-style: italic;
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
-  <header>
-    <img src="Clarvos.png" alt="Clarvos Logo" class="logo" />
-    <h1></h1>
-    <select onchange="location = this.value;">
-      <option disabled selected>Navigate to...</option>
-      <option value="index.html">Program Summary</option>
-      <option value="sprint_readiness.html">Sprint Readiness</option>
-      <option value="backlog_health.html">Backlog Health</option>
-      <option value="dependencies.html">Dependencies</option>
-    </select>
-  </header>
-
-  <main>
-    
-<h1>Backlog Health Dashboard</h1>
-
-<p class="summary-explanation">
-    <strong>What this means:</strong> 
-</p>
-
-<div class="team-grid">
-    
-    <div class="team-box">
-        <h2>Data Science</h2>
-        <img src="images/blinking_red.gif" alt="Stoplight" class="stoplight" />
-        <p><strong>Backlog Health:</strong> 8%</p>
-        <p><strong>Valid Backlog (New, Grooming, Backlog):</strong> </p>
-        <p><strong>Total Backlog Stories (not in any sprint):</strong> </p>
-        <h4>Status Breakdown:</h4>
-        <ul>
-            
-                <li>To Do: 11</li>
-            
-                <li>New: 1</li>
-            
-        </ul>
-        <p class="team-note">
-            Tickets in 'New', 'Grooming', or 'Backlog' statuses that are <strong>not assigned to a sprint</strong> count as healthy backlog.
-        </p>
+    <img src="images/Clarvos.png" alt="Clarvos Logo" class="logo" />
+    <div class="dropdown">
+        <select onchange="location = this.value;">
+            <option value="#">Navigate to...</option>
+            <option value="index.html">Program Summary</option>
+            <option value="sprint_readiness.html">Sprint Readiness</option>
+            <option value="backlog_health.html">Backlog Health</option>
+            <option value="dependencies.html">Dependencies</option>
+        </select>
     </div>
-    
-    <div class="team-box">
-        <h2>Design</h2>
-        <img src="images/blinking_red.gif" alt="Stoplight" class="stoplight" />
-        <p><strong>Backlog Health:</strong> 41%</p>
-        <p><strong>Valid Backlog (New, Grooming, Backlog):</strong> </p>
-        <p><strong>Total Backlog Stories (not in any sprint):</strong> </p>
-        <h4>Status Breakdown:</h4>
-        <ul>
-            
-                <li>To Do: 14</li>
-            
-                <li>New: 8</li>
-            
-                <li>Grooming: 2</li>
-            
-        </ul>
-        <p class="team-note">
-            Tickets in 'New', 'Grooming', or 'Backlog' statuses that are <strong>not assigned to a sprint</strong> count as healthy backlog.
-        </p>
-    </div>
-    
-    <div class="team-box">
-        <h2>Engineering - AI Ops</h2>
-        <img src="images/blinking_green.gif" alt="Stoplight" class="stoplight" />
-        <p><strong>Backlog Health:</strong> 83%</p>
-        <p><strong>Valid Backlog (New, Grooming, Backlog):</strong> </p>
-        <p><strong>Total Backlog Stories (not in any sprint):</strong> </p>
-        <h4>Status Breakdown:</h4>
-        <ul>
-            
-                <li>New: 9</li>
-            
-                <li>Backlog: 5</li>
-            
-                <li>To Do: 3</li>
-            
-                <li>Grooming: 1</li>
-            
-        </ul>
-        <p class="team-note">
-            Tickets in 'New', 'Grooming', or 'Backlog' statuses that are <strong>not assigned to a sprint</strong> count as healthy backlog.
-        </p>
-    </div>
-    
-    <div class="team-box">
-        <h2>Engineering - Platform</h2>
-        <img src="images/blinking_red.gif" alt="Stoplight" class="stoplight" />
-        <p><strong>Backlog Health:</strong> 46%</p>
-        <p><strong>Valid Backlog (New, Grooming, Backlog):</strong> </p>
-        <p><strong>Total Backlog Stories (not in any sprint):</strong> </p>
-        <h4>Status Breakdown:</h4>
-        <ul>
-            
-                <li>To Do: 15</li>
-            
-                <li>New: 9</li>
-            
-                <li>Backlog: 4</li>
-            
-        </ul>
-        <p class="team-note">
-            Tickets in 'New', 'Grooming', or 'Backlog' statuses that are <strong>not assigned to a sprint</strong> count as healthy backlog.
-        </p>
-    </div>
-    
-    <div class="team-box">
-        <h2>Engineering - Product</h2>
-        <img src="images/blinking_green.gif" alt="Stoplight" class="stoplight" />
-        <p><strong>Backlog Health:</strong> 89%</p>
-        <p><strong>Valid Backlog (New, Grooming, Backlog):</strong> </p>
-        <p><strong>Total Backlog Stories (not in any sprint):</strong> </p>
-        <h4>Status Breakdown:</h4>
-        <ul>
-            
-                <li>New: 25</li>
-            
-                <li>Grooming: 18</li>
-            
-                <li>To Do: 3</li>
-            
-                <li>Ready for Development: 2</li>
-            
-        </ul>
-        <p class="team-note">
-            Tickets in 'New', 'Grooming', or 'Backlog' statuses that are <strong>not assigned to a sprint</strong> count as healthy backlog.
-        </p>
-    </div>
-    
-</div>
 
-<footer class="footer">
-    <p>📘 Based on <a href="" target="_blank">Scrum.org: Managing the Product Backlog</a></p>
-</footer>
+    <h2 style="text-align:center;">Backlog Health Dashboard</h2>
+    <p style="margin: 0 10%; font-size: 16px;">
+        <strong>What We Look At</strong><br>
+        - <strong>Included:</strong> Story tickets in future sprints<br>
+        - <strong>Counted as "Healthy":</strong> Tickets in statuses like <strong>Ready for Development</strong> or <strong>To Do</strong><br>
+        - <strong>Not Counted as Healthy:</strong> <span class="italic-underline">Tickets still in New, Grooming, or Backlog statuses</span><br>
+        - <strong>Excluded:</strong> Tickets that are Done, Cancelled, or in active sprints<br><br>
 
-  </main>
+        <strong>Backlog Health Calculation</strong><br>
+        Backlog Health % = (Number of story tickets in “Ready” or “To Do” statuses) ÷ (Total number of story tickets in future sprints)<br><br>
 
-  <footer>
-    <p>
-      Built with ❤️ for executive clarity — based on Agile/Scrum best practices from
-      <a href="https://www.scrum.org/resources/sprint-planning-guide" target="_blank">Scrum.org</a>,
-      <a href="https://www.agilealliance.org/agile101/" target="_blank">Agile Alliance</a>, and
-      <a href="https://scaledagileframework.com/" target="_blank">SAFe</a>.
+        <strong>What the Percentages Mean</strong><br>
+        ✅ Green: 80% or more of tickets are ready<br>
+        🟡 Yellow: 50–79% are ready<br>
+        🔴 Red: Less than 50% are ready<br><br>
+
+        <strong>Industry References</strong><br>
+        - Scrum.org: 2–3 sprint buffer readiness, not velocity<br>
+        - SAFe: Program Backlog Readiness<br>
+        - Atlassian: Status transitions Grooming → Ready for Dev<br><br>
+
+        <strong>Note:</strong> <span class="italic-underline">Italicized and underlined statuses are listed for visibility but do not count toward backlog health.</span>
     </p>
-  </footer>
+
+    <div class="dashboard-section" id="teamBoxes"></div>
+
+    <script src="dashboard_logic.js"></script>
 </body>
 </html>

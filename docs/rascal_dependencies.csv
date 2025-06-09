@@ -1,0 +1,11 @@
+Issue Type,Issue key,Issue id,Summary,Fix versions,Status Category,Inward issue link (Blocks),Inward issue link (Blocks),Inward issue link (Blocks),Outward issue link (Blocks),Outward issue link (Blocks),Inward issue link (Cloners),Outward issue link (Cloners),Status,Components,Components,Components,Sprint,Due date
+Epic,CLP-840,29841,Eng: Data Integration - Recommendations (Strategies),MarTech 1.0,To Do,CLP-116,,,,,,,New,Engineering - AI Ops,,,,18/Jun/25 12:00 AM
+Epic,CLP-635,29283,Copy Finalization Across UX ,MarTech 1.0,To Do,CLP-5,,,,,,CLP-634,New,Product,,,Eng-Prod Sprint 6: 5/21 - 6/4,25/Jun/25 12:00 AM
+Epic,CLP-348,28127,Prod: Customer Support Process Definition,MarTech 1.0,To Do,CLP-633,,,,,,CLP-5,In Progress,Product,,,,04/Jun/25 12:00 AM
+Epic,CLP-127,27853,Prod: Release Preparation,MarTech 1.0,To Do,CLP-126,CLP-5,CLP-19,,,,,To Do,Product,,,,02/Jul/25 12:00 AM
+Epic,CLP-126,27852,QA and E2E Testing ,MarTech 1.0,To Do,,,,CLP-127,,,,To Do,Data Science,Design,Product,,02/Jul/25 12:00 AM
+Epic,CLP-113,27839,Eng: Data Integration - Emotion/Risk Perception,MarTech 1.0,To Do,CLP-86,,,,,,CLP-112,In Progress,Engineering - AI Ops,,,,04/Jun/25 12:00 AM
+Epic,CLP-112,27838,Eng: Data Integration - Resonance,MarTech 1.0,To Do,CLP-84,,,,,CLP-113,CLP-14,In Progress,Engineering - AI Ops,,,,18/Jun/25 12:00 AM
+Epic,CLP-75,27663,DS+ Eng: Context Area Setup for MVP,MarTech 1.0,To Do,CLP-538,,,,,,,In Progress,Engineering - AI Ops,,,,18/Jun/25 12:00 AM
+Epic,CLP-14,26688,Eng: Data Integration - Psychographics/Communities,MarTech 1.0,To Do,CLP-85,,,CLP-52,,CLP-112,,In Progress,Engineering - AI Ops,,,,04/Jun/25 12:00 AM
+Epic,CLP-5,26593,Prod: Terms & Conditions w/Compliance and Legal ,MarTech 1.0,To Do,CLP-101,,,CLP-127,CLP-635,CLP-348,,To Do,Product,,,,04/Jun/25 12:00 AM

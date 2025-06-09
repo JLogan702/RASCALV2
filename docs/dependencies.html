@@ -1,31 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>RASCAL Dependencies Dashboard</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dependencies Dashboard</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="navbar">
+    <img src="images/Clarvos.png" alt="Clarvos Logo" class="logo" />
+    <div class="dropdown">
         <select onchange="location = this.value;">
-            <option disabled selected>Navigate to...</option>
-            <option value="index.html">🏠 Program Summary</option>
-            <option value="sprint_readiness.html">📈 Sprint Readiness</option>
-            <option value="backlog_health.html">📊 Backlog Health</option>
-            <option value="dependencies.html">🔗 Dependencies</option>
+            <option value="#">Navigate to...</option>
+            <option value="index.html">Program Summary</option>
+            <option value="sprint_readiness.html">Sprint Readiness</option>
+            <option value="backlog_health.html">Backlog Health</option>
+            <option value="dependencies.html">Dependencies</option>
         </select>
     </div>
 
-    <div class="container">
-        <h1>🔗 Dependency Tracker</h1>
-        <p>This page provides a clear view of dependency relationships across teams. This is based on active Jira link data using “Blocks” and “Is Blocked By” relationships. A ticket appearing here means its timely delivery may depend on or impact other tickets.</p>
+    <h2 style="text-align:center;">Dependencies Dashboard</h2>
+    <p style="margin: 0 10%; font-size: 16px;">
+        <strong>What We Look At</strong><br>
+        - <strong>Included:</strong> Epics with at least one linked dependency<br>
+        - <strong>Blocking:</strong> Epics that are blocking others (outbound)<br>
+        - <strong>Blocked By:</strong> Epics that are blocked by others (inbound)<br><br>
 
-        
+        <strong>Stoplight Logic</strong><br>
+        ✅ Green: No inbound blockers<br>
+        🟡 Yellow: 1 inbound blocker<br>
+        🔴 Red: 2 or more inbound blockers<br><br>
 
-        <footer>
-            <p><strong>Source:</strong> Clarvos Jira Cloud – based on issue link fields "Blocks" and "Is Blocked By".<br>
-            <strong>Best Practices Reference:</strong> "Managing Cross-Team Dependencies in Agile Programs", SAFe 6.0, Chapter 9.</p>
-        </footer>
-    </div>
+        <strong>Source:</strong> Jira CSV export of Epic-level dependencies with inward and outward issue links
+    </p>
+
+    <div class="dashboard-section" id="dependencyBoxes"></div>
+
+    <script src="dependencies.js"></script>
 </body>
 </html>
