@@ -1,96 +1,113 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8">
     <title>Backlog Health Dashboard</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="styles.css">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f0f4f8;
-            color: #333;
-        }
-        .logo {
-            width: 200px;
-            margin: 20px auto;
-            display: block;
-        }
-        .dropdown {
-            margin: 10px auto;
-            text-align: center;
-        }
-        .dashboard-section {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-around;
-            margin-top: 20px;
-        }
-        .team-box {
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            width: 30%;
-            margin: 15px;
-            padding: 20px;
-            text-align: center;
-        }
-        .team-box:hover {
-            transform: scale(1.05);
-            transition: transform 0.2s ease-in-out;
-            cursor: pointer;
-        }
-        .stoplight {
-            height: 50px;
-        }
-        canvas {
-            margin-top: 20px;
-        }
-        .italic-underline {
-            font-style: italic;
-            text-decoration: underline;
-        }
-    </style>
 </head>
 <body>
-    <img src="images/Clarvos.png" alt="Clarvos Logo" class="logo" />
-    <div class="dropdown">
+    <div class="navbar">
+        <img src="images/Clarvos.png" alt="Clarvos Logo" class="logo">
         <select onchange="location = this.value;">
-            <option value="#">Navigate to...</option>
             <option value="index.html">Program Summary</option>
             <option value="sprint_readiness.html">Sprint Readiness</option>
-            <option value="backlog_health.html">Backlog Health</option>
+            <option value="backlog_health.html" selected>Backlog Health</option>
             <option value="dependencies.html">Dependencies</option>
         </select>
     </div>
 
-    <h2 style="text-align:center;">Backlog Health Dashboard</h2>
-    <p style="margin: 0 10%; font-size: 16px;">
-        <strong>What We Look At</strong><br>
+    <h1>Backlog Health Overview</h1>
+
+    <div class="explanation">
+        <p><strong>What We Look At</strong><br>
         - <strong>Included:</strong> Story tickets in future sprints<br>
-        - <strong>Counted as "Healthy":</strong> Tickets in statuses like <strong>Ready for Development</strong> or <strong>To Do</strong><br>
-        - <strong>Not Counted as Healthy:</strong> <span class="italic-underline">Tickets still in New, Grooming, or Backlog statuses</span><br>
-        - <strong>Excluded:</strong> Tickets that are Done, Cancelled, or in active sprints<br><br>
+        - <strong>Counted as “Healthy”:</strong> <b>To Do</b>, <b>Ready for Development</b><br>
+        - <strong>Not Counted as Healthy:</strong> <u><i>New</i></u>, <u><i>Grooming</i></u>, <u><i>Backlog</i></u><br>
+        - <strong>Excluded:</strong> Done, Cancelled, In Progress, etc.</p>
 
-        <strong>Backlog Health Calculation</strong><br>
-        Backlog Health % = (Number of story tickets in “Ready” or “To Do” statuses) ÷ (Total number of story tickets in future sprints)<br><br>
+        <p><strong>Backlog Health Calculation</strong><br>
+        Backlog Health % = (Number of story tickets in <b>“Ready”</b> or <b>“To Do”</b>) ÷ (Total number of story tickets in future sprints)</p>
 
-        <strong>What the Percentages Mean</strong><br>
-        ✅ Green: 80% or more of tickets are ready<br>
-        🟡 Yellow: 50–79% are ready<br>
-        🔴 Red: Less than 50% are ready<br><br>
+        <p><strong>What the Percentages Mean</strong><br>
+        🟢 Green: 80%+ ready<br>
+        🟡 Yellow: 50–79% ready<br>
+        🔴 Red: Less than 50% ready</p>
 
-        <strong>Industry References</strong><br>
+        <p><strong>Industry References</strong><br>
         - Scrum.org: 2–3 sprint buffer readiness, not velocity<br>
         - SAFe: Program Backlog Readiness<br>
-        - Atlassian: Status transitions Grooming → Ready for Dev<br><br>
+        - Atlassian: Status transitions Grooming → Ready for Dev</p>
+    </div>
 
-        <strong>Note:</strong> <span class="italic-underline">Italicized and underlined statuses are listed for visibility but do not count toward backlog health.</span>
-    </p>
-
-    <div class="dashboard-section" id="teamBoxes"></div>
-
-    <script src="dashboard_logic.js"></script>
+    <div class="dashboard">
+        
+        <div class="team-box">
+            <h2>Product</h2>
+            <img src="images/blinking_red.gif" alt="Status Light" class="stoplight">
+            <p><strong>2</strong> of <strong>7</strong> story tickets ready<br>
+            <strong>28.6%</strong> Backlog Health</p>
+            <ul>
+                
+                <li>
+                    
+                        <u><i>New: 4</i></u>
+                    
+                </li>
+                
+                <li>
+                    
+                        <b>Ready for Development: 2</b>
+                    
+                </li>
+                
+                <li>
+                    
+                        <u><i>Grooming: 1</i></u>
+                    
+                </li>
+                
+            </ul>
+        </div>
+        
+        <div class="team-box">
+            <h2>AI Ops</h2>
+            <img src="images/blinking_red.gif" alt="Status Light" class="stoplight">
+            <p><strong>0</strong> of <strong>2</strong> story tickets ready<br>
+            <strong>0.0%</strong> Backlog Health</p>
+            <ul>
+                
+                <li>
+                    
+                        <u><i>New: 2</i></u>
+                    
+                </li>
+                
+            </ul>
+        </div>
+        
+        <div class="team-box">
+            <h2>Design</h2>
+            <img src="images/blinking_red.gif" alt="Status Light" class="stoplight">
+            <p><strong>2</strong> of <strong>5</strong> story tickets ready<br>
+            <strong>40.0%</strong> Backlog Health</p>
+            <ul>
+                
+                <li>
+                    
+                        <u><i>New: 3</i></u>
+                    
+                </li>
+                
+                <li>
+                    
+                        <b>To Do: 2</b>
+                    
+                </li>
+                
+            </ul>
+        </div>
+        
+    </div>
 </body>
 </html>
