@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dependencies Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <img src="images/Clarvos.png" alt="Clarvos Logo" class="logo">
+        <h1>Epic Dependencies Overview</h1>
+        <select id="navMenu" onchange="navigateTo(this.value)">
+            <option value="index.html">Program Summary/Overview</option>
+            <option value="sprint_readiness.html">Sprint Readiness</option>
+            <option value="backlog_health.html">Backlog Health</option>
+            <option value="dependencies.html" selected>Dependencies</option>
+        </select>
+    </header>
+
+    <section class="explanation-box"> <h2>How Dependencies Are Tracked</h2>
+        <p><strong>What We Look At</strong><br>
+        This view includes only <strong>Epics</strong> that are either blocking or being blocked by other issues.
+        Useful for understanding cross-team and intra-team planning risks.</p>
+
+        <p><strong>Legend:</strong><br>
+        - 🚫 <b>Blocks:</b> This Epic is blocking the progress of another<br>
+        - ⛔ <b>Blocked By:</b> This Epic is waiting on another to be completed</p>
+
+        <p><strong>Impact Summary:</strong><br>
+         <span id="blockedEpicsCount">--</span> epics are currently <strong>blocked by</strong> another issue. This may delay team readiness even when their stories are groomed.</p>
+
+        <p><strong>Industry References</strong><br>
+        - Atlassian: Link types and dependency management<br>
+        - SAFe: Managing cross-team dependencies and Program Increment (PI) planning</p>
+    </section>
+
+    <main id="dashboard" class="team-container">
+        </main>
+
+    <footer>
+        Report generated on <span id="reportGenerationDate"></span>
+    </footer>
+    <script src="dashboard_data.js" defer></script>
+    <script src="dashboard_logic.js" defer></script>
+</body>
+</html>
